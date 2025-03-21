@@ -1,0 +1,68 @@
+﻿@model FarmaciaBelen.Models.AREA
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Eliminar Área</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body class="bg-light">
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow border-danger">
+                    <div class="card-header bg-danger text-white d-flex align-items-center">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <h5 class="mb-0">¿Estás seguro que deseas eliminar esta área?</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-2">
+                            <div class="col-sm-4 fw-bold">Nombre:</div>
+                            <div class="col-sm-8">@Html.DisplayFor(model => model.AREA_NOMBRE)</div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-sm-4 fw-bold">Descripción:</div>
+                            <div class="col-sm-8">@Html.DisplayFor(model => model.AREA_DESCRIPCION)</div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-sm-4 fw-bold">Extensión:</div>
+                            <div class="col-sm-8">@Html.DisplayFor(model => model.AREA_EXTENSION)</div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-sm-4 fw-bold">Correo:</div>
+                            <div class="col-sm-8">@Html.DisplayFor(model => model.AREA_CORREO)</div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-4 fw-bold">Estado:</div>
+                            <div class="col-sm-8">@Html.DisplayFor(model => model.AREA_ESTADO)</div>
+                        </div>
+
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+                            <div class="d-flex justify-content-between">
+                                <a href="@Url.Action("Index")" class="btn btn-secondary">
+                                    <i class="fas fa-arrow-left"></i> Cancelar
+                                </a>
+                                <button type="submit" class="btn btn-danger">
+                                    <i class="fas fa-trash-alt"></i> Eliminar
+                                </button>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS + FontAwesome -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</body>
+</html>

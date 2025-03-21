@@ -66,10 +66,13 @@
                 </li>
 
                 <li>
-                    <a href="#" class="submenu-toggle"><i class="fas fa-cog"></i> Configuración</a>
+                    <a href="#" class="submenu-toggle"><i class="fas fa-cog"></i> Mantenimientos</a>
                     <ul class="submenu">
-                        <li><a href="@Url.Action("Empleados", "Configuracion")"><i class="fas fa-user-tie"></i> Empleados</a></li>
-                        <li><a href="@Url.Action("Usuarios", "Configuracion")"><i class="fas fa-user"></i> Usuarios</a></li>
+                        <li><a href="@Url.Action("Index", "Areas")" class="load-frame"><i class="fas fa-user-tie"></i> Areas</a></li>
+                        <li><a href="@Url.Action("Puestos", "Mantenimiento")" class="load-frame"><i class="fas fa-user-tie"></i> Puestos</a></li>
+                        <li><a href="@Url.Action("Roles", "Mantenimiento")" class="load-frame"><i class="fas fa-user-tie"></i> Roles</a></li>
+                        <li><a href="@Url.Action("Empleados", "Mantenimiento")" class="load-frame"><i class="fas fa-user-tie"></i> Empleados</a></li>
+                        <li><a href="@Url.Action("Usuarios", "Mantenimiento")" class="load-frame"><i class="fas fa-user"></i> Usuarios</a></li>
                     </ul>
                 </li>
             </ul>
@@ -113,6 +116,21 @@
         document.getElementById('user-icon').addEventListener('click', function () {
             var userInfo = document.getElementById('user-info');
             userInfo.style.display = (userInfo.style.display === 'block') ? 'none' : 'block';
+        });
+
+        //-----------------------------------------------------------------------
+        //Intercptar clics del menú de mantenimiento par cargar en el mismo frame
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Escuchamos clics en todos los enlaces con clase "load-frame"
+            document.querySelectorAll('.load-frame').forEach(function (link) {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault(); // Evita que el enlace navegue normalmente
+                    var frame = document.getElementById('content-frame');
+                    var url = this.getAttribute('href');
+                    frame.setAttribute('src', url);
+                });
+            });
         });
     </script>
 
