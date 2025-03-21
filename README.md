@@ -11,3 +11,5 @@ git status
 git add .
 git commit -m "Segundo commit"
 git push origin main
+
+Johny Chiroy
