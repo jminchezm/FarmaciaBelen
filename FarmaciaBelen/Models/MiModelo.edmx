@@ -1,0 +1,444 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DBFARMACIABELENModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AREA">
+          <Key>
+            <PropertyRef Name="AREA_ID" />
+          </Key>
+          <Property Name="AREA_ID" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="AREA_NOMBRE" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="AREA_DESCRIPCION" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="AREA_EXTENSION" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="AREA_CORREO" Type="varchar" MaxLength="100" />
+          <Property Name="AREA_ESTADO" Type="varchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EMPLEADO">
+          <Key>
+            <PropertyRef Name="EMPLEADO_ID" />
+          </Key>
+          <Property Name="EMPLEADO_ID" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="EMPLEADO_FECHANACIMIENTO" Type="date" Nullable="false" />
+          <Property Name="EMPLEADO_FECHAINGRESO" Type="date" Nullable="false" />
+          <Property Name="EMPLEADO_GENERO" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="EMPLEADO_ESTADO" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="PUESTO_ID" Type="varchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PERSONA">
+          <Key>
+            <PropertyRef Name="PERSONA_ID" />
+          </Key>
+          <Property Name="PERSONA_ID" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="PERSONA_PRIMERNOMBRE" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="PERSONA_SEGUNDONOMBRE" Type="varchar" MaxLength="50" />
+          <Property Name="PERSONA_TERCERNOMBRE" Type="varchar" MaxLength="50" />
+          <Property Name="PERSONA_PRIMERAPELLIDO" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="PERSONA_SEGUNDOAPELLIDO" Type="varchar" MaxLength="50" />
+          <Property Name="PERSONA_APELLIDOCASADA" Type="varchar" MaxLength="50" />
+          <Property Name="PERSONA_NIT" Type="varchar" MaxLength="10" />
+          <Property Name="PERSONA_CUI" Type="varchar" MaxLength="13" />
+          <Property Name="PERSONA_DIRECCION" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="PERSONA_TELEFONOCASA" Type="varchar" MaxLength="8" />
+          <Property Name="PERSONA_TELEFONOMOVIL" Type="varchar" MaxLength="8" />
+          <Property Name="PERSONA_CORREO" Type="varchar" MaxLength="100" />
+          <Property Name="PERSONA_FECHAREGISTRO" Type="date" />
+        </EntityType>
+        <EntityType Name="PUESTO">
+          <Key>
+            <PropertyRef Name="PUESTO_ID" />
+          </Key>
+          <Property Name="PUESTO_ID" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="PUESTO_NOMBRE" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="PUESTO_DESCRIPCION" Type="varchar" MaxLength="2050" Nullable="false" />
+          <Property Name="PUESTO_ESTADO" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="AREA_ID" Type="varchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ROL">
+          <Key>
+            <PropertyRef Name="ROL_ID" />
+          </Key>
+          <Property Name="ROL_ID" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="ROL_NOMBRE" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="ROL_DESCRIPCION" Type="varchar" MaxLength="250" Nullable="false" />
+        </EntityType>
+        <EntityType Name="USUARIO">
+          <Key>
+            <PropertyRef Name="USUARIO_ID" />
+          </Key>
+          <Property Name="USUARIO_ID" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="USUARIO_NOMBRE" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="USUARIO_CONTRASENA" Type="varbinary(max)" Nullable="false" />
+          <Property Name="USUARIO_FECHAREGISTRO" Type="datetime" />
+          <Property Name="ROL_ID" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="EMPLEADO_ID" Type="varchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_EMPLEADO_ID">
+          <End Role="PERSONA" Type="Self.PERSONA" Multiplicity="1" />
+          <End Role="EMPLEADO" Type="Self.EMPLEADO" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="PERSONA">
+              <PropertyRef Name="PERSONA_ID" />
+            </Principal>
+            <Dependent Role="EMPLEADO">
+              <PropertyRef Name="EMPLEADO_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EMPLEADO_PUESTO_ID">
+          <End Role="PUESTO" Type="Self.PUESTO" Multiplicity="1" />
+          <End Role="EMPLEADO" Type="Self.EMPLEADO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PUESTO">
+              <PropertyRef Name="PUESTO_ID" />
+            </Principal>
+            <Dependent Role="EMPLEADO">
+              <PropertyRef Name="PUESTO_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PUESTO_AREA_ID">
+          <End Role="AREA" Type="Self.AREA" Multiplicity="1" />
+          <End Role="PUESTO" Type="Self.PUESTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AREA">
+              <PropertyRef Name="AREA_ID" />
+            </Principal>
+            <Dependent Role="PUESTO">
+              <PropertyRef Name="AREA_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_USUARIO_EMPLEADO_ID">
+          <End Role="EMPLEADO" Type="Self.EMPLEADO" Multiplicity="1" />
+          <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EMPLEADO">
+              <PropertyRef Name="EMPLEADO_ID" />
+            </Principal>
+            <Dependent Role="USUARIO">
+              <PropertyRef Name="EMPLEADO_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_USUARIO_ROL_ID">
+          <End Role="ROL" Type="Self.ROL" Multiplicity="1" />
+          <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ROL">
+              <PropertyRef Name="ROL_ID" />
+            </Principal>
+            <Dependent Role="USUARIO">
+              <PropertyRef Name="ROL_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DBFARMACIABELENModelStoreContainer">
+          <EntitySet Name="AREA" EntityType="Self.AREA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EMPLEADO" EntityType="Self.EMPLEADO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PERSONA" EntityType="Self.PERSONA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PUESTO" EntityType="Self.PUESTO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ROL" EntityType="Self.ROL" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="USUARIO" EntityType="Self.USUARIO" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_EMPLEADO_ID" Association="Self.FK_EMPLEADO_ID">
+            <End Role="PERSONA" EntitySet="PERSONA" />
+            <End Role="EMPLEADO" EntitySet="EMPLEADO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EMPLEADO_PUESTO_ID" Association="Self.FK_EMPLEADO_PUESTO_ID">
+            <End Role="PUESTO" EntitySet="PUESTO" />
+            <End Role="EMPLEADO" EntitySet="EMPLEADO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PUESTO_AREA_ID" Association="Self.FK_PUESTO_AREA_ID">
+            <End Role="AREA" EntitySet="AREA" />
+            <End Role="PUESTO" EntitySet="PUESTO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_USUARIO_EMPLEADO_ID" Association="Self.FK_USUARIO_EMPLEADO_ID">
+            <End Role="EMPLEADO" EntitySet="EMPLEADO" />
+            <End Role="USUARIO" EntitySet="USUARIO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_USUARIO_ROL_ID" Association="Self.FK_USUARIO_ROL_ID">
+            <End Role="ROL" EntitySet="ROL" />
+            <End Role="USUARIO" EntitySet="USUARIO" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DBFARMACIABELENModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AREA">
+          <Key>
+            <PropertyRef Name="AREA_ID" />
+          </Key>
+          <Property Name="AREA_ID" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="AREA_NOMBRE" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="AREA_DESCRIPCION" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="AREA_EXTENSION" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="AREA_CORREO" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="AREA_ESTADO" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="PUESTO" Relationship="Self.FK_PUESTO_AREA_ID" FromRole="AREA" ToRole="PUESTO" />
+        </EntityType>
+        <EntityType Name="EMPLEADO">
+          <Key>
+            <PropertyRef Name="EMPLEADO_ID" />
+          </Key>
+          <Property Name="EMPLEADO_ID" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="EMPLEADO_FECHANACIMIENTO" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="EMPLEADO_FECHAINGRESO" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="EMPLEADO_GENERO" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="EMPLEADO_ESTADO" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PUESTO_ID" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="PERSONA" Relationship="Self.FK_EMPLEADO_ID" FromRole="EMPLEADO" ToRole="PERSONA" />
+          <NavigationProperty Name="PUESTO" Relationship="Self.FK_EMPLEADO_PUESTO_ID" FromRole="EMPLEADO" ToRole="PUESTO" />
+          <NavigationProperty Name="USUARIO" Relationship="Self.FK_USUARIO_EMPLEADO_ID" FromRole="EMPLEADO" ToRole="USUARIO" />
+        </EntityType>
+        <EntityType Name="PERSONA">
+          <Key>
+            <PropertyRef Name="PERSONA_ID" />
+          </Key>
+          <Property Name="PERSONA_ID" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PERSONA_PRIMERNOMBRE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PERSONA_SEGUNDONOMBRE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PERSONA_TERCERNOMBRE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PERSONA_PRIMERAPELLIDO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PERSONA_SEGUNDOAPELLIDO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PERSONA_APELLIDOCASADA" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PERSONA_NIT" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="PERSONA_CUI" Type="String" MaxLength="13" FixedLength="false" Unicode="false" />
+          <Property Name="PERSONA_DIRECCION" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PERSONA_TELEFONOCASA" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="PERSONA_TELEFONOMOVIL" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="PERSONA_CORREO" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PERSONA_FECHAREGISTRO" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="EMPLEADO" Relationship="Self.FK_EMPLEADO_ID" FromRole="PERSONA" ToRole="EMPLEADO" />
+        </EntityType>
+        <EntityType Name="PUESTO">
+          <Key>
+            <PropertyRef Name="PUESTO_ID" />
+          </Key>
+          <Property Name="PUESTO_ID" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PUESTO_NOMBRE" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PUESTO_DESCRIPCION" Type="String" MaxLength="2050" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PUESTO_ESTADO" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="AREA_ID" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="AREA" Relationship="Self.FK_PUESTO_AREA_ID" FromRole="PUESTO" ToRole="AREA" />
+          <NavigationProperty Name="EMPLEADO" Relationship="Self.FK_EMPLEADO_PUESTO_ID" FromRole="PUESTO" ToRole="EMPLEADO" />
+        </EntityType>
+        <EntityType Name="ROL">
+          <Key>
+            <PropertyRef Name="ROL_ID" />
+          </Key>
+          <Property Name="ROL_ID" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ROL_NOMBRE" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ROL_DESCRIPCION" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="USUARIO" Relationship="Self.FK_USUARIO_ROL_ID" FromRole="ROL" ToRole="USUARIO" />
+        </EntityType>
+        <EntityType Name="USUARIO">
+          <Key>
+            <PropertyRef Name="USUARIO_ID" />
+          </Key>
+          <Property Name="USUARIO_ID" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="USUARIO_NOMBRE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="USUARIO_CONTRASENA" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <Property Name="USUARIO_FECHAREGISTRO" Type="DateTime" Precision="3" />
+          <Property Name="ROL_ID" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="EMPLEADO_ID" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="EMPLEADO" Relationship="Self.FK_USUARIO_EMPLEADO_ID" FromRole="USUARIO" ToRole="EMPLEADO" />
+          <NavigationProperty Name="ROL" Relationship="Self.FK_USUARIO_ROL_ID" FromRole="USUARIO" ToRole="ROL" />
+        </EntityType>
+        <Association Name="FK_PUESTO_AREA_ID">
+          <End Role="AREA" Type="Self.AREA" Multiplicity="1" />
+          <End Role="PUESTO" Type="Self.PUESTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AREA">
+              <PropertyRef Name="AREA_ID" />
+            </Principal>
+            <Dependent Role="PUESTO">
+              <PropertyRef Name="AREA_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EMPLEADO_ID">
+          <End Role="PERSONA" Type="Self.PERSONA" Multiplicity="1" />
+          <End Role="EMPLEADO" Type="Self.EMPLEADO" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="PERSONA">
+              <PropertyRef Name="PERSONA_ID" />
+            </Principal>
+            <Dependent Role="EMPLEADO">
+              <PropertyRef Name="EMPLEADO_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EMPLEADO_PUESTO_ID">
+          <End Role="PUESTO" Type="Self.PUESTO" Multiplicity="1" />
+          <End Role="EMPLEADO" Type="Self.EMPLEADO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PUESTO">
+              <PropertyRef Name="PUESTO_ID" />
+            </Principal>
+            <Dependent Role="EMPLEADO">
+              <PropertyRef Name="PUESTO_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_USUARIO_EMPLEADO_ID">
+          <End Role="EMPLEADO" Type="Self.EMPLEADO" Multiplicity="1" />
+          <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EMPLEADO">
+              <PropertyRef Name="EMPLEADO_ID" />
+            </Principal>
+            <Dependent Role="USUARIO">
+              <PropertyRef Name="EMPLEADO_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_USUARIO_ROL_ID">
+          <End Role="ROL" Type="Self.ROL" Multiplicity="1" />
+          <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ROL">
+              <PropertyRef Name="ROL_ID" />
+            </Principal>
+            <Dependent Role="USUARIO">
+              <PropertyRef Name="ROL_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DBFARMACIABELENEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AREA" EntityType="Self.AREA" />
+          <EntitySet Name="EMPLEADO" EntityType="Self.EMPLEADO" />
+          <EntitySet Name="PERSONA" EntityType="Self.PERSONA" />
+          <EntitySet Name="PUESTO" EntityType="Self.PUESTO" />
+          <EntitySet Name="ROL" EntityType="Self.ROL" />
+          <EntitySet Name="USUARIO" EntityType="Self.USUARIO" />
+          <AssociationSet Name="FK_PUESTO_AREA_ID" Association="Self.FK_PUESTO_AREA_ID">
+            <End Role="AREA" EntitySet="AREA" />
+            <End Role="PUESTO" EntitySet="PUESTO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EMPLEADO_ID" Association="Self.FK_EMPLEADO_ID">
+            <End Role="PERSONA" EntitySet="PERSONA" />
+            <End Role="EMPLEADO" EntitySet="EMPLEADO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EMPLEADO_PUESTO_ID" Association="Self.FK_EMPLEADO_PUESTO_ID">
+            <End Role="PUESTO" EntitySet="PUESTO" />
+            <End Role="EMPLEADO" EntitySet="EMPLEADO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_USUARIO_EMPLEADO_ID" Association="Self.FK_USUARIO_EMPLEADO_ID">
+            <End Role="EMPLEADO" EntitySet="EMPLEADO" />
+            <End Role="USUARIO" EntitySet="USUARIO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_USUARIO_ROL_ID" Association="Self.FK_USUARIO_ROL_ID">
+            <End Role="ROL" EntitySet="ROL" />
+            <End Role="USUARIO" EntitySet="USUARIO" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DBFARMACIABELENModelStoreContainer" CdmEntityContainer="DBFARMACIABELENEntities">
+          <EntitySetMapping Name="AREA">
+            <EntityTypeMapping TypeName="DBFARMACIABELENModel.AREA">
+              <MappingFragment StoreEntitySet="AREA">
+                <ScalarProperty Name="AREA_ID" ColumnName="AREA_ID" />
+                <ScalarProperty Name="AREA_NOMBRE" ColumnName="AREA_NOMBRE" />
+                <ScalarProperty Name="AREA_DESCRIPCION" ColumnName="AREA_DESCRIPCION" />
+                <ScalarProperty Name="AREA_EXTENSION" ColumnName="AREA_EXTENSION" />
+                <ScalarProperty Name="AREA_CORREO" ColumnName="AREA_CORREO" />
+                <ScalarProperty Name="AREA_ESTADO" ColumnName="AREA_ESTADO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EMPLEADO">
+            <EntityTypeMapping TypeName="DBFARMACIABELENModel.EMPLEADO">
+              <MappingFragment StoreEntitySet="EMPLEADO">
+                <ScalarProperty Name="EMPLEADO_ID" ColumnName="EMPLEADO_ID" />
+                <ScalarProperty Name="EMPLEADO_FECHANACIMIENTO" ColumnName="EMPLEADO_FECHANACIMIENTO" />
+                <ScalarProperty Name="EMPLEADO_FECHAINGRESO" ColumnName="EMPLEADO_FECHAINGRESO" />
+                <ScalarProperty Name="EMPLEADO_GENERO" ColumnName="EMPLEADO_GENERO" />
+                <ScalarProperty Name="EMPLEADO_ESTADO" ColumnName="EMPLEADO_ESTADO" />
+                <ScalarProperty Name="PUESTO_ID" ColumnName="PUESTO_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PERSONA">
+            <EntityTypeMapping TypeName="DBFARMACIABELENModel.PERSONA">
+              <MappingFragment StoreEntitySet="PERSONA">
+                <ScalarProperty Name="PERSONA_ID" ColumnName="PERSONA_ID" />
+                <ScalarProperty Name="PERSONA_PRIMERNOMBRE" ColumnName="PERSONA_PRIMERNOMBRE" />
+                <ScalarProperty Name="PERSONA_SEGUNDONOMBRE" ColumnName="PERSONA_SEGUNDONOMBRE" />
+                <ScalarProperty Name="PERSONA_TERCERNOMBRE" ColumnName="PERSONA_TERCERNOMBRE" />
+                <ScalarProperty Name="PERSONA_PRIMERAPELLIDO" ColumnName="PERSONA_PRIMERAPELLIDO" />
+                <ScalarProperty Name="PERSONA_SEGUNDOAPELLIDO" ColumnName="PERSONA_SEGUNDOAPELLIDO" />
+                <ScalarProperty Name="PERSONA_APELLIDOCASADA" ColumnName="PERSONA_APELLIDOCASADA" />
+                <ScalarProperty Name="PERSONA_NIT" ColumnName="PERSONA_NIT" />
+                <ScalarProperty Name="PERSONA_CUI" ColumnName="PERSONA_CUI" />
+                <ScalarProperty Name="PERSONA_DIRECCION" ColumnName="PERSONA_DIRECCION" />
+                <ScalarProperty Name="PERSONA_TELEFONOCASA" ColumnName="PERSONA_TELEFONOCASA" />
+                <ScalarProperty Name="PERSONA_TELEFONOMOVIL" ColumnName="PERSONA_TELEFONOMOVIL" />
+                <ScalarProperty Name="PERSONA_CORREO" ColumnName="PERSONA_CORREO" />
+                <ScalarProperty Name="PERSONA_FECHAREGISTRO" ColumnName="PERSONA_FECHAREGISTRO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PUESTO">
+            <EntityTypeMapping TypeName="DBFARMACIABELENModel.PUESTO">
+              <MappingFragment StoreEntitySet="PUESTO">
+                <ScalarProperty Name="PUESTO_ID" ColumnName="PUESTO_ID" />
+                <ScalarProperty Name="PUESTO_NOMBRE" ColumnName="PUESTO_NOMBRE" />
+                <ScalarProperty Name="PUESTO_DESCRIPCION" ColumnName="PUESTO_DESCRIPCION" />
+                <ScalarProperty Name="PUESTO_ESTADO" ColumnName="PUESTO_ESTADO" />
+                <ScalarProperty Name="AREA_ID" ColumnName="AREA_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ROL">
+            <EntityTypeMapping TypeName="DBFARMACIABELENModel.ROL">
+              <MappingFragment StoreEntitySet="ROL">
+                <ScalarProperty Name="ROL_ID" ColumnName="ROL_ID" />
+                <ScalarProperty Name="ROL_NOMBRE" ColumnName="ROL_NOMBRE" />
+                <ScalarProperty Name="ROL_DESCRIPCION" ColumnName="ROL_DESCRIPCION" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="USUARIO">
+            <EntityTypeMapping TypeName="DBFARMACIABELENModel.USUARIO">
+              <MappingFragment StoreEntitySet="USUARIO">
+                <ScalarProperty Name="USUARIO_ID" ColumnName="USUARIO_ID" />
+                <ScalarProperty Name="USUARIO_NOMBRE" ColumnName="USUARIO_NOMBRE" />
+                <ScalarProperty Name="USUARIO_CONTRASENA" ColumnName="USUARIO_CONTRASENA" />
+                <ScalarProperty Name="USUARIO_FECHAREGISTRO" ColumnName="USUARIO_FECHAREGISTRO" />
+                <ScalarProperty Name="ROL_ID" ColumnName="ROL_ID" />
+                <ScalarProperty Name="EMPLEADO_ID" ColumnName="EMPLEADO_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="52c6b4827c4f439d8a3ebb2715dab222" Name="Diagram1">
+        <EntityTypeShape EntityType="DBFARMACIABELENModel.AREA" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBFARMACIABELENModel.EMPLEADO" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBFARMACIABELENModel.PERSONA" Width="1.5" PointX="3" PointY="7" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBFARMACIABELENModel.PUESTO" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBFARMACIABELENModel.ROL" Width="1.5" PointX="5.25" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBFARMACIABELENModel.USUARIO" Width="1.5" PointX="7.5" PointY="1" IsExpanded="true" />
+        <AssociationConnector Association="DBFARMACIABELENModel.FK_PUESTO_AREA_ID" ManuallyRouted="false" />
+        <AssociationConnector Association="DBFARMACIABELENModel.FK_EMPLEADO_ID" ManuallyRouted="false" />
+        <AssociationConnector Association="DBFARMACIABELENModel.FK_EMPLEADO_PUESTO_ID" ManuallyRouted="false" />
+        <AssociationConnector Association="DBFARMACIABELENModel.FK_USUARIO_EMPLEADO_ID" ManuallyRouted="false" />
+        <AssociationConnector Association="DBFARMACIABELENModel.FK_USUARIO_ROL_ID" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

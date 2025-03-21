@@ -1,0 +1,42 @@
+﻿
+@{
+    Layout = null; // Si usas un _Layout.cshtml, elimínalo.
+    ViewBag.Title = "Inicio - Farmacia San Juan";
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewBag.Title</title>
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        /* Estilos para centrar la imagen y ajustarla al tamaño de la pantalla */
+        .container-full {
+            height: 100vh; /* Ocupar toda la altura de la ventana */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .img-fluid {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain; /* Mantiene la imagen dentro sin recortarla */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container-full">
+        <img src="~/Content/Images/Home/logoBarraInicio.png" alt="Imagen de Inicio" class="img-fluid">
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

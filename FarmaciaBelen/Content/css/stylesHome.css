@@ -1,0 +1,236 @@
+﻿* {
+    box-sizing: border-box;
+}
+
+body, html {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/*h1 {
+    text-align: center;
+    text-align-last: center;
+}*/
+
+h4 {
+    color: white;
+    font-size:20px;
+}
+
+.banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #011126;
+    padding: 5px;
+    /*height: 8%;*/
+    /*background: red;*/
+}
+
+.banner-left, .banner-center, .banner-right {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    /*background: red;*/
+}
+
+.banner-left {
+    justify-content: flex-start;
+    padding-left: 5px;
+/*    color: white;*/
+}
+
+.banner-center {
+    justify-content: center;
+    color: white;
+}
+
+.banner-right {
+    /*position: relative;*/
+    justify-content: flex-end;
+    padding-right: 5px;
+   /* background:red;*/
+}
+
+
+.icono {
+    width: 45px;
+    height: auto;
+    cursor: pointer; /*prueba  si da click*/
+    margin-left: 15px;
+}
+
+.logo {
+    width: 55px;
+    height: auto;
+}
+
+.main-container {
+    display: flex;
+    height: 92%;
+    background-color: whitesmoke;
+}
+
+.sidebar {
+    width: 200px;
+    background-color: #0367A6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: width 0.3s ease, opacity 0.3s ease;
+    position: relative;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 100%;
+}
+
+.menu {
+    list-style-type: none;
+    padding: 0;
+    width: 100%;
+    opacity: 1; /* Visibilidad completa por defecto */
+    transition: opacity 0.3s ease; /* Añade una transición de opacidad */
+}
+
+    .menu li {
+        margin: 10px 0;
+        position: relative;
+    }
+
+        .menu li a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background-color: #048ABF;
+            border-radius: 4px;
+        }
+
+            .menu li a i {
+                margin-right: 8px;
+            }
+
+            .menu li a:hover {
+                background-color: #048ABF;
+            }
+
+.content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background-color: whitesmoke;
+}
+
+#content-frame {
+    width: 100%;
+    height: 100%;
+    /*background-color: darkgoldenrod;*/
+}
+
+.submenu {
+    list-style-type: none;
+    padding: 0;
+    margin: 4px;
+    display: none;
+    background-color: #048ABF;
+    border-radius: 4px;
+    padding-left: 10px;
+}
+
+    .submenu li {
+        margin: 5px; /*Vamos a ver si fucniona */
+    }
+
+
+        .submenu li a {
+            padding: 10px 15px; /* Añade espacio interno en el submenú */
+            color: white;
+            background-color: #048ABF;
+            display: flex;
+            align-items: center; /* Alinea verticalmente el icono y el texto */
+            border-radius: 4px;
+        }
+
+            .submenu li a i {
+                margin-right: 12px; /* Espacio entre el icono y el texto */
+            }
+
+
+            .submenu li a:hover {
+                background-color: #03588C;
+            }
+
+
+
+.toggle-sidebar {
+    position: absolute;
+    bottom: 10px;
+    left: 0px; /* Ajusta esta posición según tu diseño */
+    cursor: pointer;
+    color: white;
+    background-color: #048ABF;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
+    z-index: 100; /* Asegura que el botón esté por encima de otros elementos */
+}
+
+    .toggle-sidebar:hover {
+        background-color: #048ABF;
+    }
+
+#toggle-icon {
+    font-size: 40px; /* Tamaño del ícono */
+    color: white; /* Color del ícono */
+}
+
+.sidebar.collapsed {
+    width: 0;
+    opacity: 0;
+}
+
+.menu.collapsed {
+    opacity: 0; /* Cambia la opacidad a 0 cuando esté colapsada */
+}
+
+
+
+.user-info {
+    display: none; /* Oculto por defecto */
+    position: absolute;
+    top: 70px; /* Ajustar pocicion */
+    right: 0;
+    background-color: white;
+    border: 1px solid #048ABF;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    /*z-index: 100;*/
+    text-align:center;
+}
+
+.cop {
+    background-color: #03588C;
+}
+
+#btnCerrarSesion {
+    width: 100%;
+    padding: 10px;
+    background-color: darkred;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}

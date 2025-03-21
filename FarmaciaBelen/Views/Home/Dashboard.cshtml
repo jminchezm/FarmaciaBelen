@@ -1,0 +1,120 @@
+﻿@{
+    Layout = null; // Si usas un _Layout.cshtml, elimínalo.
+    ViewBag.Title = "Dashboard - Farmacia San Juan";
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewBag.Title</title>
+
+    <!-- Bootstrap y Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+    <link href="~/Content/css/stylesHome.css" rel="stylesheet"> <!-- Archivo CSS personalizado -->
+</head>
+<body>
+
+    <!-- Banner Superior -->
+    <div class="banner">
+        <div class="banner-left">
+            <a href="@Url.Action("Dashboard", "Home")">
+                <img src="~/Content/Images/Home/logoBarraInicio.png" alt="Logo" class="logo" />
+            </a>
+        </div>
+        <div class="banner-center">
+            <h4>@Session["Rol"]</h4>
+        </div>
+        <div class="banner-right">
+            <h4>Bienvenido, @Session["Empleado"]</h4>
+            <img src="~/Content/Images/Home/logout.png" alt="Logout" class="icono" id="user-icon" />
+
+            <div class="user-info" id="user-info">
+                @*<p>@Session["Usuario"]</p>*@
+                <a href="@Url.Action("Logout", "Login")" class="btn btn-danger w-100">Cerrar Sesión</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenedor Principal -->
+    <div class="main-container">
+
+        <!-- Barra Lateral -->
+        <nav class="sidebar" id="sidebar">
+            <ul class="menu">
+                <li><a href="@Url.Action("Dashboard", "Home")"><i class="fas fa-home"></i> Inicio</a></li>
+
+                <li>
+                    <a href="#" class="submenu-toggle"><i class="fas fa-cash-register"></i> Ventas</a>
+                    <ul class="submenu">
+                        <li><a href="@Url.Action("Clientes", "Ventas")"><i class="fas fa-users"></i> Clientes</a></li>
+                        <li><a href="@Url.Action("Ventas", "Ventas")"><i class="fas fa-cash-register"></i> Ventas</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="#" class="submenu-toggle"><i class="fas fa-boxes"></i> Inventario</a>
+                    <ul class="submenu">
+                        <li><a href="@Url.Action("Productos", "Inventario")"><i class="fas fa-box-open"></i> Productos</a></li>
+                        <li><a href="@Url.Action("Pedidos", "Inventario")"><i class="fas fa-clipboard-list"></i> Pedido</a></li>
+                        <li><a href="@Url.Action("Categorias", "Inventario")"><i class="fas fa-tags"></i> Categorías</a></li>
+                        <li><a href="@Url.Action("Proveedores", "Inventario")"><i class="fas fa-truck"></i> Proveedores</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="#" class="submenu-toggle"><i class="fas fa-cog"></i> Configuración</a>
+                    <ul class="submenu">
+                        <li><a href="@Url.Action("Empleados", "Configuracion")"><i class="fas fa-user-tie"></i> Empleados</a></li>
+                        <li><a href="@Url.Action("Usuarios", "Configuracion")"><i class="fas fa-user"></i> Usuarios</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Botón para ocultar/mostrar sidebar -->
+        <div class="toggle-sidebar">
+            <i class="fas fa-arrow-left" id="toggle-icon"></i>
+        </div>
+
+        <!-- Contenido principal -->
+        <div class="content">
+            <iframe id="content-frame" scrolling="no" src="@Url.Action("Inicio", "Home")" frameborder="0"></iframe>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script>
+        function loadContent(page) {
+            document.getElementById('content-frame').src = page;
+        }
+
+        // Submenús
+        document.querySelectorAll('.submenu-toggle').forEach(function (toggle) {
+            toggle.addEventListener('click', function (event) {
+                event.preventDefault();
+                var submenu = this.nextElementSibling;
+                submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
+            });
+        });
+
+        // Sidebar toggle
+        document.getElementById('toggle-icon').addEventListener('click', function () {
+            var sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('collapsed');
+        });
+
+        // Mostrar información de usuario al hacer clic en el ícono
+        document.getElementById('user-icon').addEventListener('click', function () {
+            var userInfo = document.getElementById('user-info');
+            userInfo.style.display = (userInfo.style.display === 'block') ? 'none' : 'block';
+        });
+    </script>
+
+</body>
+</html>
