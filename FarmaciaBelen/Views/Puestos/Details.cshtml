@@ -1,0 +1,58 @@
+﻿@model FarmaciaBelen.Models.PUESTO
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+    <div>
+        <h4>PUESTO</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.PUESTO_NOMBRE)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.PUESTO_NOMBRE)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.PUESTO_DESCRIPCION)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.PUESTO_DESCRIPCION)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.PUESTO_ESTADO)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.PUESTO_ESTADO)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.AREA.AREA_NOMBRE)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.AREA.AREA_NOMBRE)
+            </dd>
+    
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.PUESTO_ID }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</body>
+</html>

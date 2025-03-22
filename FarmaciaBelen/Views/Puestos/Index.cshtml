@@ -1,0 +1,59 @@
+﻿@model IEnumerable<FarmaciaBelen.Models.PUESTO>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PUESTO_NOMBRE)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PUESTO_DESCRIPCION)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PUESTO_ESTADO)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AREA.AREA_NOMBRE)
+            </th>
+            <th></th>
+        </tr>
+    
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PUESTO_NOMBRE)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PUESTO_DESCRIPCION)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PUESTO_ESTADO)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AREA.AREA_NOMBRE)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.PUESTO_ID }) |
+                @Html.ActionLink("Details", "Details", new { id=item.PUESTO_ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.PUESTO_ID })
+            </td>
+        </tr>
+    }
+    
+    </table>
+</body>
+</html>
