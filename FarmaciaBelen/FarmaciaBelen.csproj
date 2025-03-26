@@ -188,6 +188,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\css\Area\style.css" />
     <Content Include="Content\css\stylesHome.css" />
     <Content Include="Content\Images\Home\logoBarraInicio.png" />
     <Content Include="Content\Images\Home\logout.png" />

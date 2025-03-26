@@ -56,7 +56,36 @@ namespace FarmaciaBelen.Controllers
         // GET: Areas/Create
         public ActionResult Create()
         {
-            return View();
+            // Obtener el último código existente
+            var ultimaArea = db.AREA
+                .OrderByDescending(a => a.AREA_ID)
+                .FirstOrDefault();
+
+            string nuevoCodigo;
+
+            if (ultimaArea != null && ultimaArea.AREA_ID.Length == 10)
+            {
+                // Extraer el número del código (últimos 6 caracteres)
+                string numero = ultimaArea.AREA_ID.Substring(4); // "000004"
+                int siguienteNumero = int.Parse(numero) + 1;
+
+                // Formatear el nuevo código con ceros y prefijo
+                nuevoCodigo = "AREA" + siguienteNumero.ToString("D6");
+            }
+            else
+            {
+                // Si no hay registros o el formato es incorrecto, empezar con el primero
+                nuevoCodigo = "AREA000001";
+            }
+
+            var nuevaArea = new AREA
+            {
+                AREA_ID = nuevoCodigo,
+                AREA_ESTADO = "Activo" // Estado por defecto
+            };
+
+            ViewBag.Creado = TempData["Creado"]; //esto permite mostrar el modal
+            return View(nuevaArea);
         }
 
         // POST: Areas/Create
@@ -70,7 +99,9 @@ namespace FarmaciaBelen.Controllers
             {
                 db.AREA.Add(aREA);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                TempData["Creado"] = true;
+                return RedirectToAction("Create");
             }
 
             return View(aREA);
@@ -88,6 +119,9 @@ namespace FarmaciaBelen.Controllers
             {
                 return HttpNotFound();
             }
+
+            ViewBag.Editado = TempData["Editado"]; // para mostrar el modal si se acaba de editar
+
             return View(aREA);
         }
 
@@ -102,7 +136,9 @@ namespace FarmaciaBelen.Controllers
             {
                 db.Entry(aREA).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                TempData["Editado"] = true; // <-- se activa el modal
+                return RedirectToAction("Edit", new { id = aREA.AREA_ID }); // redirige a la misma vista con el id
             }
             return View(aREA);
         }
@@ -119,19 +155,39 @@ namespace FarmaciaBelen.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.Desactivado = TempData["Desactivado"]; //se pasa a la vista
             return View(aREA);
         }
 
-        // POST: Areas/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
         {
             AREA aREA = db.AREA.Find(id);
-            db.AREA.Remove(aREA);
+            if (aREA == null)
+            {
+                return HttpNotFound();
+            }
+
+            // Eliminación lógica: cambiar estado a "Inactivo"
+            aREA.AREA_ESTADO = "Inactivo";
+            db.Entry(aREA).State = EntityState.Modified;
             db.SaveChanges();
-            return RedirectToAction("Index");
+
+            TempData["Desactivado"] = true; // 👈 activa el modal
+            return RedirectToAction("Delete", new { id = aREA.AREA_ID }); // redirige a la misma vista
         }
+
+        // POST: Areas/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult DeleteConfirmed(string id)
+        //{
+        //    AREA aREA = db.AREA.Find(id);
+        //    db.AREA.Remove(aREA);
+        //    db.SaveChanges();
+        //    return RedirectToAction("Index");
+        //}
 
         protected override void Dispose(bool disposing)
         {
