@@ -5,54 +5,54 @@
 }
 
 <!DOCTYPE html>
-
 <html>
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Details</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Detalles del Puesto</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
-<body>
-    <div>
-        <h4>PUESTO</h4>
-        <hr />
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.PUESTO_NOMBRE)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.PUESTO_NOMBRE)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.PUESTO_DESCRIPCION)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.PUESTO_DESCRIPCION)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.PUESTO_ESTADO)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.PUESTO_ESTADO)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.AREA.AREA_NOMBRE)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.AREA.AREA_NOMBRE)
-            </dd>
-    
-        </dl>
+<body class="bg-light">
+
+    <div class="container mt-5">
+        <div class="card shadow">
+            <div class="card-header bg-info text-white">
+                <h4 class="mb-0">Detalles del Puesto</h4>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-sm-4 fw-bold">Nombre:</div>
+                    <div class="col-sm-8">@Html.DisplayFor(model => model.PUESTO_NOMBRE)</div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-sm-4 fw-bold">Descripción:</div>
+                    <div class="col-sm-8">@Html.DisplayFor(model => model.PUESTO_DESCRIPCION)</div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-sm-4 fw-bold">Estado:</div>
+                    <div class="col-sm-8">@Html.DisplayFor(model => model.PUESTO_ESTADO)</div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-sm-4 fw-bold">Área:</div>
+                    <div class="col-sm-8">@Html.DisplayFor(model => model.AREA.AREA_NOMBRE)</div>
+                </div>
+            </div>
+            <div class="card-footer d-flex justify-content-between">
+                <a href="@Url.Action("Edit", new { id = Model.PUESTO_ID })" class="btn btn-warning">
+                    <i class="fas fa-edit"></i> Editar
+                </a>
+                <a href="@Url.Action("Index")" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Volver a la lista
+                </a>
+            </div>
+        </div>
     </div>
-    <p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.PUESTO_ID }) |
-        @Html.ActionLink("Back to List", "Index")
-    </p>
+
+    <!-- Bootstrap JS + FontAwesome -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </body>
 </html>

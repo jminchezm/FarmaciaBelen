@@ -33,11 +33,11 @@
                             <input type="text" name="codigo" value="@Request["codigo"]" class="form-control" placeholder="Buscar por código" />
 
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-5">
                             <label class="form-label">Nombre</label>
                             <input type="text" name="nombre" value="@Request["nombre"]" class="form-control" placeholder="Buscar por nombre" />
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-2">
                             <label class="form-label">Estado</label>
                             <select name="estado" class="form-select">
                                 <option value="">Todos</option>
@@ -45,7 +45,7 @@
                                 <option value="Inactivo" @(Request["estado"] == "Inactivo" ? "selected" : "")>Inactivo</option>
                             </select>
                         </div>
-                        <div class="col-md-4 d-flex align-items-end">
+                        <div class="col-md-2 d-flex align-items-end">
                             <button type="submit" class="btn btn-primary w-100">
                                 <i class="fas fa-search"></i> Buscar
                             </button>
@@ -55,45 +55,63 @@
             </div>
         }
 
-        <div class="table-responsive">
-            <table class="table table-bordered table-hover table-striped shadow-sm">
-                <thead class="table-primary">
-                    <tr>
-                        <th>@Html.DisplayNameFor(model => model.First().PUESTO_ID)</th>
-                        <th>@Html.DisplayNameFor(model => model.First().PUESTO_NOMBRE)</th>
-                        <th>@Html.DisplayNameFor(model => model.First().PUESTO_DESCRIPCION)</th>
-                        <th>@Html.DisplayNameFor(model => model.First().PUESTO_ESTADO)</th>
-                        <th class="text-center">Area</th>
-                        <th class="text-center">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
+    <div class="table-responsive">
+        @if (!Model.Any())
+        {
+            <div class="alert alert-warning text-center">
+                <i class="fas fa-exclamation-circle fa-2x d-block mb-2"></i>
+                <strong>No se encontraron puestos que coincidan con la búsqueda.</strong>
+            </div>
+
+            <!-- Opcional: imagen -->
+            <div class="text-center">
+                <img src="~/Content/Images/Busqueda/no-results.png" alt="Sin resultados" style="max-width: 220px;" />
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover table-striped shadow-sm table-fixed-header">
+                    <thead class="table-primary">
                         <tr>
-                            <td>@Html.DisplayFor(modelItem => item.PUESTO_ID)</td>
-                            <td>@Html.DisplayFor(modelItem => item.PUESTO_NOMBRE)</td>
-                            <td>@Html.DisplayFor(modelItem => item.PUESTO_DESCRIPCION)</td>
-                            <td>@Html.DisplayFor(modelItem => item.PUESTO_ESTADO)</td>
-                            <td>@Html.DisplayFor(modelItem => item.AREA.AREA_NOMBRE)</td>
-                            <td class="text-center">
-                                <div class="d-flex justify-content-center gap-2">
-                                    <a href="@Url.Action("Edit", new { id = item.PUESTO_ID })" class="btn btn-sm btn-warning">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    <a href="@Url.Action("Details", new { id = item.PUESTO_ID })" class="btn btn-sm btn-info text-white">
-                                        <i class="fas fa-eye"></i>
-                                    </a>
-                                    <a href="@Url.Action("Delete", new { id = item.PUESTO_ID })" class="btn btn-sm btn-danger">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </a>
-                                </div>
-                            </td>
+                            <th>@Html.DisplayNameFor(model => model.First().PUESTO_ID)</th>
+                            <th>@Html.DisplayNameFor(model => model.First().PUESTO_NOMBRE)</th>
+                            <th>@Html.DisplayNameFor(model => model.First().PUESTO_DESCRIPCION)</th>
+                            <th>@Html.DisplayNameFor(model => model.First().PUESTO_ESTADO)</th>
+                            <th class="text-center">Área</th>
+                            <th class="text-center">Acciones</th>
                         </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => item.PUESTO_ID)</td>
+                                <td>@Html.DisplayFor(modelItem => item.PUESTO_NOMBRE)</td>
+                                <td>@Html.DisplayFor(modelItem => item.PUESTO_DESCRIPCION)</td>
+                                <td>@Html.DisplayFor(modelItem => item.PUESTO_ESTADO)</td>
+                                <td>@Html.DisplayFor(modelItem => item.AREA.AREA_NOMBRE)</td>
+                                <td class="text-center">
+                                    <div class="d-flex justify-content-center gap-2">
+                                        <a href="@Url.Action("Edit", new { id = item.PUESTO_ID })" class="btn btn-sm btn-warning">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a href="@Url.Action("Details", new { id = item.PUESTO_ID })" class="btn btn-sm btn-info text-white">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="@Url.Action("Delete", new { id = item.PUESTO_ID })" class="btn btn-sm btn-danger">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+
+    </div>
     </div>
 
     <!-- Bootstrap y FontAwesome JS -->

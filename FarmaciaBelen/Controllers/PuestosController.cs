@@ -15,10 +15,22 @@ namespace FarmaciaBelen.Controllers
         private DBFARMACIABELENEntities db = new DBFARMACIABELENEntities();
 
         // GET: Puestos
-        public ActionResult Index()
+        public ActionResult Index(string codigo, string nombre, string estado)
         {
-            var pUESTO = db.PUESTO.Include(p => p.AREA);
-            return View(pUESTO.ToList());
+            var puestos = db.PUESTO.AsQueryable();
+
+            if (!string.IsNullOrEmpty(codigo))
+                puestos = puestos.Where(a => a.PUESTO_ID.Contains(codigo)); // ← usa Contains para búsquedas parciales
+
+            if (!string.IsNullOrEmpty(nombre))
+                puestos = puestos.Where(a => a.PUESTO_NOMBRE.Contains(nombre));
+
+            if (!string.IsNullOrEmpty(estado))
+                puestos = puestos.Where(a => a.PUESTO_ESTADO == estado);
+
+            return View(puestos.ToList());
+            //var pUESTO = db.PUESTO.Include(p => p.AREA);
+            //return View(pUESTO.ToList());
         }
 
         // GET: Puestos/Details/5
@@ -39,8 +51,41 @@ namespace FarmaciaBelen.Controllers
         // GET: Puestos/Create
         public ActionResult Create()
         {
+            // Obtener el último código existente
+            var ultimoPuesto = db.PUESTO
+                .OrderByDescending(p => p.PUESTO_ID)
+                .FirstOrDefault();
+
+            string nuevoCodigo;
+
+            if (ultimoPuesto != null && ultimoPuesto.PUESTO_ID.Length == 10)
+            {
+                // Extraer el número del código (últimos 6 caracteres)
+                string numero = ultimoPuesto.PUESTO_ID.Substring(4); // "000004"
+                int siguienteNumero = int.Parse(numero) + 1;
+
+                // Formatear el nuevo código con ceros y prefijo
+                nuevoCodigo = "PSTO" + siguienteNumero.ToString("D6");
+            }
+            else
+            {
+                // Si no hay registros o el formato es incorrecto, empezar con el primero
+                nuevoCodigo = "PSTO000001";
+            }
+
+            var nuevoPuesto = new PUESTO
+            {
+                PUESTO_ID = nuevoCodigo,
+                PUESTO_ESTADO = "Activo" // Estado por defecto
+            };
+
+            //IMPORTANTE: Asignar la lista de áreas
             ViewBag.AREA_ID = new SelectList(db.AREA, "AREA_ID", "AREA_NOMBRE");
-            return View();
+
+            ViewBag.Creado = TempData["Creado"]; //esto permite mostrar el modal
+            return View(nuevoPuesto);
+            //ViewBag.AREA_ID = new SelectList(db.AREA, "AREA_ID", "AREA_NOMBRE");
+            //return View();
         }
 
         // POST: Puestos/Create
@@ -48,17 +93,21 @@ namespace FarmaciaBelen.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "PUESTO_ID,PUESTO_NOMBRE,PUESTO_DESCRIPCION,PUESTO_ESTADO,AREA_ID")] PUESTO pUESTO)
+        public ActionResult Create([Bind(Include = "PUESTO_ID,PUESTO_NOMBRE,PUESTO_DESCRIPCION,PUESTO_ESTADO,AREA_ID")] PUESTO puesto)
         {
             if (ModelState.IsValid)
             {
-                db.PUESTO.Add(pUESTO);
+                db.PUESTO.Add(puesto);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                TempData["Creado"] = true;
+                return RedirectToAction("Create");
             }
 
-            ViewBag.AREA_ID = new SelectList(db.AREA, "AREA_ID", "AREA_NOMBRE", pUESTO.AREA_ID);
-            return View(pUESTO);
+            //IMPORTANTE: Asignar la lista de áreas
+            ViewBag.AREA_ID = new SelectList(db.AREA, "AREA_ID", "AREA_NOMBRE");
+
+            return View(puesto);
         }
 
         // GET: Puestos/Edit/5
@@ -73,7 +122,10 @@ namespace FarmaciaBelen.Controllers
             {
                 return HttpNotFound();
             }
+
             ViewBag.AREA_ID = new SelectList(db.AREA, "AREA_ID", "AREA_NOMBRE", pUESTO.AREA_ID);
+
+            ViewBag.Editado = TempData["Editado"];
             return View(pUESTO);
         }
 
@@ -88,8 +140,12 @@ namespace FarmaciaBelen.Controllers
             {
                 db.Entry(pUESTO).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                TempData["Editado"] = true; // <-- se activa el modal
+                return RedirectToAction("Edit", new { id = pUESTO.PUESTO_ID}); // redirige a la misma vista con el id
+                //return RedirectToAction("Index");
             }
+
             ViewBag.AREA_ID = new SelectList(db.AREA, "AREA_ID", "AREA_NOMBRE", pUESTO.AREA_ID);
             return View(pUESTO);
         }
@@ -106,6 +162,8 @@ namespace FarmaciaBelen.Controllers
             {
                 return HttpNotFound();
             }
+
+            ViewBag.Desactivado = TempData["Desactivado"]; //se pasa a la vista
             return View(pUESTO);
         }
 
@@ -114,10 +172,23 @@ namespace FarmaciaBelen.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
         {
-            PUESTO pUESTO = db.PUESTO.Find(id);
-            db.PUESTO.Remove(pUESTO);
+            PUESTO area = db.PUESTO.Find(id);
+            if (area == null)
+            {
+                return HttpNotFound();
+            }
+
+            // Eliminación lógica: cambiar estado a "Inactivo"
+            area.PUESTO_ESTADO = "Inactivo";
+            db.Entry(area).State = EntityState.Modified;
             db.SaveChanges();
-            return RedirectToAction("Index");
+
+            TempData["Desactivado"] = true; // 👈 activa el modal
+            return RedirectToAction("Delete", new { id = area.PUESTO_ID }); // redirige a la misma vista
+            //PUESTO pUESTO = db.PUESTO.Find(id);
+            //db.PUESTO.Remove(pUESTO);
+            //db.SaveChanges();
+            //return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)
