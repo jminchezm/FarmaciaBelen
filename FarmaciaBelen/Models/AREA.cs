@@ -25,9 +25,11 @@ namespace FarmaciaBelen.Models
         public string AREA_DESCRIPCION { get; set; }
         [Required]
         [Display(Name = "Número de Extensión")]
-        [MaxLength(8)]
+        [MaxLength(8, ErrorMessage = "La extensión no debe exceder los 8 dígitos.")]
+        [RegularExpression(@"^\d+$", ErrorMessage = "Solo se permiten números.")]
         public string AREA_EXTENSION { get; set; }
         [Display(Name = "Correo Electrónico")]
+        [EmailAddress(ErrorMessage = "El formato del correo electrónico no es válido.")]
         public string AREA_CORREO { get; set; }
         [Required]
         [Display(Name = "Estado")]

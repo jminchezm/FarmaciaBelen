@@ -95,6 +95,19 @@ namespace FarmaciaBelen.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "AREA_ID,AREA_NOMBRE,AREA_DESCRIPCION,AREA_EXTENSION,AREA_CORREO,AREA_ESTADO")] AREA aREA)
         {
+            // Validar correo duplicado, solo si se ingresó algo.
+            if (!string.IsNullOrWhiteSpace(aREA.AREA_CORREO))
+            {
+                bool correoExistente = db.AREA.Any(a => a.AREA_CORREO == aREA.AREA_CORREO);
+                if (correoExistente)
+                    ModelState.AddModelError("AREA_CORREO", "Este correo ya está en uso.");
+            }
+
+            // Validar extensión duplicada
+            bool extensionExistente = db.AREA.Any(a => a.AREA_EXTENSION == aREA.AREA_EXTENSION);
+            if (extensionExistente)
+                ModelState.AddModelError("AREA_EXTENSION", "Esta extensión ya está en uso.");
+
             if (ModelState.IsValid)
             {
                 db.AREA.Add(aREA);
@@ -132,6 +145,27 @@ namespace FarmaciaBelen.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "AREA_ID,AREA_NOMBRE,AREA_DESCRIPCION,AREA_EXTENSION,AREA_CORREO,AREA_ESTADO")] AREA aREA)
         {
+            // Validar correo duplicado solo si se ingresó algo
+            if (!string.IsNullOrWhiteSpace(aREA.AREA_CORREO))
+            {
+                bool correoExistente = db.AREA.Any(a =>
+                    a.AREA_CORREO == aREA.AREA_CORREO &&
+                    a.AREA_ID != aREA.AREA_ID
+                );
+
+                if (correoExistente)
+                    ModelState.AddModelError("AREA_CORREO", "Este correo ya está en uso.");
+            }
+
+            // Validar extensión duplicada, excluyendo el mismo área
+            bool extensionExistente = db.AREA.Any(a =>
+                a.AREA_EXTENSION == aREA.AREA_EXTENSION &&
+                a.AREA_ID != aREA.AREA_ID
+            );
+
+            if (extensionExistente)
+                ModelState.AddModelError("AREA_EXTENSION", "Esta extensión ya está en uso.");
+
             if (ModelState.IsValid)
             {
                 db.Entry(aREA).State = EntityState.Modified;
