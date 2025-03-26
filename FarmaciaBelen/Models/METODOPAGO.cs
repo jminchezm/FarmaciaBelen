@@ -12,24 +12,19 @@ namespace FarmaciaBelen.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class USUARIO
+    public partial class METODOPAGO
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public USUARIO()
+        public METODOPAGO()
         {
-            this.VENTA = new HashSet<VENTA>();
+            this.RECIBO = new HashSet<RECIBO>();
         }
     
-        public string USUARIO_ID { get; set; }
-        public string USUARIO_NOMBRE { get; set; }
-        public byte[] USUARIO_CONTRASENA { get; set; }
-        public Nullable<System.DateTime> USUARIO_FECHAREGISTRO { get; set; }
-        public string ROL_ID { get; set; }
-        public string EMPLEADO_ID { get; set; }
+        public string METODOPAGO_ID { get; set; }
+        public string METODOPAGO_NOMBRE { get; set; }
+        public string METODOPAGO_DESCRIPCION { get; set; }
     
-        public virtual EMPLEADO EMPLEADO { get; set; }
-        public virtual ROL ROL { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<VENTA> VENTA { get; set; }
+        public virtual ICollection<RECIBO> RECIBO { get; set; }
     }
 }

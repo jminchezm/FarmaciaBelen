@@ -133,13 +133,35 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\PuestosController.cs" />
+    <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AREA.cs">
       <DependentUpon>MiModelo.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CATEGORIAPRODUCTO.cs">
+      <DependentUpon>MiModelo.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CLIENTE.cs">
+      <DependentUpon>MiModelo.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DETALLEVENTA.cs">
+      <DependentUpon>MiModelo.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DETALLE_PEDIDO.cs">
+      <DependentUpon>MiModelo.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\EMPLEADO.cs">
+      <DependentUpon>MiModelo.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FORMAFARMACEUTICA.cs">
+      <DependentUpon>MiModelo.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\INVENTARIO_PRODUCTO.cs">
+      <DependentUpon>MiModelo.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\METODOPAGO.cs">
       <DependentUpon>MiModelo.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MiModelo.Context.cs">
@@ -157,16 +179,43 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MiModelo.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\MODULO.cs">
+      <DependentUpon>MiModelo.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PEDIDO.cs">
+      <DependentUpon>MiModelo.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PERMISOS.cs">
+      <DependentUpon>MiModelo.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\PERSONA.cs">
+      <DependentUpon>MiModelo.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PRODUCTO.cs">
+      <DependentUpon>MiModelo.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PROVEEDOR.cs">
       <DependentUpon>MiModelo.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PUESTO.cs">
       <DependentUpon>MiModelo.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\RECIBO.cs">
+      <DependentUpon>MiModelo.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ROL.cs">
       <DependentUpon>MiModelo.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SUBCATEGORIAPRODUCTO.cs">
+      <DependentUpon>MiModelo.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\USUARIO.cs">
+      <DependentUpon>MiModelo.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\VENTA.cs">
+      <DependentUpon>MiModelo.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\VIAADMINISTRACION.cs">
       <DependentUpon>MiModelo.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -190,6 +239,7 @@
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="Content\css\Area\style.css" />
     <Content Include="Content\css\Puesto\style.css" />
+    <Content Include="Content\css\Rol\style.css" />
     <Content Include="Content\css\stylesHome.css" />
     <Content Include="Content\Images\Busqueda\no-results.png" />
     <Content Include="Content\Images\Home\logoBarraInicio.png" />
@@ -261,6 +311,11 @@
     <Content Include="Views\Puestos\Details.cshtml" />
     <Content Include="Views\Puestos\Edit.cshtml" />
     <Content Include="Views\Puestos\Index.cshtml" />
+    <Content Include="Views\Roles\Create.cshtml" />
+    <Content Include="Views\Roles\Delete.cshtml" />
+    <Content Include="Views\Roles\Details.cshtml" />
+    <Content Include="Views\Roles\Edit.cshtml" />
+    <Content Include="Views\Roles\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

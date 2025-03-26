@@ -13,28 +13,28 @@ namespace FarmaciaBelen.Models
         }
 
         [Required]
-        [Display(Name = "C骴igo")]
+        [Display(Name = "C贸digo")]
         public string AREA_ID { get; set; }
         [Required]
         [Display(Name = "Nombre")]
         [StringLength(100)]
         public string AREA_NOMBRE { get; set; }
         [Required]
-        [Display(Name = "Descripci髇")]
+        [Display(Name = "Descripci贸n")]
         [StringLength(250)]
         public string AREA_DESCRIPCION { get; set; }
         [Required]
-        [Display(Name = "N鷐ero de Extensi髇")]
-        [MaxLength(8, ErrorMessage = "La extensi髇 no debe exceder los 8 d韌itos.")]
-        [RegularExpression(@"^\d+$", ErrorMessage = "Solo se permiten n鷐eros.")]
+        [Display(Name = "N煤mero de Extensi贸n")]
+        [MaxLength(8, ErrorMessage = "La extensi贸n no debe exceder los 8 d铆gitos.")]
+        [RegularExpression(@"^\d+$", ErrorMessage = "Solo se permiten n煤meros.")]
         public string AREA_EXTENSION { get; set; }
-        [Display(Name = "Correo Electr髇ico")]
-        [EmailAddress(ErrorMessage = "El formato del correo electr髇ico no es v醠ido.")]
+        [Display(Name = "Correo Electr贸nico")]
+        [EmailAddress(ErrorMessage = "El formato del correo electr贸nico no es v谩lido.")]
         public string AREA_CORREO { get; set; }
         [Required]
         [Display(Name = "Estado")]
         public string AREA_ESTADO { get; set; }
-    
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PUESTO> PUESTO { get; set; }
     }

@@ -12,23 +12,18 @@ namespace FarmaciaBelen.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class USUARIO
+    public partial class CLIENTE
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public USUARIO()
+        public CLIENTE()
         {
             this.VENTA = new HashSet<VENTA>();
         }
     
-        public string USUARIO_ID { get; set; }
-        public string USUARIO_NOMBRE { get; set; }
-        public byte[] USUARIO_CONTRASENA { get; set; }
-        public Nullable<System.DateTime> USUARIO_FECHAREGISTRO { get; set; }
-        public string ROL_ID { get; set; }
-        public string EMPLEADO_ID { get; set; }
+        public string CLIENTE_ID { get; set; }
+        public string CLIENTE_NOTA { get; set; }
     
-        public virtual EMPLEADO EMPLEADO { get; set; }
-        public virtual ROL ROL { get; set; }
+        public virtual PERSONA PERSONA { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<VENTA> VENTA { get; set; }
     }

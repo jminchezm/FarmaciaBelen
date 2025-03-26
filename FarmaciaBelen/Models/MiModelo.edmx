@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="DBFARMACIABELENModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="DBFARMACIABELENModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AREA">
           <Key>
             <PropertyRef Name="AREA_ID" />
@@ -16,6 +16,59 @@
           <Property Name="AREA_CORREO" Type="varchar" MaxLength="100" />
           <Property Name="AREA_ESTADO" Type="varchar" MaxLength="10" Nullable="false" />
         </EntityType>
+        <EntityType Name="CATEGORIAPRODUCTO">
+          <Key>
+            <PropertyRef Name="CATEGORIAPRODUCTO_ID" />
+          </Key>
+          <Property Name="CATEGORIAPRODUCTO_ID" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="CATEGORIAPRODUCTO_NOMBRE" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="CATEGORIAPRODUCTO_DESCRIPCION" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CLIENTE">
+          <Key>
+            <PropertyRef Name="CLIENTE_ID" />
+          </Key>
+          <Property Name="CLIENTE_ID" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="CLIENTE_NOTA" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'DBFARMACIABELEN.dbo.DETALLE_PEDIDO' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="DETALLE_PEDIDO">
+          <Key>
+            <PropertyRef Name="DETALLEPEDIDO_ID" />
+            <PropertyRef Name="PEDIDO_ID" />
+            <PropertyRef Name="PRODUCTO_ID" />
+            <PropertyRef Name="DETALLEPEDIDO_CANTIDAD" />
+            <PropertyRef Name="PRECIO_UNITARIO" />
+            <PropertyRef Name="SUBTOTAL" />
+          </Key>
+          <Property Name="DETALLEPEDIDO_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PEDIDO_ID" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="PRODUCTO_ID" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="DETALLEPEDIDO_CANTIDAD" Type="int" Nullable="false" />
+          <Property Name="PRECIO_UNITARIO" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="SUBTOTAL" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'DBFARMACIABELEN.dbo.DETALLEVENTA' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="DETALLEVENTA">
+          <Key>
+            <PropertyRef Name="DETALLEVENTA_ID" />
+            <PropertyRef Name="VENTA_ID" />
+            <PropertyRef Name="INVENTARIO_ID" />
+            <PropertyRef Name="PRODUCTO_ID" />
+            <PropertyRef Name="DETALLEVENTA_CANTIDADVENDIDA" />
+            <PropertyRef Name="DETALLEVENTA_PRECIOUNITARIO" />
+            <PropertyRef Name="DETALLEVENTA_SUBTOTAL" />
+          </Key>
+          <Property Name="DETALLEVENTA_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VENTA_ID" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="INVENTARIO_ID" Type="int" Nullable="false" />
+          <Property Name="PRODUCTO_ID" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="DETALLEVENTA_CANTIDADVENDIDA" Type="int" Nullable="false" />
+          <Property Name="DETALLEVENTA_PRECIOUNITARIO" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="DETALLEVENTA_SUBTOTAL" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+        </EntityType>
         <EntityType Name="EMPLEADO">
           <Key>
             <PropertyRef Name="EMPLEADO_ID" />
@@ -26,6 +79,60 @@
           <Property Name="EMPLEADO_GENERO" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="EMPLEADO_ESTADO" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="PUESTO_ID" Type="varchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FORMAFARMACEUTICA">
+          <Key>
+            <PropertyRef Name="FORMAFARMACEUTICA_ID" />
+          </Key>
+          <Property Name="FORMAFARMACEUTICA_ID" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="FARMAFARMACEUTICA_NOMBRE" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="FORMAFARMACEUTICA_DESCRIPCION" Type="varchar" MaxLength="250" Nullable="false" />
+        </EntityType>
+        <EntityType Name="INVENTARIO_PRODUCTO">
+          <Key>
+            <PropertyRef Name="INVENTARIO_ID" />
+            <PropertyRef Name="PRODUCTO_ID" />
+          </Key>
+          <Property Name="INVENTARIO_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PRODUCTO_ID" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="STOCK_ACTUAL" Type="int" Nullable="false" />
+          <Property Name="PRECIO_UNITARIO" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="METODOPAGO">
+          <Key>
+            <PropertyRef Name="METODOPAGO_ID" />
+          </Key>
+          <Property Name="METODOPAGO_ID" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="METODOPAGO_NOMBRE" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="METODOPAGO_DESCRIPCION" Type="varchar" MaxLength="250" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MODULO">
+          <Key>
+            <PropertyRef Name="MODULO_ID" />
+          </Key>
+          <Property Name="MODULO_ID" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="MODULO_NOMBRE" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="MODULO_DESCRIPCION" Type="varchar" MaxLength="250" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PEDIDO">
+          <Key>
+            <PropertyRef Name="PEDIDO_ID" />
+          </Key>
+          <Property Name="PEDIDO_ID" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="FECHA_PEDIDO" Type="datetime" />
+          <Property Name="ESTADO_PEDIDO" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="FECHA_ENTREGA_ESTIMADA" Type="date" Nullable="false" />
+          <Property Name="OBSERVACIONES" Type="varchar" MaxLength="250" />
+          <Property Name="PROVEEDOR_ID" Type="varchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PERMISOS">
+          <Key>
+            <PropertyRef Name="PERMISOS_ID" />
+          </Key>
+          <Property Name="PERMISOS_ID" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="ROL_ID" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="MODULO_ID" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="PERMISOS_PUEDEACCEDER" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="PERSONA">
           <Key>
@@ -46,6 +153,32 @@
           <Property Name="PERSONA_CORREO" Type="varchar" MaxLength="100" />
           <Property Name="PERSONA_FECHAREGISTRO" Type="date" />
         </EntityType>
+        <EntityType Name="PRODUCTO">
+          <Key>
+            <PropertyRef Name="PRODUCTO_ID" />
+          </Key>
+          <Property Name="PRODUCTO_ID" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="PRODUCTO_NOMBRE" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="PRODUCTO_DESCRIPCION" Type="varchar" MaxLength="250" />
+          <Property Name="PRODUCTO_FECHACREACION" Type="date" />
+          <Property Name="FORMAFARMACEUTICA_ID" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="VIAADMINISTRACION_ID" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="PRODUCTO_CASAMEDICA" Type="varchar" MaxLength="100" />
+          <Property Name="PRODUCTO_IMG" Type="varchar" MaxLength="500" />
+          <Property Name="PRODUCTO_ESTADO" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="SUBCATEGORIAPRODUCTO_ID" Type="varchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PROVEEDOR">
+          <Key>
+            <PropertyRef Name="PROVEEDOR_ID" />
+          </Key>
+          <Property Name="PROVEEDOR_ID" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="PROVEEDOR_NOMBRE" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="PROVEEDOR_TELEFONO" Type="varchar" MaxLength="8" />
+          <Property Name="PROVEEDOR_CELULAR" Type="varchar" MaxLength="8" />
+          <Property Name="PROVEEDOR_CORREO" Type="varchar" MaxLength="50" />
+          <Property Name="PROVEEDOR_DIRECCION" Type="varchar" MaxLength="255" />
+        </EntityType>
         <EntityType Name="PUESTO">
           <Key>
             <PropertyRef Name="PUESTO_ID" />
@@ -56,6 +189,14 @@
           <Property Name="PUESTO_ESTADO" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="AREA_ID" Type="varchar" MaxLength="10" Nullable="false" />
         </EntityType>
+        <EntityType Name="RECIBO">
+          <Key>
+            <PropertyRef Name="RECIBO_ID" />
+          </Key>
+          <Property Name="RECIBO_ID" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="VENTA_ID" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="METODOPAGO_ID" Type="varchar" MaxLength="10" Nullable="false" />
+        </EntityType>
         <EntityType Name="ROL">
           <Key>
             <PropertyRef Name="ROL_ID" />
@@ -63,6 +204,16 @@
           <Property Name="ROL_ID" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="ROL_NOMBRE" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="ROL_DESCRIPCION" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="ROL_ESTADO" Type="varchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SUBCATEGORIAPRODUCTO">
+          <Key>
+            <PropertyRef Name="SUBCATEGORIAPRODUCTO_ID" />
+          </Key>
+          <Property Name="SUBCATEGORIAPRODUCTO_ID" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="SUBCATEGORIAPRODUCTO_NOMBRE" Type="varchar" MaxLength="100" />
+          <Property Name="SUBCATEGORIAPRODUCTO_DESCRIPCION" Type="varchar" MaxLength="255" />
+          <Property Name="CATEGORIAPRODUCTO_ID" Type="varchar" MaxLength="10" Nullable="false" />
         </EntityType>
         <EntityType Name="USUARIO">
           <Key>
@@ -75,6 +226,86 @@
           <Property Name="ROL_ID" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="EMPLEADO_ID" Type="varchar" MaxLength="10" Nullable="false" />
         </EntityType>
+        <EntityType Name="VENTA">
+          <Key>
+            <PropertyRef Name="VENTA_ID" />
+          </Key>
+          <Property Name="VENTA_ID" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="VENTA_FECHA" Type="datetime" />
+          <Property Name="VENTA_TOTAL" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="CLIENTE_ID" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="USUARIO_ID" Type="varchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="VIAADMINISTRACION">
+          <Key>
+            <PropertyRef Name="VIAADMINISTRACION_ID" />
+          </Key>
+          <Property Name="VIAADMINISTRACION_ID" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="VIAADMINISTRATIVA_NOMBRE" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="VIAADMINISTRACION_DESCRIPCION" Type="varchar" MaxLength="250" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_CLIENTE_ID">
+          <End Role="PERSONA" Type="Self.PERSONA" Multiplicity="1" />
+          <End Role="CLIENTE" Type="Self.CLIENTE" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="PERSONA">
+              <PropertyRef Name="PERSONA_ID" />
+            </Principal>
+            <Dependent Role="CLIENTE">
+              <PropertyRef Name="CLIENTE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DETALLEPEDIDO_PEDIDO">
+          <End Role="PEDIDO" Type="Self.PEDIDO" Multiplicity="1" />
+          <End Role="DETALLE_PEDIDO" Type="Self.DETALLE_PEDIDO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PEDIDO">
+              <PropertyRef Name="PEDIDO_ID" />
+            </Principal>
+            <Dependent Role="DETALLE_PEDIDO">
+              <PropertyRef Name="PEDIDO_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DETALLEPEDIDO_PRODUCTO">
+          <End Role="PRODUCTO" Type="Self.PRODUCTO" Multiplicity="1" />
+          <End Role="DETALLE_PEDIDO" Type="Self.DETALLE_PEDIDO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCTO">
+              <PropertyRef Name="PRODUCTO_ID" />
+            </Principal>
+            <Dependent Role="DETALLE_PEDIDO">
+              <PropertyRef Name="PRODUCTO_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DETALLEVENTA_INVENTARIOPRODUCTO">
+          <End Role="INVENTARIO_PRODUCTO" Type="Self.INVENTARIO_PRODUCTO" Multiplicity="1" />
+          <End Role="DETALLEVENTA" Type="Self.DETALLEVENTA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="INVENTARIO_PRODUCTO">
+              <PropertyRef Name="INVENTARIO_ID" />
+              <PropertyRef Name="PRODUCTO_ID" />
+            </Principal>
+            <Dependent Role="DETALLEVENTA">
+              <PropertyRef Name="INVENTARIO_ID" />
+              <PropertyRef Name="PRODUCTO_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DETALLEVENTA_VENTA_ID">
+          <End Role="VENTA" Type="Self.VENTA" Multiplicity="1" />
+          <End Role="DETALLEVENTA" Type="Self.DETALLEVENTA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VENTA">
+              <PropertyRef Name="VENTA_ID" />
+            </Principal>
+            <Dependent Role="DETALLEVENTA">
+              <PropertyRef Name="VENTA_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_EMPLEADO_ID">
           <End Role="PERSONA" Type="Self.PERSONA" Multiplicity="1" />
           <End Role="EMPLEADO" Type="Self.EMPLEADO" Multiplicity="0..1" />
@@ -99,6 +330,90 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_INVENTARIO_PRODUCTO_ID">
+          <End Role="PRODUCTO" Type="Self.PRODUCTO" Multiplicity="1" />
+          <End Role="INVENTARIO_PRODUCTO" Type="Self.INVENTARIO_PRODUCTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCTO">
+              <PropertyRef Name="PRODUCTO_ID" />
+            </Principal>
+            <Dependent Role="INVENTARIO_PRODUCTO">
+              <PropertyRef Name="PRODUCTO_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PEDIDO_PROVEEDOR">
+          <End Role="PROVEEDOR" Type="Self.PROVEEDOR" Multiplicity="1" />
+          <End Role="PEDIDO" Type="Self.PEDIDO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PROVEEDOR">
+              <PropertyRef Name="PROVEEDOR_ID" />
+            </Principal>
+            <Dependent Role="PEDIDO">
+              <PropertyRef Name="PROVEEDOR_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PERMISOS_MODULO_ID">
+          <End Role="MODULO" Type="Self.MODULO" Multiplicity="1" />
+          <End Role="PERMISOS" Type="Self.PERMISOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MODULO">
+              <PropertyRef Name="MODULO_ID" />
+            </Principal>
+            <Dependent Role="PERMISOS">
+              <PropertyRef Name="MODULO_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PERMISOS_ROL_ID">
+          <End Role="ROL" Type="Self.ROL" Multiplicity="1" />
+          <End Role="PERMISOS" Type="Self.PERMISOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ROL">
+              <PropertyRef Name="ROL_ID" />
+            </Principal>
+            <Dependent Role="PERMISOS">
+              <PropertyRef Name="ROL_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PRODUCTO_FORMAFARMACEUTICA_ID">
+          <End Role="FORMAFARMACEUTICA" Type="Self.FORMAFARMACEUTICA" Multiplicity="1" />
+          <End Role="PRODUCTO" Type="Self.PRODUCTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FORMAFARMACEUTICA">
+              <PropertyRef Name="FORMAFARMACEUTICA_ID" />
+            </Principal>
+            <Dependent Role="PRODUCTO">
+              <PropertyRef Name="FORMAFARMACEUTICA_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PRODUCTO_SUBCATEGORIAPRODUCTO_ID">
+          <End Role="SUBCATEGORIAPRODUCTO" Type="Self.SUBCATEGORIAPRODUCTO" Multiplicity="1" />
+          <End Role="PRODUCTO" Type="Self.PRODUCTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SUBCATEGORIAPRODUCTO">
+              <PropertyRef Name="SUBCATEGORIAPRODUCTO_ID" />
+            </Principal>
+            <Dependent Role="PRODUCTO">
+              <PropertyRef Name="SUBCATEGORIAPRODUCTO_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PRODUCTO_VIAADMINISTRACION_ID">
+          <End Role="VIAADMINISTRACION" Type="Self.VIAADMINISTRACION" Multiplicity="1" />
+          <End Role="PRODUCTO" Type="Self.PRODUCTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VIAADMINISTRACION">
+              <PropertyRef Name="VIAADMINISTRACION_ID" />
+            </Principal>
+            <Dependent Role="PRODUCTO">
+              <PropertyRef Name="VIAADMINISTRACION_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_PUESTO_AREA_ID">
           <End Role="AREA" Type="Self.AREA" Multiplicity="1" />
           <End Role="PUESTO" Type="Self.PUESTO" Multiplicity="*" />
@@ -108,6 +423,42 @@
             </Principal>
             <Dependent Role="PUESTO">
               <PropertyRef Name="AREA_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RECIBO_METODOPAGO_ID">
+          <End Role="METODOPAGO" Type="Self.METODOPAGO" Multiplicity="1" />
+          <End Role="RECIBO" Type="Self.RECIBO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="METODOPAGO">
+              <PropertyRef Name="METODOPAGO_ID" />
+            </Principal>
+            <Dependent Role="RECIBO">
+              <PropertyRef Name="METODOPAGO_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RECIBO_VENTA_ID">
+          <End Role="VENTA" Type="Self.VENTA" Multiplicity="1" />
+          <End Role="RECIBO" Type="Self.RECIBO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VENTA">
+              <PropertyRef Name="VENTA_ID" />
+            </Principal>
+            <Dependent Role="RECIBO">
+              <PropertyRef Name="VENTA_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SUBCATEGORIAPRODUCTO_CATEGORIAPRODUCTO_ID">
+          <End Role="CATEGORIAPRODUCTO" Type="Self.CATEGORIAPRODUCTO" Multiplicity="1" />
+          <End Role="SUBCATEGORIAPRODUCTO" Type="Self.SUBCATEGORIAPRODUCTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CATEGORIAPRODUCTO">
+              <PropertyRef Name="CATEGORIAPRODUCTO_ID" />
+            </Principal>
+            <Dependent Role="SUBCATEGORIAPRODUCTO">
+              <PropertyRef Name="CATEGORIAPRODUCTO_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -123,6 +474,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_USUARIO_ID">
+          <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="1" />
+          <End Role="VENTA" Type="Self.VENTA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USUARIO">
+              <PropertyRef Name="USUARIO_ID" />
+            </Principal>
+            <Dependent Role="VENTA">
+              <PropertyRef Name="USUARIO_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_USUARIO_ROL_ID">
           <End Role="ROL" Type="Self.ROL" Multiplicity="1" />
           <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="*" />
@@ -135,13 +498,80 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_VENTA_CLIENTE_ID">
+          <End Role="CLIENTE" Type="Self.CLIENTE" Multiplicity="1" />
+          <End Role="VENTA" Type="Self.VENTA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CLIENTE">
+              <PropertyRef Name="CLIENTE_ID" />
+            </Principal>
+            <Dependent Role="VENTA">
+              <PropertyRef Name="CLIENTE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="DBFARMACIABELENModelStoreContainer">
           <EntitySet Name="AREA" EntityType="Self.AREA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CATEGORIAPRODUCTO" EntityType="Self.CATEGORIAPRODUCTO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CLIENTE" EntityType="Self.CLIENTE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EMPLEADO" EntityType="Self.EMPLEADO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FORMAFARMACEUTICA" EntityType="Self.FORMAFARMACEUTICA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="INVENTARIO_PRODUCTO" EntityType="Self.INVENTARIO_PRODUCTO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="METODOPAGO" EntityType="Self.METODOPAGO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MODULO" EntityType="Self.MODULO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PEDIDO" EntityType="Self.PEDIDO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PERMISOS" EntityType="Self.PERMISOS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PERSONA" EntityType="Self.PERSONA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PRODUCTO" EntityType="Self.PRODUCTO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PROVEEDOR" EntityType="Self.PROVEEDOR" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PUESTO" EntityType="Self.PUESTO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RECIBO" EntityType="Self.RECIBO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ROL" EntityType="Self.ROL" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SUBCATEGORIAPRODUCTO" EntityType="Self.SUBCATEGORIAPRODUCTO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="USUARIO" EntityType="Self.USUARIO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VENTA" EntityType="Self.VENTA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VIAADMINISTRACION" EntityType="Self.VIAADMINISTRACION" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DETALLE_PEDIDO" EntityType="Self.DETALLE_PEDIDO" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [DETALLE_PEDIDO].[DETALLEPEDIDO_ID] AS [DETALLEPEDIDO_ID], 
+    [DETALLE_PEDIDO].[PEDIDO_ID] AS [PEDIDO_ID], 
+    [DETALLE_PEDIDO].[PRODUCTO_ID] AS [PRODUCTO_ID], 
+    [DETALLE_PEDIDO].[DETALLEPEDIDO_CANTIDAD] AS [DETALLEPEDIDO_CANTIDAD], 
+    [DETALLE_PEDIDO].[PRECIO_UNITARIO] AS [PRECIO_UNITARIO], 
+    [DETALLE_PEDIDO].[SUBTOTAL] AS [SUBTOTAL]
+    FROM [dbo].[DETALLE_PEDIDO] AS [DETALLE_PEDIDO]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="DETALLEVENTA" EntityType="Self.DETALLEVENTA" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [DETALLEVENTA].[DETALLEVENTA_ID] AS [DETALLEVENTA_ID], 
+    [DETALLEVENTA].[VENTA_ID] AS [VENTA_ID], 
+    [DETALLEVENTA].[INVENTARIO_ID] AS [INVENTARIO_ID], 
+    [DETALLEVENTA].[PRODUCTO_ID] AS [PRODUCTO_ID], 
+    [DETALLEVENTA].[DETALLEVENTA_CANTIDADVENDIDA] AS [DETALLEVENTA_CANTIDADVENDIDA], 
+    [DETALLEVENTA].[DETALLEVENTA_PRECIOUNITARIO] AS [DETALLEVENTA_PRECIOUNITARIO], 
+    [DETALLEVENTA].[DETALLEVENTA_SUBTOTAL] AS [DETALLEVENTA_SUBTOTAL]
+    FROM [dbo].[DETALLEVENTA] AS [DETALLEVENTA]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_CLIENTE_ID" Association="Self.FK_CLIENTE_ID">
+            <End Role="PERSONA" EntitySet="PERSONA" />
+            <End Role="CLIENTE" EntitySet="CLIENTE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DETALLEPEDIDO_PEDIDO" Association="Self.FK_DETALLEPEDIDO_PEDIDO">
+            <End Role="PEDIDO" EntitySet="PEDIDO" />
+            <End Role="DETALLE_PEDIDO" EntitySet="DETALLE_PEDIDO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DETALLEPEDIDO_PRODUCTO" Association="Self.FK_DETALLEPEDIDO_PRODUCTO">
+            <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+            <End Role="DETALLE_PEDIDO" EntitySet="DETALLE_PEDIDO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DETALLEVENTA_INVENTARIOPRODUCTO" Association="Self.FK_DETALLEVENTA_INVENTARIOPRODUCTO">
+            <End Role="INVENTARIO_PRODUCTO" EntitySet="INVENTARIO_PRODUCTO" />
+            <End Role="DETALLEVENTA" EntitySet="DETALLEVENTA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DETALLEVENTA_VENTA_ID" Association="Self.FK_DETALLEVENTA_VENTA_ID">
+            <End Role="VENTA" EntitySet="VENTA" />
+            <End Role="DETALLEVENTA" EntitySet="DETALLEVENTA" />
+          </AssociationSet>
           <AssociationSet Name="FK_EMPLEADO_ID" Association="Self.FK_EMPLEADO_ID">
             <End Role="PERSONA" EntitySet="PERSONA" />
             <End Role="EMPLEADO" EntitySet="EMPLEADO" />
@@ -150,21 +580,68 @@
             <End Role="PUESTO" EntitySet="PUESTO" />
             <End Role="EMPLEADO" EntitySet="EMPLEADO" />
           </AssociationSet>
+          <AssociationSet Name="FK_INVENTARIO_PRODUCTO_ID" Association="Self.FK_INVENTARIO_PRODUCTO_ID">
+            <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+            <End Role="INVENTARIO_PRODUCTO" EntitySet="INVENTARIO_PRODUCTO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PEDIDO_PROVEEDOR" Association="Self.FK_PEDIDO_PROVEEDOR">
+            <End Role="PROVEEDOR" EntitySet="PROVEEDOR" />
+            <End Role="PEDIDO" EntitySet="PEDIDO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PERMISOS_MODULO_ID" Association="Self.FK_PERMISOS_MODULO_ID">
+            <End Role="MODULO" EntitySet="MODULO" />
+            <End Role="PERMISOS" EntitySet="PERMISOS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PERMISOS_ROL_ID" Association="Self.FK_PERMISOS_ROL_ID">
+            <End Role="ROL" EntitySet="ROL" />
+            <End Role="PERMISOS" EntitySet="PERMISOS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PRODUCTO_FORMAFARMACEUTICA_ID" Association="Self.FK_PRODUCTO_FORMAFARMACEUTICA_ID">
+            <End Role="FORMAFARMACEUTICA" EntitySet="FORMAFARMACEUTICA" />
+            <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PRODUCTO_SUBCATEGORIAPRODUCTO_ID" Association="Self.FK_PRODUCTO_SUBCATEGORIAPRODUCTO_ID">
+            <End Role="SUBCATEGORIAPRODUCTO" EntitySet="SUBCATEGORIAPRODUCTO" />
+            <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PRODUCTO_VIAADMINISTRACION_ID" Association="Self.FK_PRODUCTO_VIAADMINISTRACION_ID">
+            <End Role="VIAADMINISTRACION" EntitySet="VIAADMINISTRACION" />
+            <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+          </AssociationSet>
           <AssociationSet Name="FK_PUESTO_AREA_ID" Association="Self.FK_PUESTO_AREA_ID">
             <End Role="AREA" EntitySet="AREA" />
             <End Role="PUESTO" EntitySet="PUESTO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RECIBO_METODOPAGO_ID" Association="Self.FK_RECIBO_METODOPAGO_ID">
+            <End Role="METODOPAGO" EntitySet="METODOPAGO" />
+            <End Role="RECIBO" EntitySet="RECIBO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RECIBO_VENTA_ID" Association="Self.FK_RECIBO_VENTA_ID">
+            <End Role="VENTA" EntitySet="VENTA" />
+            <End Role="RECIBO" EntitySet="RECIBO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SUBCATEGORIAPRODUCTO_CATEGORIAPRODUCTO_ID" Association="Self.FK_SUBCATEGORIAPRODUCTO_CATEGORIAPRODUCTO_ID">
+            <End Role="CATEGORIAPRODUCTO" EntitySet="CATEGORIAPRODUCTO" />
+            <End Role="SUBCATEGORIAPRODUCTO" EntitySet="SUBCATEGORIAPRODUCTO" />
           </AssociationSet>
           <AssociationSet Name="FK_USUARIO_EMPLEADO_ID" Association="Self.FK_USUARIO_EMPLEADO_ID">
             <End Role="EMPLEADO" EntitySet="EMPLEADO" />
             <End Role="USUARIO" EntitySet="USUARIO" />
           </AssociationSet>
+          <AssociationSet Name="FK_USUARIO_ID" Association="Self.FK_USUARIO_ID">
+            <End Role="USUARIO" EntitySet="USUARIO" />
+            <End Role="VENTA" EntitySet="VENTA" />
+          </AssociationSet>
           <AssociationSet Name="FK_USUARIO_ROL_ID" Association="Self.FK_USUARIO_ROL_ID">
             <End Role="ROL" EntitySet="ROL" />
             <End Role="USUARIO" EntitySet="USUARIO" />
           </AssociationSet>
+          <AssociationSet Name="FK_VENTA_CLIENTE_ID" Association="Self.FK_VENTA_CLIENTE_ID">
+            <End Role="CLIENTE" EntitySet="CLIENTE" />
+            <End Role="VENTA" EntitySet="VENTA" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DBFARMACIABELENModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -213,6 +690,7 @@
           <Property Name="PERSONA_CORREO" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="PERSONA_FECHAREGISTRO" Type="DateTime" Precision="0" />
           <NavigationProperty Name="EMPLEADO" Relationship="Self.FK_EMPLEADO_ID" FromRole="PERSONA" ToRole="EMPLEADO" />
+          <NavigationProperty Name="CLIENTE" Relationship="DBFARMACIABELENModel.FK_CLIENTE_ID" FromRole="PERSONA" ToRole="CLIENTE" />
         </EntityType>
         <EntityType Name="PUESTO">
           <Key>
@@ -234,6 +712,8 @@
           <Property Name="ROL_NOMBRE" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ROL_DESCRIPCION" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="USUARIO" Relationship="Self.FK_USUARIO_ROL_ID" FromRole="ROL" ToRole="USUARIO" />
+          <Property Name="ROL_ESTADO" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="PERMISOS" Relationship="DBFARMACIABELENModel.FK_PERMISOS_ROL_ID" FromRole="ROL" ToRole="PERMISOS" />
         </EntityType>
         <EntityType Name="USUARIO">
           <Key>
@@ -247,6 +727,7 @@
           <Property Name="EMPLEADO_ID" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="EMPLEADO" Relationship="Self.FK_USUARIO_EMPLEADO_ID" FromRole="USUARIO" ToRole="EMPLEADO" />
           <NavigationProperty Name="ROL" Relationship="Self.FK_USUARIO_ROL_ID" FromRole="USUARIO" ToRole="ROL" />
+          <NavigationProperty Name="VENTA" Relationship="DBFARMACIABELENModel.FK_USUARIO_ID" FromRole="USUARIO" ToRole="VENTA" />
         </EntityType>
         <Association Name="FK_PUESTO_AREA_ID">
           <End Role="AREA" Type="Self.AREA" Multiplicity="1" />
@@ -335,7 +816,492 @@
             <End Role="ROL" EntitySet="ROL" />
             <End Role="USUARIO" EntitySet="USUARIO" />
           </AssociationSet>
+          <EntitySet Name="CATEGORIAPRODUCTO" EntityType="DBFARMACIABELENModel.CATEGORIAPRODUCTO" />
+          <EntitySet Name="CLIENTE" EntityType="DBFARMACIABELENModel.CLIENTE" />
+          <EntitySet Name="FORMAFARMACEUTICA" EntityType="DBFARMACIABELENModel.FORMAFARMACEUTICA" />
+          <EntitySet Name="INVENTARIO_PRODUCTO" EntityType="DBFARMACIABELENModel.INVENTARIO_PRODUCTO" />
+          <EntitySet Name="METODOPAGO" EntityType="DBFARMACIABELENModel.METODOPAGO" />
+          <EntitySet Name="MODULO" EntityType="DBFARMACIABELENModel.MODULO" />
+          <EntitySet Name="PEDIDO" EntityType="DBFARMACIABELENModel.PEDIDO" />
+          <EntitySet Name="PERMISOS" EntityType="DBFARMACIABELENModel.PERMISOS" />
+          <EntitySet Name="PRODUCTO" EntityType="DBFARMACIABELENModel.PRODUCTO" />
+          <EntitySet Name="PROVEEDOR" EntityType="DBFARMACIABELENModel.PROVEEDOR" />
+          <EntitySet Name="RECIBO" EntityType="DBFARMACIABELENModel.RECIBO" />
+          <EntitySet Name="SUBCATEGORIAPRODUCTO" EntityType="DBFARMACIABELENModel.SUBCATEGORIAPRODUCTO" />
+          <EntitySet Name="VENTA" EntityType="DBFARMACIABELENModel.VENTA" />
+          <EntitySet Name="VIAADMINISTRACION" EntityType="DBFARMACIABELENModel.VIAADMINISTRACION" />
+          <EntitySet Name="DETALLE_PEDIDO" EntityType="DBFARMACIABELENModel.DETALLE_PEDIDO" />
+          <EntitySet Name="DETALLEVENTA" EntityType="DBFARMACIABELENModel.DETALLEVENTA" />
+          <AssociationSet Name="FK_SUBCATEGORIAPRODUCTO_CATEGORIAPRODUCTO_ID" Association="DBFARMACIABELENModel.FK_SUBCATEGORIAPRODUCTO_CATEGORIAPRODUCTO_ID">
+            <End Role="CATEGORIAPRODUCTO" EntitySet="CATEGORIAPRODUCTO" />
+            <End Role="SUBCATEGORIAPRODUCTO" EntitySet="SUBCATEGORIAPRODUCTO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CLIENTE_ID" Association="DBFARMACIABELENModel.FK_CLIENTE_ID">
+            <End Role="PERSONA" EntitySet="PERSONA" />
+            <End Role="CLIENTE" EntitySet="CLIENTE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VENTA_CLIENTE_ID" Association="DBFARMACIABELENModel.FK_VENTA_CLIENTE_ID">
+            <End Role="CLIENTE" EntitySet="CLIENTE" />
+            <End Role="VENTA" EntitySet="VENTA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PRODUCTO_FORMAFARMACEUTICA_ID" Association="DBFARMACIABELENModel.FK_PRODUCTO_FORMAFARMACEUTICA_ID">
+            <End Role="FORMAFARMACEUTICA" EntitySet="FORMAFARMACEUTICA" />
+            <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DETALLEVENTA_INVENTARIOPRODUCTO" Association="DBFARMACIABELENModel.FK_DETALLEVENTA_INVENTARIOPRODUCTO">
+            <End Role="INVENTARIO_PRODUCTO" EntitySet="INVENTARIO_PRODUCTO" />
+            <End Role="DETALLEVENTA" EntitySet="DETALLEVENTA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_INVENTARIO_PRODUCTO_ID" Association="DBFARMACIABELENModel.FK_INVENTARIO_PRODUCTO_ID">
+            <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+            <End Role="INVENTARIO_PRODUCTO" EntitySet="INVENTARIO_PRODUCTO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RECIBO_METODOPAGO_ID" Association="DBFARMACIABELENModel.FK_RECIBO_METODOPAGO_ID">
+            <End Role="METODOPAGO" EntitySet="METODOPAGO" />
+            <End Role="RECIBO" EntitySet="RECIBO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PERMISOS_MODULO_ID" Association="DBFARMACIABELENModel.FK_PERMISOS_MODULO_ID">
+            <End Role="MODULO" EntitySet="MODULO" />
+            <End Role="PERMISOS" EntitySet="PERMISOS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DETALLEPEDIDO_PEDIDO" Association="DBFARMACIABELENModel.FK_DETALLEPEDIDO_PEDIDO">
+            <End Role="PEDIDO" EntitySet="PEDIDO" />
+            <End Role="DETALLE_PEDIDO" EntitySet="DETALLE_PEDIDO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PEDIDO_PROVEEDOR" Association="DBFARMACIABELENModel.FK_PEDIDO_PROVEEDOR">
+            <End Role="PROVEEDOR" EntitySet="PROVEEDOR" />
+            <End Role="PEDIDO" EntitySet="PEDIDO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PERMISOS_ROL_ID" Association="DBFARMACIABELENModel.FK_PERMISOS_ROL_ID">
+            <End Role="ROL" EntitySet="ROL" />
+            <End Role="PERMISOS" EntitySet="PERMISOS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DETALLEPEDIDO_PRODUCTO" Association="DBFARMACIABELENModel.FK_DETALLEPEDIDO_PRODUCTO">
+            <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+            <End Role="DETALLE_PEDIDO" EntitySet="DETALLE_PEDIDO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PRODUCTO_SUBCATEGORIAPRODUCTO_ID" Association="DBFARMACIABELENModel.FK_PRODUCTO_SUBCATEGORIAPRODUCTO_ID">
+            <End Role="SUBCATEGORIAPRODUCTO" EntitySet="SUBCATEGORIAPRODUCTO" />
+            <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PRODUCTO_VIAADMINISTRACION_ID" Association="DBFARMACIABELENModel.FK_PRODUCTO_VIAADMINISTRACION_ID">
+            <End Role="VIAADMINISTRACION" EntitySet="VIAADMINISTRACION" />
+            <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RECIBO_VENTA_ID" Association="DBFARMACIABELENModel.FK_RECIBO_VENTA_ID">
+            <End Role="VENTA" EntitySet="VENTA" />
+            <End Role="RECIBO" EntitySet="RECIBO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_USUARIO_ID" Association="DBFARMACIABELENModel.FK_USUARIO_ID">
+            <End Role="USUARIO" EntitySet="USUARIO" />
+            <End Role="VENTA" EntitySet="VENTA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DETALLEVENTA_VENTA_ID" Association="DBFARMACIABELENModel.FK_DETALLEVENTA_VENTA_ID">
+            <End Role="VENTA" EntitySet="VENTA" />
+            <End Role="DETALLEVENTA" EntitySet="DETALLEVENTA" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="CATEGORIAPRODUCTO">
+          <Key>
+            <PropertyRef Name="CATEGORIAPRODUCTO_ID" />
+          </Key>
+          <Property Name="CATEGORIAPRODUCTO_ID" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CATEGORIAPRODUCTO_NOMBRE" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CATEGORIAPRODUCTO_DESCRIPCION" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="SUBCATEGORIAPRODUCTO" Relationship="DBFARMACIABELENModel.FK_SUBCATEGORIAPRODUCTO_CATEGORIAPRODUCTO_ID" FromRole="CATEGORIAPRODUCTO" ToRole="SUBCATEGORIAPRODUCTO" />
+        </EntityType>
+        <EntityType Name="CLIENTE">
+          <Key>
+            <PropertyRef Name="CLIENTE_ID" />
+          </Key>
+          <Property Name="CLIENTE_ID" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CLIENTE_NOTA" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="PERSONA" Relationship="DBFARMACIABELENModel.FK_CLIENTE_ID" FromRole="CLIENTE" ToRole="PERSONA" />
+          <NavigationProperty Name="VENTA" Relationship="DBFARMACIABELENModel.FK_VENTA_CLIENTE_ID" FromRole="CLIENTE" ToRole="VENTA" />
+        </EntityType>
+        <EntityType Name="FORMAFARMACEUTICA">
+          <Key>
+            <PropertyRef Name="FORMAFARMACEUTICA_ID" />
+          </Key>
+          <Property Name="FORMAFARMACEUTICA_ID" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="FARMAFARMACEUTICA_NOMBRE" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FORMAFARMACEUTICA_DESCRIPCION" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="PRODUCTO" Relationship="DBFARMACIABELENModel.FK_PRODUCTO_FORMAFARMACEUTICA_ID" FromRole="FORMAFARMACEUTICA" ToRole="PRODUCTO" />
+        </EntityType>
+        <EntityType Name="INVENTARIO_PRODUCTO">
+          <Key>
+            <PropertyRef Name="INVENTARIO_ID" />
+            <PropertyRef Name="PRODUCTO_ID" />
+          </Key>
+          <Property Name="INVENTARIO_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PRODUCTO_ID" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="STOCK_ACTUAL" Type="Int32" Nullable="false" />
+          <Property Name="PRECIO_UNITARIO" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <NavigationProperty Name="DETALLEVENTA" Relationship="DBFARMACIABELENModel.FK_DETALLEVENTA_INVENTARIOPRODUCTO" FromRole="INVENTARIO_PRODUCTO" ToRole="DETALLEVENTA" />
+          <NavigationProperty Name="PRODUCTO" Relationship="DBFARMACIABELENModel.FK_INVENTARIO_PRODUCTO_ID" FromRole="INVENTARIO_PRODUCTO" ToRole="PRODUCTO" />
+        </EntityType>
+        <EntityType Name="METODOPAGO">
+          <Key>
+            <PropertyRef Name="METODOPAGO_ID" />
+          </Key>
+          <Property Name="METODOPAGO_ID" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="METODOPAGO_NOMBRE" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="METODOPAGO_DESCRIPCION" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="RECIBO" Relationship="DBFARMACIABELENModel.FK_RECIBO_METODOPAGO_ID" FromRole="METODOPAGO" ToRole="RECIBO" />
+        </EntityType>
+        <EntityType Name="MODULO">
+          <Key>
+            <PropertyRef Name="MODULO_ID" />
+          </Key>
+          <Property Name="MODULO_ID" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="MODULO_NOMBRE" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="MODULO_DESCRIPCION" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="PERMISOS" Relationship="DBFARMACIABELENModel.FK_PERMISOS_MODULO_ID" FromRole="MODULO" ToRole="PERMISOS" />
+        </EntityType>
+        <EntityType Name="PEDIDO">
+          <Key>
+            <PropertyRef Name="PEDIDO_ID" />
+          </Key>
+          <Property Name="PEDIDO_ID" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="FECHA_PEDIDO" Type="DateTime" Precision="3" />
+          <Property Name="ESTADO_PEDIDO" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="FECHA_ENTREGA_ESTIMADA" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="OBSERVACIONES" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="PROVEEDOR_ID" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="DETALLE_PEDIDO" Relationship="DBFARMACIABELENModel.FK_DETALLEPEDIDO_PEDIDO" FromRole="PEDIDO" ToRole="DETALLE_PEDIDO" />
+          <NavigationProperty Name="PROVEEDOR" Relationship="DBFARMACIABELENModel.FK_PEDIDO_PROVEEDOR" FromRole="PEDIDO" ToRole="PROVEEDOR" />
+        </EntityType>
+        <EntityType Name="PERMISOS">
+          <Key>
+            <PropertyRef Name="PERMISOS_ID" />
+          </Key>
+          <Property Name="PERMISOS_ID" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="ROL_ID" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="MODULO_ID" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="PERMISOS_PUEDEACCEDER" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="MODULO" Relationship="DBFARMACIABELENModel.FK_PERMISOS_MODULO_ID" FromRole="PERMISOS" ToRole="MODULO" />
+          <NavigationProperty Name="ROL" Relationship="DBFARMACIABELENModel.FK_PERMISOS_ROL_ID" FromRole="PERMISOS" ToRole="ROL" />
+        </EntityType>
+        <EntityType Name="PRODUCTO">
+          <Key>
+            <PropertyRef Name="PRODUCTO_ID" />
+          </Key>
+          <Property Name="PRODUCTO_ID" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="PRODUCTO_NOMBRE" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PRODUCTO_DESCRIPCION" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="PRODUCTO_FECHACREACION" Type="DateTime" Precision="0" />
+          <Property Name="FORMAFARMACEUTICA_ID" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="VIAADMINISTRACION_ID" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="PRODUCTO_CASAMEDICA" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PRODUCTO_IMG" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="PRODUCTO_ESTADO" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="SUBCATEGORIAPRODUCTO_ID" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="FORMAFARMACEUTICA" Relationship="DBFARMACIABELENModel.FK_PRODUCTO_FORMAFARMACEUTICA_ID" FromRole="PRODUCTO" ToRole="FORMAFARMACEUTICA" />
+          <NavigationProperty Name="INVENTARIO_PRODUCTO" Relationship="DBFARMACIABELENModel.FK_INVENTARIO_PRODUCTO_ID" FromRole="PRODUCTO" ToRole="INVENTARIO_PRODUCTO" />
+          <NavigationProperty Name="DETALLE_PEDIDO" Relationship="DBFARMACIABELENModel.FK_DETALLEPEDIDO_PRODUCTO" FromRole="PRODUCTO" ToRole="DETALLE_PEDIDO" />
+          <NavigationProperty Name="SUBCATEGORIAPRODUCTO" Relationship="DBFARMACIABELENModel.FK_PRODUCTO_SUBCATEGORIAPRODUCTO_ID" FromRole="PRODUCTO" ToRole="SUBCATEGORIAPRODUCTO" />
+          <NavigationProperty Name="VIAADMINISTRACION" Relationship="DBFARMACIABELENModel.FK_PRODUCTO_VIAADMINISTRACION_ID" FromRole="PRODUCTO" ToRole="VIAADMINISTRACION" />
+        </EntityType>
+        <EntityType Name="PROVEEDOR">
+          <Key>
+            <PropertyRef Name="PROVEEDOR_ID" />
+          </Key>
+          <Property Name="PROVEEDOR_ID" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="PROVEEDOR_NOMBRE" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PROVEEDOR_TELEFONO" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="PROVEEDOR_CELULAR" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="PROVEEDOR_CORREO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PROVEEDOR_DIRECCION" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="PEDIDO" Relationship="DBFARMACIABELENModel.FK_PEDIDO_PROVEEDOR" FromRole="PROVEEDOR" ToRole="PEDIDO" />
+        </EntityType>
+        <EntityType Name="RECIBO">
+          <Key>
+            <PropertyRef Name="RECIBO_ID" />
+          </Key>
+          <Property Name="RECIBO_ID" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="VENTA_ID" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="METODOPAGO_ID" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="METODOPAGO" Relationship="DBFARMACIABELENModel.FK_RECIBO_METODOPAGO_ID" FromRole="RECIBO" ToRole="METODOPAGO" />
+          <NavigationProperty Name="VENTA" Relationship="DBFARMACIABELENModel.FK_RECIBO_VENTA_ID" FromRole="RECIBO" ToRole="VENTA" />
+        </EntityType>
+        <EntityType Name="SUBCATEGORIAPRODUCTO">
+          <Key>
+            <PropertyRef Name="SUBCATEGORIAPRODUCTO_ID" />
+          </Key>
+          <Property Name="SUBCATEGORIAPRODUCTO_ID" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="SUBCATEGORIAPRODUCTO_NOMBRE" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="SUBCATEGORIAPRODUCTO_DESCRIPCION" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CATEGORIAPRODUCTO_ID" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CATEGORIAPRODUCTO" Relationship="DBFARMACIABELENModel.FK_SUBCATEGORIAPRODUCTO_CATEGORIAPRODUCTO_ID" FromRole="SUBCATEGORIAPRODUCTO" ToRole="CATEGORIAPRODUCTO" />
+          <NavigationProperty Name="PRODUCTO" Relationship="DBFARMACIABELENModel.FK_PRODUCTO_SUBCATEGORIAPRODUCTO_ID" FromRole="SUBCATEGORIAPRODUCTO" ToRole="PRODUCTO" />
+        </EntityType>
+        <EntityType Name="VENTA">
+          <Key>
+            <PropertyRef Name="VENTA_ID" />
+          </Key>
+          <Property Name="VENTA_ID" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="VENTA_FECHA" Type="DateTime" Precision="3" />
+          <Property Name="VENTA_TOTAL" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="CLIENTE_ID" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="USUARIO_ID" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CLIENTE" Relationship="DBFARMACIABELENModel.FK_VENTA_CLIENTE_ID" FromRole="VENTA" ToRole="CLIENTE" />
+          <NavigationProperty Name="RECIBO" Relationship="DBFARMACIABELENModel.FK_RECIBO_VENTA_ID" FromRole="VENTA" ToRole="RECIBO" />
+          <NavigationProperty Name="USUARIO" Relationship="DBFARMACIABELENModel.FK_USUARIO_ID" FromRole="VENTA" ToRole="USUARIO" />
+          <NavigationProperty Name="DETALLEVENTA" Relationship="DBFARMACIABELENModel.FK_DETALLEVENTA_VENTA_ID" FromRole="VENTA" ToRole="DETALLEVENTA" />
+        </EntityType>
+        <EntityType Name="VIAADMINISTRACION">
+          <Key>
+            <PropertyRef Name="VIAADMINISTRACION_ID" />
+          </Key>
+          <Property Name="VIAADMINISTRACION_ID" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="VIAADMINISTRATIVA_NOMBRE" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="VIAADMINISTRACION_DESCRIPCION" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="PRODUCTO" Relationship="DBFARMACIABELENModel.FK_PRODUCTO_VIAADMINISTRACION_ID" FromRole="VIAADMINISTRACION" ToRole="PRODUCTO" />
+        </EntityType>
+        <EntityType Name="DETALLE_PEDIDO">
+          <Key>
+            <PropertyRef Name="DETALLEPEDIDO_ID" />
+            <PropertyRef Name="PEDIDO_ID" />
+            <PropertyRef Name="PRODUCTO_ID" />
+            <PropertyRef Name="DETALLEPEDIDO_CANTIDAD" />
+            <PropertyRef Name="PRECIO_UNITARIO" />
+            <PropertyRef Name="SUBTOTAL" />
+          </Key>
+          <Property Name="DETALLEPEDIDO_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PEDIDO_ID" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="PRODUCTO_ID" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="DETALLEPEDIDO_CANTIDAD" Type="Int32" Nullable="false" />
+          <Property Name="PRECIO_UNITARIO" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="SUBTOTAL" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <NavigationProperty Name="PEDIDO" Relationship="DBFARMACIABELENModel.FK_DETALLEPEDIDO_PEDIDO" FromRole="DETALLE_PEDIDO" ToRole="PEDIDO" />
+          <NavigationProperty Name="PRODUCTO" Relationship="DBFARMACIABELENModel.FK_DETALLEPEDIDO_PRODUCTO" FromRole="DETALLE_PEDIDO" ToRole="PRODUCTO" />
+        </EntityType>
+        <EntityType Name="DETALLEVENTA">
+          <Key>
+            <PropertyRef Name="DETALLEVENTA_ID" />
+            <PropertyRef Name="VENTA_ID" />
+            <PropertyRef Name="INVENTARIO_ID" />
+            <PropertyRef Name="PRODUCTO_ID" />
+            <PropertyRef Name="DETALLEVENTA_CANTIDADVENDIDA" />
+            <PropertyRef Name="DETALLEVENTA_PRECIOUNITARIO" />
+            <PropertyRef Name="DETALLEVENTA_SUBTOTAL" />
+          </Key>
+          <Property Name="DETALLEVENTA_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VENTA_ID" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="INVENTARIO_ID" Type="Int32" Nullable="false" />
+          <Property Name="PRODUCTO_ID" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="DETALLEVENTA_CANTIDADVENDIDA" Type="Int32" Nullable="false" />
+          <Property Name="DETALLEVENTA_PRECIOUNITARIO" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="DETALLEVENTA_SUBTOTAL" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <NavigationProperty Name="INVENTARIO_PRODUCTO" Relationship="DBFARMACIABELENModel.FK_DETALLEVENTA_INVENTARIOPRODUCTO" FromRole="DETALLEVENTA" ToRole="INVENTARIO_PRODUCTO" />
+          <NavigationProperty Name="VENTA" Relationship="DBFARMACIABELENModel.FK_DETALLEVENTA_VENTA_ID" FromRole="DETALLEVENTA" ToRole="VENTA" />
+        </EntityType>
+        <Association Name="FK_SUBCATEGORIAPRODUCTO_CATEGORIAPRODUCTO_ID">
+          <End Type="DBFARMACIABELENModel.CATEGORIAPRODUCTO" Role="CATEGORIAPRODUCTO" Multiplicity="1" />
+          <End Type="DBFARMACIABELENModel.SUBCATEGORIAPRODUCTO" Role="SUBCATEGORIAPRODUCTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CATEGORIAPRODUCTO">
+              <PropertyRef Name="CATEGORIAPRODUCTO_ID" />
+            </Principal>
+            <Dependent Role="SUBCATEGORIAPRODUCTO">
+              <PropertyRef Name="CATEGORIAPRODUCTO_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CLIENTE_ID">
+          <End Type="DBFARMACIABELENModel.PERSONA" Role="PERSONA" Multiplicity="1" />
+          <End Type="DBFARMACIABELENModel.CLIENTE" Role="CLIENTE" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="PERSONA">
+              <PropertyRef Name="PERSONA_ID" />
+            </Principal>
+            <Dependent Role="CLIENTE">
+              <PropertyRef Name="CLIENTE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VENTA_CLIENTE_ID">
+          <End Type="DBFARMACIABELENModel.CLIENTE" Role="CLIENTE" Multiplicity="1" />
+          <End Type="DBFARMACIABELENModel.VENTA" Role="VENTA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CLIENTE">
+              <PropertyRef Name="CLIENTE_ID" />
+            </Principal>
+            <Dependent Role="VENTA">
+              <PropertyRef Name="CLIENTE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PRODUCTO_FORMAFARMACEUTICA_ID">
+          <End Type="DBFARMACIABELENModel.FORMAFARMACEUTICA" Role="FORMAFARMACEUTICA" Multiplicity="1" />
+          <End Type="DBFARMACIABELENModel.PRODUCTO" Role="PRODUCTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FORMAFARMACEUTICA">
+              <PropertyRef Name="FORMAFARMACEUTICA_ID" />
+            </Principal>
+            <Dependent Role="PRODUCTO">
+              <PropertyRef Name="FORMAFARMACEUTICA_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DETALLEVENTA_INVENTARIOPRODUCTO">
+          <End Type="DBFARMACIABELENModel.INVENTARIO_PRODUCTO" Role="INVENTARIO_PRODUCTO" Multiplicity="1" />
+          <End Type="DBFARMACIABELENModel.DETALLEVENTA" Role="DETALLEVENTA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="INVENTARIO_PRODUCTO">
+              <PropertyRef Name="INVENTARIO_ID" />
+              <PropertyRef Name="PRODUCTO_ID" />
+            </Principal>
+            <Dependent Role="DETALLEVENTA">
+              <PropertyRef Name="INVENTARIO_ID" />
+              <PropertyRef Name="PRODUCTO_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_INVENTARIO_PRODUCTO_ID">
+          <End Type="DBFARMACIABELENModel.PRODUCTO" Role="PRODUCTO" Multiplicity="1" />
+          <End Type="DBFARMACIABELENModel.INVENTARIO_PRODUCTO" Role="INVENTARIO_PRODUCTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCTO">
+              <PropertyRef Name="PRODUCTO_ID" />
+            </Principal>
+            <Dependent Role="INVENTARIO_PRODUCTO">
+              <PropertyRef Name="PRODUCTO_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RECIBO_METODOPAGO_ID">
+          <End Type="DBFARMACIABELENModel.METODOPAGO" Role="METODOPAGO" Multiplicity="1" />
+          <End Type="DBFARMACIABELENModel.RECIBO" Role="RECIBO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="METODOPAGO">
+              <PropertyRef Name="METODOPAGO_ID" />
+            </Principal>
+            <Dependent Role="RECIBO">
+              <PropertyRef Name="METODOPAGO_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PERMISOS_MODULO_ID">
+          <End Type="DBFARMACIABELENModel.MODULO" Role="MODULO" Multiplicity="1" />
+          <End Type="DBFARMACIABELENModel.PERMISOS" Role="PERMISOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MODULO">
+              <PropertyRef Name="MODULO_ID" />
+            </Principal>
+            <Dependent Role="PERMISOS">
+              <PropertyRef Name="MODULO_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DETALLEPEDIDO_PEDIDO">
+          <End Type="DBFARMACIABELENModel.PEDIDO" Role="PEDIDO" Multiplicity="1" />
+          <End Type="DBFARMACIABELENModel.DETALLE_PEDIDO" Role="DETALLE_PEDIDO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PEDIDO">
+              <PropertyRef Name="PEDIDO_ID" />
+            </Principal>
+            <Dependent Role="DETALLE_PEDIDO">
+              <PropertyRef Name="PEDIDO_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PEDIDO_PROVEEDOR">
+          <End Type="DBFARMACIABELENModel.PROVEEDOR" Role="PROVEEDOR" Multiplicity="1" />
+          <End Type="DBFARMACIABELENModel.PEDIDO" Role="PEDIDO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PROVEEDOR">
+              <PropertyRef Name="PROVEEDOR_ID" />
+            </Principal>
+            <Dependent Role="PEDIDO">
+              <PropertyRef Name="PROVEEDOR_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PERMISOS_ROL_ID">
+          <End Type="DBFARMACIABELENModel.ROL" Role="ROL" Multiplicity="1" />
+          <End Type="DBFARMACIABELENModel.PERMISOS" Role="PERMISOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ROL">
+              <PropertyRef Name="ROL_ID" />
+            </Principal>
+            <Dependent Role="PERMISOS">
+              <PropertyRef Name="ROL_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DETALLEPEDIDO_PRODUCTO">
+          <End Type="DBFARMACIABELENModel.PRODUCTO" Role="PRODUCTO" Multiplicity="1" />
+          <End Type="DBFARMACIABELENModel.DETALLE_PEDIDO" Role="DETALLE_PEDIDO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCTO">
+              <PropertyRef Name="PRODUCTO_ID" />
+            </Principal>
+            <Dependent Role="DETALLE_PEDIDO">
+              <PropertyRef Name="PRODUCTO_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PRODUCTO_SUBCATEGORIAPRODUCTO_ID">
+          <End Type="DBFARMACIABELENModel.SUBCATEGORIAPRODUCTO" Role="SUBCATEGORIAPRODUCTO" Multiplicity="1" />
+          <End Type="DBFARMACIABELENModel.PRODUCTO" Role="PRODUCTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SUBCATEGORIAPRODUCTO">
+              <PropertyRef Name="SUBCATEGORIAPRODUCTO_ID" />
+            </Principal>
+            <Dependent Role="PRODUCTO">
+              <PropertyRef Name="SUBCATEGORIAPRODUCTO_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PRODUCTO_VIAADMINISTRACION_ID">
+          <End Type="DBFARMACIABELENModel.VIAADMINISTRACION" Role="VIAADMINISTRACION" Multiplicity="1" />
+          <End Type="DBFARMACIABELENModel.PRODUCTO" Role="PRODUCTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VIAADMINISTRACION">
+              <PropertyRef Name="VIAADMINISTRACION_ID" />
+            </Principal>
+            <Dependent Role="PRODUCTO">
+              <PropertyRef Name="VIAADMINISTRACION_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RECIBO_VENTA_ID">
+          <End Type="DBFARMACIABELENModel.VENTA" Role="VENTA" Multiplicity="1" />
+          <End Type="DBFARMACIABELENModel.RECIBO" Role="RECIBO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VENTA">
+              <PropertyRef Name="VENTA_ID" />
+            </Principal>
+            <Dependent Role="RECIBO">
+              <PropertyRef Name="VENTA_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_USUARIO_ID">
+          <End Type="DBFARMACIABELENModel.USUARIO" Role="USUARIO" Multiplicity="1" />
+          <End Type="DBFARMACIABELENModel.VENTA" Role="VENTA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USUARIO">
+              <PropertyRef Name="USUARIO_ID" />
+            </Principal>
+            <Dependent Role="VENTA">
+              <PropertyRef Name="USUARIO_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DETALLEVENTA_VENTA_ID">
+          <End Type="DBFARMACIABELENModel.VENTA" Role="VENTA" Multiplicity="1" />
+          <End Type="DBFARMACIABELENModel.DETALLEVENTA" Role="DETALLEVENTA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VENTA">
+              <PropertyRef Name="VENTA_ID" />
+            </Principal>
+            <Dependent Role="DETALLEVENTA">
+              <PropertyRef Name="VENTA_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -400,6 +1366,7 @@
           <EntitySetMapping Name="ROL">
             <EntityTypeMapping TypeName="DBFARMACIABELENModel.ROL">
               <MappingFragment StoreEntitySet="ROL">
+                <ScalarProperty Name="ROL_ESTADO" ColumnName="ROL_ESTADO" />
                 <ScalarProperty Name="ROL_ID" ColumnName="ROL_ID" />
                 <ScalarProperty Name="ROL_NOMBRE" ColumnName="ROL_NOMBRE" />
                 <ScalarProperty Name="ROL_DESCRIPCION" ColumnName="ROL_DESCRIPCION" />
@@ -415,6 +1382,174 @@
                 <ScalarProperty Name="USUARIO_FECHAREGISTRO" ColumnName="USUARIO_FECHAREGISTRO" />
                 <ScalarProperty Name="ROL_ID" ColumnName="ROL_ID" />
                 <ScalarProperty Name="EMPLEADO_ID" ColumnName="EMPLEADO_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CATEGORIAPRODUCTO">
+            <EntityTypeMapping TypeName="DBFARMACIABELENModel.CATEGORIAPRODUCTO">
+              <MappingFragment StoreEntitySet="CATEGORIAPRODUCTO">
+                <ScalarProperty Name="CATEGORIAPRODUCTO_DESCRIPCION" ColumnName="CATEGORIAPRODUCTO_DESCRIPCION" />
+                <ScalarProperty Name="CATEGORIAPRODUCTO_NOMBRE" ColumnName="CATEGORIAPRODUCTO_NOMBRE" />
+                <ScalarProperty Name="CATEGORIAPRODUCTO_ID" ColumnName="CATEGORIAPRODUCTO_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CLIENTE">
+            <EntityTypeMapping TypeName="DBFARMACIABELENModel.CLIENTE">
+              <MappingFragment StoreEntitySet="CLIENTE">
+                <ScalarProperty Name="CLIENTE_NOTA" ColumnName="CLIENTE_NOTA" />
+                <ScalarProperty Name="CLIENTE_ID" ColumnName="CLIENTE_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FORMAFARMACEUTICA">
+            <EntityTypeMapping TypeName="DBFARMACIABELENModel.FORMAFARMACEUTICA">
+              <MappingFragment StoreEntitySet="FORMAFARMACEUTICA">
+                <ScalarProperty Name="FORMAFARMACEUTICA_DESCRIPCION" ColumnName="FORMAFARMACEUTICA_DESCRIPCION" />
+                <ScalarProperty Name="FARMAFARMACEUTICA_NOMBRE" ColumnName="FARMAFARMACEUTICA_NOMBRE" />
+                <ScalarProperty Name="FORMAFARMACEUTICA_ID" ColumnName="FORMAFARMACEUTICA_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="INVENTARIO_PRODUCTO">
+            <EntityTypeMapping TypeName="DBFARMACIABELENModel.INVENTARIO_PRODUCTO">
+              <MappingFragment StoreEntitySet="INVENTARIO_PRODUCTO">
+                <ScalarProperty Name="PRECIO_UNITARIO" ColumnName="PRECIO_UNITARIO" />
+                <ScalarProperty Name="STOCK_ACTUAL" ColumnName="STOCK_ACTUAL" />
+                <ScalarProperty Name="PRODUCTO_ID" ColumnName="PRODUCTO_ID" />
+                <ScalarProperty Name="INVENTARIO_ID" ColumnName="INVENTARIO_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="METODOPAGO">
+            <EntityTypeMapping TypeName="DBFARMACIABELENModel.METODOPAGO">
+              <MappingFragment StoreEntitySet="METODOPAGO">
+                <ScalarProperty Name="METODOPAGO_DESCRIPCION" ColumnName="METODOPAGO_DESCRIPCION" />
+                <ScalarProperty Name="METODOPAGO_NOMBRE" ColumnName="METODOPAGO_NOMBRE" />
+                <ScalarProperty Name="METODOPAGO_ID" ColumnName="METODOPAGO_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MODULO">
+            <EntityTypeMapping TypeName="DBFARMACIABELENModel.MODULO">
+              <MappingFragment StoreEntitySet="MODULO">
+                <ScalarProperty Name="MODULO_DESCRIPCION" ColumnName="MODULO_DESCRIPCION" />
+                <ScalarProperty Name="MODULO_NOMBRE" ColumnName="MODULO_NOMBRE" />
+                <ScalarProperty Name="MODULO_ID" ColumnName="MODULO_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PEDIDO">
+            <EntityTypeMapping TypeName="DBFARMACIABELENModel.PEDIDO">
+              <MappingFragment StoreEntitySet="PEDIDO">
+                <ScalarProperty Name="PROVEEDOR_ID" ColumnName="PROVEEDOR_ID" />
+                <ScalarProperty Name="OBSERVACIONES" ColumnName="OBSERVACIONES" />
+                <ScalarProperty Name="FECHA_ENTREGA_ESTIMADA" ColumnName="FECHA_ENTREGA_ESTIMADA" />
+                <ScalarProperty Name="ESTADO_PEDIDO" ColumnName="ESTADO_PEDIDO" />
+                <ScalarProperty Name="FECHA_PEDIDO" ColumnName="FECHA_PEDIDO" />
+                <ScalarProperty Name="PEDIDO_ID" ColumnName="PEDIDO_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PERMISOS">
+            <EntityTypeMapping TypeName="DBFARMACIABELENModel.PERMISOS">
+              <MappingFragment StoreEntitySet="PERMISOS">
+                <ScalarProperty Name="PERMISOS_PUEDEACCEDER" ColumnName="PERMISOS_PUEDEACCEDER" />
+                <ScalarProperty Name="MODULO_ID" ColumnName="MODULO_ID" />
+                <ScalarProperty Name="ROL_ID" ColumnName="ROL_ID" />
+                <ScalarProperty Name="PERMISOS_ID" ColumnName="PERMISOS_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PRODUCTO">
+            <EntityTypeMapping TypeName="DBFARMACIABELENModel.PRODUCTO">
+              <MappingFragment StoreEntitySet="PRODUCTO">
+                <ScalarProperty Name="SUBCATEGORIAPRODUCTO_ID" ColumnName="SUBCATEGORIAPRODUCTO_ID" />
+                <ScalarProperty Name="PRODUCTO_ESTADO" ColumnName="PRODUCTO_ESTADO" />
+                <ScalarProperty Name="PRODUCTO_IMG" ColumnName="PRODUCTO_IMG" />
+                <ScalarProperty Name="PRODUCTO_CASAMEDICA" ColumnName="PRODUCTO_CASAMEDICA" />
+                <ScalarProperty Name="VIAADMINISTRACION_ID" ColumnName="VIAADMINISTRACION_ID" />
+                <ScalarProperty Name="FORMAFARMACEUTICA_ID" ColumnName="FORMAFARMACEUTICA_ID" />
+                <ScalarProperty Name="PRODUCTO_FECHACREACION" ColumnName="PRODUCTO_FECHACREACION" />
+                <ScalarProperty Name="PRODUCTO_DESCRIPCION" ColumnName="PRODUCTO_DESCRIPCION" />
+                <ScalarProperty Name="PRODUCTO_NOMBRE" ColumnName="PRODUCTO_NOMBRE" />
+                <ScalarProperty Name="PRODUCTO_ID" ColumnName="PRODUCTO_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PROVEEDOR">
+            <EntityTypeMapping TypeName="DBFARMACIABELENModel.PROVEEDOR">
+              <MappingFragment StoreEntitySet="PROVEEDOR">
+                <ScalarProperty Name="PROVEEDOR_DIRECCION" ColumnName="PROVEEDOR_DIRECCION" />
+                <ScalarProperty Name="PROVEEDOR_CORREO" ColumnName="PROVEEDOR_CORREO" />
+                <ScalarProperty Name="PROVEEDOR_CELULAR" ColumnName="PROVEEDOR_CELULAR" />
+                <ScalarProperty Name="PROVEEDOR_TELEFONO" ColumnName="PROVEEDOR_TELEFONO" />
+                <ScalarProperty Name="PROVEEDOR_NOMBRE" ColumnName="PROVEEDOR_NOMBRE" />
+                <ScalarProperty Name="PROVEEDOR_ID" ColumnName="PROVEEDOR_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RECIBO">
+            <EntityTypeMapping TypeName="DBFARMACIABELENModel.RECIBO">
+              <MappingFragment StoreEntitySet="RECIBO">
+                <ScalarProperty Name="METODOPAGO_ID" ColumnName="METODOPAGO_ID" />
+                <ScalarProperty Name="VENTA_ID" ColumnName="VENTA_ID" />
+                <ScalarProperty Name="RECIBO_ID" ColumnName="RECIBO_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SUBCATEGORIAPRODUCTO">
+            <EntityTypeMapping TypeName="DBFARMACIABELENModel.SUBCATEGORIAPRODUCTO">
+              <MappingFragment StoreEntitySet="SUBCATEGORIAPRODUCTO">
+                <ScalarProperty Name="CATEGORIAPRODUCTO_ID" ColumnName="CATEGORIAPRODUCTO_ID" />
+                <ScalarProperty Name="SUBCATEGORIAPRODUCTO_DESCRIPCION" ColumnName="SUBCATEGORIAPRODUCTO_DESCRIPCION" />
+                <ScalarProperty Name="SUBCATEGORIAPRODUCTO_NOMBRE" ColumnName="SUBCATEGORIAPRODUCTO_NOMBRE" />
+                <ScalarProperty Name="SUBCATEGORIAPRODUCTO_ID" ColumnName="SUBCATEGORIAPRODUCTO_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VENTA">
+            <EntityTypeMapping TypeName="DBFARMACIABELENModel.VENTA">
+              <MappingFragment StoreEntitySet="VENTA">
+                <ScalarProperty Name="USUARIO_ID" ColumnName="USUARIO_ID" />
+                <ScalarProperty Name="CLIENTE_ID" ColumnName="CLIENTE_ID" />
+                <ScalarProperty Name="VENTA_TOTAL" ColumnName="VENTA_TOTAL" />
+                <ScalarProperty Name="VENTA_FECHA" ColumnName="VENTA_FECHA" />
+                <ScalarProperty Name="VENTA_ID" ColumnName="VENTA_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VIAADMINISTRACION">
+            <EntityTypeMapping TypeName="DBFARMACIABELENModel.VIAADMINISTRACION">
+              <MappingFragment StoreEntitySet="VIAADMINISTRACION">
+                <ScalarProperty Name="VIAADMINISTRACION_DESCRIPCION" ColumnName="VIAADMINISTRACION_DESCRIPCION" />
+                <ScalarProperty Name="VIAADMINISTRATIVA_NOMBRE" ColumnName="VIAADMINISTRATIVA_NOMBRE" />
+                <ScalarProperty Name="VIAADMINISTRACION_ID" ColumnName="VIAADMINISTRACION_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DETALLE_PEDIDO">
+            <EntityTypeMapping TypeName="DBFARMACIABELENModel.DETALLE_PEDIDO">
+              <MappingFragment StoreEntitySet="DETALLE_PEDIDO">
+                <ScalarProperty Name="SUBTOTAL" ColumnName="SUBTOTAL" />
+                <ScalarProperty Name="PRECIO_UNITARIO" ColumnName="PRECIO_UNITARIO" />
+                <ScalarProperty Name="DETALLEPEDIDO_CANTIDAD" ColumnName="DETALLEPEDIDO_CANTIDAD" />
+                <ScalarProperty Name="PRODUCTO_ID" ColumnName="PRODUCTO_ID" />
+                <ScalarProperty Name="PEDIDO_ID" ColumnName="PEDIDO_ID" />
+                <ScalarProperty Name="DETALLEPEDIDO_ID" ColumnName="DETALLEPEDIDO_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DETALLEVENTA">
+            <EntityTypeMapping TypeName="DBFARMACIABELENModel.DETALLEVENTA">
+              <MappingFragment StoreEntitySet="DETALLEVENTA">
+                <ScalarProperty Name="DETALLEVENTA_SUBTOTAL" ColumnName="DETALLEVENTA_SUBTOTAL" />
+                <ScalarProperty Name="DETALLEVENTA_PRECIOUNITARIO" ColumnName="DETALLEVENTA_PRECIOUNITARIO" />
+                <ScalarProperty Name="DETALLEVENTA_CANTIDADVENDIDA" ColumnName="DETALLEVENTA_CANTIDADVENDIDA" />
+                <ScalarProperty Name="PRODUCTO_ID" ColumnName="PRODUCTO_ID" />
+                <ScalarProperty Name="INVENTARIO_ID" ColumnName="INVENTARIO_ID" />
+                <ScalarProperty Name="VENTA_ID" ColumnName="VENTA_ID" />
+                <ScalarProperty Name="DETALLEVENTA_ID" ColumnName="DETALLEVENTA_ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
