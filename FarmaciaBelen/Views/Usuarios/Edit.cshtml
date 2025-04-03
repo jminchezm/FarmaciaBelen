@@ -1,0 +1,149 @@
+﻿@model FarmaciaBelen.Models.UsuarioViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Editar Usuario</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body class="bg-light">
+    <div class="container mt-5">
+        <div class="card shadow">
+            <div class="card-header bg-warning text-dark">
+                <h4>Editar Usuario</h4>
+            </div>
+            <div class="card-body">
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(m => m.USUARIO_ID)
+
+                    <div class="mb-3">
+                        @Html.LabelFor(m => m.USUARIO_NOMBRE)
+                        @Html.TextBoxFor(m => m.USUARIO_NOMBRE, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.USUARIO_NOMBRE, "", new { @class = "text-danger" })
+                    </div>
+
+                    <!-- Botón para mostrar/ocultar los campos de contraseña -->
+                    <div class="mb-3 text-center">
+                        <button type="button" class="btn btn-outline-warning" onclick="togglePasswordFields()">
+                            <i class="fas fa-key"></i> ¿Deseas cambiar la contraseña?
+                        </button>
+                    </div>
+
+                    <!-- Sección de contraseña (oculta por defecto) -->
+                    <div id="seccionContrasena" style="display:none;">
+                        <div class="mb-3">
+                            @Html.Label("Nueva Contraseña")
+                            @Html.PasswordFor(m => m.NuevaContrasena, new { @class = "form-control", placeholder = "Ingrese nueva contraseña" })
+                            @Html.ValidationMessageFor(m => m.NuevaContrasena, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="mb-3">
+                            @Html.Label("Confirmar Contraseña")
+                            @Html.PasswordFor(m => m.ConfirmarContrasena, new { @class = "form-control", placeholder = "Repita la contraseña" })
+                            @Html.ValidationMessageFor(m => m.ConfirmarContrasena, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+                    @*<div class="mb-3">
+                @Html.Label("Nueva Contraseña")
+                @Html.PasswordFor(m => m.NuevaContrasena, new { @class = "form-control", placeholder = "Ingrese nueva contraseña" })
+                @Html.ValidationMessageFor(m => m.NuevaContrasena, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="mb-3">
+                @Html.Label("Confirmar Contraseña")
+                @Html.PasswordFor(m => m.ConfirmarContrasena, new { @class = "form-control", placeholder = "Repita la contraseña" })
+                @Html.ValidationMessageFor(m => m.ConfirmarContrasena, "", new { @class = "text-danger" })
+            </div>*@
+
+                    <div class="mb-3">
+                        @Html.LabelFor(m => m.ROL_ID, "Rol")
+                        @Html.DropDownList("ROL_ID", null, new { @class = "form-select" })
+                        @Html.ValidationMessageFor(m => m.ROL_ID, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="mb-3">
+                        @Html.LabelFor(model => model.USUARIO_ESTADO, new { @class = "form-label" })
+
+                        @Html.DropDownListFor(model => model.USUARIO_ESTADO,
+                            new SelectList(
+                                new List<SelectListItem>
+                                {
+                                    new SelectListItem { Text = "Activo", Value = "Activo" },
+                                    new SelectListItem { Text = "Inactivo", Value = "Inactivo" }
+                                },
+                                "Value",
+                                "Text",
+                                Model?.USUARIO_ESTADO ?? "Activo"
+                            ),
+                            htmlAttributes: new { @class = "form-select" })
+
+                        @Html.ValidationMessageFor(model => model.USUARIO_ESTADO, "", new { @class = "text-danger" })
+                    </div>
+
+                    @*<div class="mb-3">
+                @Html.Label("Código Empleado", htmlAttributes: new { @class = "form-label" })
+                <p class="form-control-plaintext">
+                    @Html.DisplayFor(model => model.EMPLEADO_ID)
+                </p>
+                @Html.ValidationMessageFor(model => model.EMPLEADO_ID, "", new { @class = "text-danger" })
+            </div>*@
+
+                    <div class="mb-3">
+                        @Html.Label("Nombre Empleado", htmlAttributes: new { @class = "form-label" })
+                        @Html.TextBoxFor(model => model.EMPLEADO_NOMBRE, new { @class = "form-control", @readonly = "readonly" })
+                        @Html.ValidationMessageFor(model => model.EMPLEADO_NOMBRE, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <a href="@Url.Action("Index")" class="btn btn-secondary">← Volver</a>
+                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de confirmación -->
+    <div class="modal fade" id="modalEditado" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title">Usuario actualizado</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">Los cambios fueron guardados correctamente.</div>
+                <div class="modal-footer">
+                    <a href="@Url.Action("Index")" class="btn btn-secondary">Ir al listado</a>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function togglePasswordFields() {
+            const section = document.getElementById("seccionContrasena");
+            section.style.display = section.style.display === "none" ? "block" : "none";
+        }
+    </script>
+
+    @if (ViewBag.Editado != null && (bool)ViewBag.Editado)
+    {
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                new bootstrap.Modal(document.getElementById("modalEditado")).show();
+            });
+        </script>
+    }
+</body>
+</html>

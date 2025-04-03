@@ -130,10 +130,12 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AreasController.cs" />
+    <Compile Include="Controllers\EmpleadosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\PuestosController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
+    <Compile Include="Controllers\UsuariosController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -155,6 +157,7 @@
     <Compile Include="Models\EMPLEADO.cs">
       <DependentUpon>MiModelo.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\EmpleadoViewModel.cs" />
     <Compile Include="Models\FORMAFARMACEUTICA.cs">
       <DependentUpon>MiModelo.tt</DependentUpon>
     </Compile>
@@ -212,6 +215,7 @@
     <Compile Include="Models\USUARIO.cs">
       <DependentUpon>MiModelo.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\UsuarioViewModel.cs" />
     <Compile Include="Models\VENTA.cs">
       <DependentUpon>MiModelo.tt</DependentUpon>
     </Compile>
@@ -238,9 +242,11 @@
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="Content\css\Area\style.css" />
+    <Content Include="Content\css\Empleado\style.css" />
     <Content Include="Content\css\Puesto\style.css" />
     <Content Include="Content\css\Rol\style.css" />
     <Content Include="Content\css\stylesHome.css" />
+    <Content Include="Content\css\Usuario\style.css" />
     <Content Include="Content\Images\Busqueda\no-results.png" />
     <Content Include="Content\Images\Home\logoBarraInicio.png" />
     <Content Include="Content\Images\Home\logout.png" />
@@ -316,6 +322,16 @@
     <Content Include="Views\Roles\Details.cshtml" />
     <Content Include="Views\Roles\Edit.cshtml" />
     <Content Include="Views\Roles\Index.cshtml" />
+    <Content Include="Views\Empleados\Create.cshtml" />
+    <Content Include="Views\Empleados\Delete.cshtml" />
+    <Content Include="Views\Empleados\Details.cshtml" />
+    <Content Include="Views\Empleados\Edit.cshtml" />
+    <Content Include="Views\Empleados\Index.cshtml" />
+    <Content Include="Views\Usuarios\Create.cshtml" />
+    <Content Include="Views\Usuarios\Delete.cshtml" />
+    <Content Include="Views\Usuarios\Details.cshtml" />
+    <Content Include="Views\Usuarios\Edit.cshtml" />
+    <Content Include="Views\Usuarios\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

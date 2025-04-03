@@ -1,0 +1,80 @@
+﻿@model FarmaciaBelen.Models.USUARIO
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Delete</title>
+</head>
+<body>
+    <h3>Are you sure you want to delete this?</h3>
+    <div>
+        <h4>USUARIO</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.USUARIO_NOMBRE)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.USUARIO_NOMBRE)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.USUARIO_CONTRASENA)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.USUARIO_CONTRASENA)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.USUARIO_FECHAREGISTRO)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.USUARIO_FECHAREGISTRO)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.TOKEN_RECOVERY)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.TOKEN_RECOVERY)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.EMPLEADO.EMPLEADO_GENERO)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.EMPLEADO.EMPLEADO_GENERO)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.ROL.ROL_NOMBRE)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.ROL.ROL_NOMBRE)
+            </dd>
+    
+        </dl>
+    
+        @using (Html.BeginForm()) {
+            @Html.AntiForgeryToken()
+    
+            <div class="form-actions no-color">
+                <input type="submit" value="Delete" class="btn btn-default" /> |
+                @Html.ActionLink("Back to List", "Index")
+            </div>
+        }
+    </div>
+</body>
+</html>

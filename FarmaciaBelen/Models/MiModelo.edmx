@@ -225,6 +225,9 @@ advertencia 6002: La tabla o vista 'DBFARMACIABELEN.dbo.DETALLEVENTA' no tiene d
           <Property Name="USUARIO_FECHAREGISTRO" Type="datetime" />
           <Property Name="ROL_ID" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="EMPLEADO_ID" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="TOKEN_RECOVERY" Type="varchar" MaxLength="200" />
+          <Property Name="USUARIO_ESTADO" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="TOKEN_EXPIRACION" Type="datetime" />
         </EntityType>
         <EntityType Name="VENTA">
           <Key>
@@ -728,6 +731,9 @@ advertencia 6002: La tabla o vista 'DBFARMACIABELEN.dbo.DETALLEVENTA' no tiene d
           <NavigationProperty Name="EMPLEADO" Relationship="Self.FK_USUARIO_EMPLEADO_ID" FromRole="USUARIO" ToRole="EMPLEADO" />
           <NavigationProperty Name="ROL" Relationship="Self.FK_USUARIO_ROL_ID" FromRole="USUARIO" ToRole="ROL" />
           <NavigationProperty Name="VENTA" Relationship="DBFARMACIABELENModel.FK_USUARIO_ID" FromRole="USUARIO" ToRole="VENTA" />
+          <Property Name="TOKEN_RECOVERY" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="USUARIO_ESTADO" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="TOKEN_EXPIRACION" Type="DateTime" Precision="3" />
         </EntityType>
         <Association Name="FK_PUESTO_AREA_ID">
           <End Role="AREA" Type="Self.AREA" Multiplicity="1" />
@@ -1376,6 +1382,9 @@ advertencia 6002: La tabla o vista 'DBFARMACIABELEN.dbo.DETALLEVENTA' no tiene d
           <EntitySetMapping Name="USUARIO">
             <EntityTypeMapping TypeName="DBFARMACIABELENModel.USUARIO">
               <MappingFragment StoreEntitySet="USUARIO">
+                <ScalarProperty Name="TOKEN_EXPIRACION" ColumnName="TOKEN_EXPIRACION" />
+                <ScalarProperty Name="USUARIO_ESTADO" ColumnName="USUARIO_ESTADO" />
+                <ScalarProperty Name="TOKEN_RECOVERY" ColumnName="TOKEN_RECOVERY" />
                 <ScalarProperty Name="USUARIO_ID" ColumnName="USUARIO_ID" />
                 <ScalarProperty Name="USUARIO_NOMBRE" ColumnName="USUARIO_NOMBRE" />
                 <ScalarProperty Name="USUARIO_CONTRASENA" ColumnName="USUARIO_CONTRASENA" />

@@ -1,0 +1,156 @@
+﻿@model FarmaciaBelen.Models.UsuarioViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Crear Usuario</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body class="bg-light">
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="mb-0">Registrar Nuevo Usuario</h4>
+                    </div>
+                    <div class="card-body">
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <!-- Código de Usuario -->
+                            <div class="mb-3">
+                                @Html.LabelFor(model => model.USUARIO_ID, "Código", new { @class = "form-label" })*
+                                @Html.TextBoxFor(model => model.USUARIO_ID, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.USUARIO_ID, "", new { @class = "text-danger" })
+                            </div>
+
+                            <!-- Usuario -->
+                            <div class="mb-3">
+                                @Html.LabelFor(model => model.USUARIO_NOMBRE, new { @class = "form-label" })*
+                                @Html.TextBoxFor(model => model.USUARIO_NOMBRE, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.USUARIO_NOMBRE, "", new { @class = "text-danger" })
+                            </div>
+
+                            <!-- Contraseña -->
+                            <div class="mb-3">
+                                @Html.LabelFor(model => model.NuevaContrasena, new { @class = "form-label" })*
+                                @Html.PasswordFor(model => model.NuevaContrasena, new { @class = "form-control", id = "NuevaContrasena" })
+                                @Html.ValidationMessageFor(model => model.NuevaContrasena, "", new { @class = "text-danger" })
+                            </div>
+
+                            <!-- Confirmar contraseña -->
+                            <div class="mb-3">
+                                @Html.LabelFor(model => model.ConfirmarContrasena, new { @class = "form-label" })*
+                                @Html.PasswordFor(model => model.ConfirmarContrasena, new { @class = "form-control", id = "ConfirmarContrasena" })
+                                <span id="mensajeCoincidencia" class="text-danger small"></span>
+                                @Html.ValidationMessageFor(model => model.ConfirmarContrasena, "", new { @class = "text-danger" })
+                            </div>
+
+                            <!-- Rol -->
+                            <div class="mb-3">
+                                @Html.LabelFor(model => model.ROL_ID, "Rol", new { @class = "form-label" })*
+                                @Html.DropDownListFor(model => model.ROL_ID, (SelectList)ViewBag.ROL_ID, "Seleccione un rol", new { @class = "form-select" })
+                                @Html.ValidationMessageFor(model => model.ROL_ID, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="mb-3">
+                                @Html.LabelFor(model => model.USUARIO_ESTADO, new { @class = "form-label" })
+
+                                @Html.DropDownListFor(model => model.USUARIO_ESTADO,
+                                    new SelectList(
+                                        new List<SelectListItem>
+                                        {
+                                            new SelectListItem { Text = "Activo", Value = "Activo" },
+                                            new SelectListItem { Text = "Inactivo", Value = "Inactivo" }
+                                        },
+                                        "Value",
+                                        "Text",
+                                        Model?.USUARIO_ESTADO
+                                    ),
+                                    "Seleccione un estado", // <- Esta es la opción por defecto
+                                    new { @class = "form-select" })
+
+                                @Html.ValidationMessageFor(model => model.USUARIO_ESTADO, "", new { @class = "text-danger" })
+                            </div>
+
+
+                            <!-- Empleado -->
+                            <div class="mb-3">
+                                @Html.LabelFor(model => model.EMPLEADO_ID, "Empleado", new { @class = "form-label" })*
+                                @Html.DropDownListFor(model => model.EMPLEADO_ID, (SelectList)ViewBag.EMPLEADO_ID, "Seleccione un empleado", new { @class = "form-select" })
+                                @Html.ValidationMessageFor(model => model.EMPLEADO_ID, "", new { @class = "text-danger" })
+                            </div>
+
+                            <!-- Botones -->
+                            <div class="d-flex justify-content-between">
+                                <a href="@Url.Action("Index")" class="btn btn-secondary">
+                                    <i class="fas fa-arrow-left"></i> Volver
+                                </a>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save"></i> Crear Usuario
+                                </button>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de confirmación -->
+    <div class="modal fade" id="modalCreado" tabindex="-1" aria-labelledby="modalCreadoLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="modalCreadoLabel">Usuario creado</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    ¡El nuevo usuario fue registrado exitosamente!
+                </div>
+                <div class="modal-footer">
+                    <a href="@Url.Action("Index")" class="btn btn-secondary">Ir al listado</a>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        document.getElementById("ConfirmarContrasena").addEventListener("input", function () {
+            const nueva = document.getElementById("NuevaContrasena").value;
+            const confirmacion = this.value;
+            const mensaje = document.getElementById("mensajeCoincidencia");
+
+            if (nueva !== confirmacion) {
+                mensaje.textContent = "Las contraseñas no coinciden.";
+            } else {
+                mensaje.textContent = "";
+            }
+        });
+    </script>
+
+    @if (ViewBag.Creado != null && (bool)ViewBag.Creado)
+    {
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var modal = new bootstrap.Modal(document.getElementById('modalCreado'));
+                modal.show();
+            });
+        </script>
+    }
+
+</body>
+</html>
