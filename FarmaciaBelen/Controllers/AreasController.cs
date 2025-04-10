@@ -81,7 +81,7 @@ namespace FarmaciaBelen.Controllers
             var nuevaArea = new AREA
             {
                 AREA_ID = nuevoCodigo,
-                AREA_ESTADO = "Activo" // Estado por defecto
+                /*AREA_ESTADO = "Activo"*/ // Estado por defecto
             };
 
             ViewBag.Creado = TempData["Creado"]; //esto permite mostrar el modal
@@ -208,7 +208,7 @@ namespace FarmaciaBelen.Controllers
             db.Entry(aREA).State = EntityState.Modified;
             db.SaveChanges();
 
-            TempData["Desactivado"] = true; // 👈 activa el modal
+            TempData["Desactivado"] = true; // activa el modal
             return RedirectToAction("Delete", new { id = aREA.AREA_ID }); // redirige a la misma vista
         }
 

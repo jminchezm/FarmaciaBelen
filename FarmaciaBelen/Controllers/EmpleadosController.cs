@@ -139,12 +139,12 @@ namespace FarmaciaBelen.Controllers
                 Empleado = new EMPLEADO
                 {
                     EMPLEADO_ID = nuevoCodigo,
-                    EMPLEADO_ESTADO = "Activo"
+                    //EMPLEADO_ESTADO = "Activo"
                 }
             };
 
             // SelectList para el dropdown de puestos
-            ViewBag.Puestos = new SelectList(db.PUESTO.ToList(), "PUESTO_ID", "PUESTO_NOMBRE");
+            ViewBag.Puestos = new SelectList(db.PUESTO.Where(p=> p.PUESTO_ESTADO == "Activo").ToList(), "PUESTO_ID", "PUESTO_NOMBRE");
             //ViewBag.PUESTO_ID = new SelectList(db.PUESTO, "PUESTO_ID", "PUESTO_NOMBRE");
             ViewBag.Creado = TempData["Creado"];
 
@@ -204,44 +204,57 @@ namespace FarmaciaBelen.Controllers
                 System.Diagnostics.Debug.WriteLine("ID generado: " + viewModel.Persona.PERSONA_ID);
             }
 
+            // VALIDACIONES DE NIT
+            if (!string.IsNullOrWhiteSpace(viewModel.Persona.PERSONA_NIT))
+            {
+                bool nitExiste = db.PERSONA.Any(p => p.PERSONA_NIT == viewModel.Persona.PERSONA_NIT);
+                if (nitExiste)
+                {
+                    ModelState.AddModelError("Persona.PERSONA_NIT", "El NIT ya está registrado.");
+                }
+            }
+
+            // VALIDACIONES DE CUI
+            if (!string.IsNullOrWhiteSpace(viewModel.Persona.PERSONA_CUI))
+            {
+                bool cuiExiste = db.PERSONA.Any(p => p.PERSONA_CUI == viewModel.Persona.PERSONA_CUI);
+                if (cuiExiste)
+                {
+                    ModelState.AddModelError("Persona.PERSONA_CUI", "El CUI ya está registrado.");
+                }
+            }
+
+            // VALIDACIÓN DE CORREO (ignorar si es nulo o vacío)
+            if (!string.IsNullOrWhiteSpace(viewModel.Persona.PERSONA_CORREO))
+            {
+                bool correoExiste = db.PERSONA.Any(p => p.PERSONA_CORREO == viewModel.Persona.PERSONA_CORREO);
+                if (correoExiste)
+                {
+                    ModelState.AddModelError("Persona.PERSONA_CORREO", "El correo ya está registrado.");
+                }
+            }
+
+            // VALIDACIÓN DE EDAD MÍNIMA (15 años)
+            if (viewModel.Empleado.EMPLEADO_FECHANACIMIENTO != null)
+            {
+                var fechaNacimiento = viewModel.Empleado.EMPLEADO_FECHANACIMIENTO;
+                var edad = DateTime.Today.Year - fechaNacimiento.Year;
+                if (fechaNacimiento > DateTime.Today.AddYears(-edad)) edad--; // corregir si aún no ha cumplido años este año
+
+                if (edad < 15)
+                {
+                    ModelState.AddModelError("Empleado.EMPLEADO_FECHANACIMIENTO", "El empleado debe tener al menos 15 años.");
+                }
+            }
+
             if (ModelState.IsValid)
             {
                 try
                 {
-                    // VALIDACIONES DE NIT
-                    if (!string.IsNullOrWhiteSpace(viewModel.Persona.PERSONA_NIT))
-                    {
-                        bool nitExiste = db.PERSONA.Any(p => p.PERSONA_NIT == viewModel.Persona.PERSONA_NIT);
-                        if (nitExiste)
-                        {
-                            ModelState.AddModelError("Persona.PERSONA_NIT", "El NIT ya está registrado.");
-                        }
-                    }
-
-                    // VALIDACIONES DE CUI
-                    if (!string.IsNullOrWhiteSpace(viewModel.Persona.PERSONA_CUI))
-                    {
-                        bool cuiExiste = db.PERSONA.Any(p => p.PERSONA_CUI == viewModel.Persona.PERSONA_CUI);
-                        if (cuiExiste)
-                        {
-                            ModelState.AddModelError("Persona.PERSONA_CUI", "El CUI ya está registrado.");
-                        }
-                    }
-
-                    // VALIDACIÓN DE CORREO (ignorar si es nulo o vacío)
-                    if (!string.IsNullOrWhiteSpace(viewModel.Persona.PERSONA_CORREO))
-                    {
-                        bool correoExiste = db.PERSONA.Any(p => p.PERSONA_CORREO == viewModel.Persona.PERSONA_CORREO);
-                        if (correoExiste)
-                        {
-                            ModelState.AddModelError("Persona.PERSONA_CORREO", "El correo ya está registrado.");
-                        }
-                    }
-
                     // Si alguna validación falló, retornar la vista
                     if (!ModelState.IsValid)
                     {
-                        ViewBag.Puestos = new SelectList(db.PUESTO.ToList(), "PUESTO_ID", "PUESTO_NOMBRE", viewModel.Empleado.PUESTO_ID);
+                        ViewBag.Puestos = new SelectList(db.PUESTO.Where(p => p.PUESTO_ESTADO == "Activo").ToList(), "PUESTO_ID", "PUESTO_NOMBRE", viewModel.Empleado.PUESTO_ID);
                         return View(viewModel);
                     }
 
@@ -249,7 +262,7 @@ namespace FarmaciaBelen.Controllers
                     string idGenerado = viewModel.Persona.PERSONA_ID;
                     viewModel.Empleado.EMPLEADO_ID = idGenerado;
                     viewModel.Empleado.PERSONA = viewModel.Persona;
-
+                    //viewModel.Persona.PERSONA_FECHAREGISTRO = DateTime.Now; //Fecha de registro al crear.
                     // Guardar persona
                     db.PERSONA.Add(viewModel.Persona);
                     db.SaveChanges();
@@ -270,7 +283,7 @@ namespace FarmaciaBelen.Controllers
             }
 
             // Si hubo errores de validación o excepciones
-            ViewBag.Puestos = new SelectList(db.PUESTO.ToList(), "PUESTO_ID", "PUESTO_NOMBRE", viewModel.Empleado.PUESTO_ID);
+            ViewBag.Puestos = new SelectList(db.PUESTO.Where(p => p.PUESTO_ESTADO == "Activo").ToList(), "PUESTO_ID", "PUESTO_NOMBRE", viewModel.Empleado.PUESTO_ID);
             return View(viewModel);
         }
 
@@ -338,24 +351,124 @@ namespace FarmaciaBelen.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(EmpleadoViewModel viewModel)
         {
+            // VALIDACIONES DE NIT
+            if (!string.IsNullOrWhiteSpace(viewModel.Persona.PERSONA_NIT))
+            {
+                bool nitExiste = db.PERSONA.Any(p =>
+                    p.PERSONA_NIT == viewModel.Persona.PERSONA_NIT &&
+                    p.PERSONA_ID != viewModel.Persona.PERSONA_ID); // excluir al mismo empleado
+
+                if (nitExiste)
+                {
+                    ModelState.AddModelError("Persona.PERSONA_NIT", "El NIT ya está registrado por otro empleado.");
+                }
+            }
+
+            // VALIDACIONES DE CUI
+            if (!string.IsNullOrWhiteSpace(viewModel.Persona.PERSONA_CUI))
+            {
+                bool cuiExiste = db.PERSONA.Any(p =>
+                    p.PERSONA_CUI == viewModel.Persona.PERSONA_CUI &&
+                    p.PERSONA_ID != viewModel.Persona.PERSONA_ID);
+
+                if (cuiExiste)
+                {
+                    ModelState.AddModelError("Persona.PERSONA_CUI", "El CUI ya está registrado por otro empleado.");
+                }
+            }
+
+            // VALIDACIÓN DE CORREO
+            if (!string.IsNullOrWhiteSpace(viewModel.Persona.PERSONA_CORREO))
+            {
+                bool correoExiste = db.PERSONA.Any(p =>
+                    p.PERSONA_CORREO == viewModel.Persona.PERSONA_CORREO &&
+                    p.PERSONA_ID != viewModel.Persona.PERSONA_ID);
+
+                if (correoExiste)
+                {
+                    ModelState.AddModelError("Persona.PERSONA_CORREO", "El correo ya está registrado por otro empleado.");
+                }
+            }
+
+            // VALIDACIÓN DE EDAD MÍNIMA (15 años)
+            if (viewModel.Empleado.EMPLEADO_FECHANACIMIENTO != null)
+            {
+                var fechaNacimiento = viewModel.Empleado.EMPLEADO_FECHANACIMIENTO;
+                var edad = DateTime.Today.Year - fechaNacimiento.Year;
+                if (fechaNacimiento > DateTime.Today.AddYears(-edad)) edad--; // corregir si aún no ha cumplido años este año
+
+                if (edad < 15)
+                {
+                    ModelState.AddModelError("Empleado.EMPLEADO_FECHANACIMIENTO", "El empleado debe tener al menos 15 años.");
+                }
+            }
+
             if (ModelState.IsValid)
             {
                 try
                 {
-                    db.Entry(viewModel.Persona).State = EntityState.Modified;
-                    db.Entry(viewModel.Empleado).State = EntityState.Modified;
+                    // Obtener los datos actuales desde la base de datos
+                    var personaBD = db.PERSONA.Find(viewModel.Persona.PERSONA_ID);
+                    var empleadoBD = db.EMPLEADO.Find(viewModel.Empleado.EMPLEADO_ID);
 
-                    db.SaveChanges();
+                    if (personaBD != null && empleadoBD != null)
+                    {
+                        // Actualizar manualmente solo los campos permitidos de Persona
+                        personaBD.PERSONA_PRIMERNOMBRE = viewModel.Persona.PERSONA_PRIMERNOMBRE;
+                        personaBD.PERSONA_SEGUNDONOMBRE = viewModel.Persona.PERSONA_SEGUNDONOMBRE;
+                        personaBD.PERSONA_TERCERNOMBRE = viewModel.Persona.PERSONA_TERCERNOMBRE;
+                        personaBD.PERSONA_PRIMERAPELLIDO = viewModel.Persona.PERSONA_PRIMERAPELLIDO;
+                        personaBD.PERSONA_SEGUNDOAPELLIDO = viewModel.Persona.PERSONA_SEGUNDOAPELLIDO;
+                        personaBD.PERSONA_APELLIDOCASADA = viewModel.Persona.PERSONA_APELLIDOCASADA;
+                        personaBD.PERSONA_DIRECCION = viewModel.Persona.PERSONA_DIRECCION;
+                        personaBD.PERSONA_NIT = viewModel.Persona.PERSONA_NIT;
+                        personaBD.PERSONA_CUI = viewModel.Persona.PERSONA_CUI;
+                        personaBD.PERSONA_TELEFONOCASA = viewModel.Persona.PERSONA_TELEFONOCASA;
+                        personaBD.PERSONA_TELEFONOMOVIL = viewModel.Persona.PERSONA_TELEFONOMOVIL;
+                        personaBD.PERSONA_CORREO = viewModel.Persona.PERSONA_CORREO;
+                        // NO actualizar PERSONA_FECHAREGISTRO
 
-                    TempData["Editado"] = true;
-                    return RedirectToAction("Edit", new { id = viewModel.Empleado.EMPLEADO_ID });
-                    //return RedirectToAction("Index");
+                        // Actualizar manualmente los campos del empleado
+                        empleadoBD.EMPLEADO_FECHANACIMIENTO = viewModel.Empleado.EMPLEADO_FECHANACIMIENTO;
+                        empleadoBD.EMPLEADO_FECHAINGRESO = viewModel.Empleado.EMPLEADO_FECHAINGRESO;
+                        empleadoBD.EMPLEADO_GENERO = viewModel.Empleado.EMPLEADO_GENERO;
+                        empleadoBD.EMPLEADO_ESTADO = viewModel.Empleado.EMPLEADO_ESTADO;
+                        empleadoBD.PUESTO_ID = viewModel.Empleado.PUESTO_ID;
+
+                        db.SaveChanges();
+
+                        TempData["Editado"] = true;
+                        return RedirectToAction("Edit", new { id = viewModel.Empleado.EMPLEADO_ID });
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "No se encontró al empleado o persona.");
+                    }
                 }
                 catch (Exception ex)
                 {
                     ModelState.AddModelError("", "Error al guardar los cambios: " + ex.Message);
                 }
             }
+
+            //if (ModelState.IsValid)
+            //{
+            //    try
+            //    {
+            //        db.Entry(viewModel.Persona).State = EntityState.Modified;
+            //        db.Entry(viewModel.Empleado).State = EntityState.Modified;
+
+            //        db.SaveChanges();
+
+            //        TempData["Editado"] = true;
+            //        return RedirectToAction("Edit", new { id = viewModel.Empleado.EMPLEADO_ID });
+            //        //return RedirectToAction("Index");
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        ModelState.AddModelError("", "Error al guardar los cambios: " + ex.Message);
+            //    }
+            //}
 
             ViewBag.Puestos = new SelectList(db.PUESTO, "PUESTO_ID", "PUESTO_NOMBRE", viewModel.Empleado.PUESTO_ID);
             return View(viewModel);
@@ -393,7 +506,7 @@ namespace FarmaciaBelen.Controllers
                 Empleado = empleado
             };
 
-            ViewBag.Desactivado = TempData["Desactivado"]; // ✅ importante para el modal
+            ViewBag.Desactivado = TempData["Desactivado"]; // importante para el modal
             return View(viewModel);
         }
 

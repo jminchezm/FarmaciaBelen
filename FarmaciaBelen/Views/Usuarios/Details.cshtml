@@ -17,7 +17,7 @@
     <div class="container mt-5">
         <div class="card shadow">
             <div class="card-header bg-info text-white">
-                <h4 class="mb-0">Detalles del Usuario</h4>
+                <h4 class="mb-0"><b>Detalles del Usuario:</b> @Html.DisplayFor(model => model.USUARIO_ID)</h4>
             </div>
             <div class="card-body">
 
@@ -49,6 +49,11 @@
                 <div class="row mb-3">
                     <div class="col-sm-4 fw-bold">Rol Asignado:</div>
                     <div class="col-sm-8">@Html.DisplayFor(model => model.ROL.ROL_NOMBRE)</div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-sm-4 fw-bold">Estado del Usuario:</div>
+                    <div class="col-sm-8">@Html.DisplayFor(model => model.USUARIO_ESTADO)</div>
                 </div>
 
                 <div class="row mb-3">

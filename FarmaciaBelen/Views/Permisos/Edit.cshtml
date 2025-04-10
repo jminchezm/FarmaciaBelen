@@ -1,0 +1,99 @@
+﻿@model FarmaciaBelen.Models.PERMISOS
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Editar Permiso</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body class="bg-light">
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow">
+                    <div class="card-header bg-warning text-dark">
+                        <h4 class="mb-0"><b>Editar Permiso:</b> @Html.DisplayFor(model => model.PERMISOS_ID)</h4>
+                    </div>
+                    <div class="card-body">
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.HiddenFor(model => model.PERMISOS_ID)
+
+                            <div class="mb-3">
+                                <b>@Html.LabelFor(model => model.ROL_ID, "Rol", new { @class = "form-label" })*</b>
+                                @Html.DropDownList("ROL_ID", null, "Seleccione un rol", new { @class = "form-select" })
+                                @Html.ValidationMessageFor(model => model.ROL_ID, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="mb-3">
+                                <b>@Html.LabelFor(model => model.MODULO_ID, "Módulo", new { @class = "form-label" })*</b>
+                                @Html.DropDownList("MODULO_ID", null, "Seleccione un módulo", new { @class = "form-select" })
+                                @Html.ValidationMessageFor(model => model.MODULO_ID, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-check mb-3">
+                                @Html.CheckBoxFor(model => model.PERMISOS_PUEDEACCEDER, new { @class = "form-check-input", id = "chkPermiso" })
+                                <label class="form-check-label" for="chkPermiso">
+                                    @Html.DisplayNameFor(model => model.PERMISOS_PUEDEACCEDER)
+                                </label>
+                                @Html.ValidationMessageFor(model => model.PERMISOS_PUEDEACCEDER, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="d-flex justify-content-between">
+                                <a href="@Url.Action("Index")" class="btn btn-secondary">
+                                    <i class="fas fa-arrow-left"></i> Cancelar
+                                </a>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save"></i> Guardar Cambios
+                                </button>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de confirmación -->
+    <div class="modal fade" id="modalEditado" tabindex="-1" aria-labelledby="modalEditadoLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="modalEditadoLabel">Permiso actualizado</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    Los cambios fueron guardados correctamente.
+                </div>
+                <div class="modal-footer">
+                    <a href="@Url.Action("Index")" class="btn btn-secondary">Ir al listado</a>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+    @if (ViewBag.Editado != null && (bool)ViewBag.Editado)
+    {
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var modal = new bootstrap.Modal(document.getElementById('modalEditado'));
+                modal.show();
+            });
+        </script>
+    }
+
+</body>
+</html>

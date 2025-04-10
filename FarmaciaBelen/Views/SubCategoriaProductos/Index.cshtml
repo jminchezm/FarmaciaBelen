@@ -1,0 +1,125 @@
+﻿@model IEnumerable<FarmaciaBelen.Models.SUBCATEGORIAPRODUCTO>
+
+@{
+    ViewBag.Title = "Listado de Subcategorías";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewBag.Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="~/Content/css/SubCategoria/style.css" />
+</head>
+<body class="bg-light">
+
+    <div class="container mt-5">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="text-primary">@ViewBag.Title</h2>
+            <a href="@Url.Action("Create")" class="btn btn-success">
+                <i class="fas fa-plus-circle"></i> Nueva Subcategoría
+            </a>
+        </div>
+
+        <!-- Puedes agregar filtros aquí si los necesitas, por ahora se deja limpio -->
+        @using (Html.BeginForm("Index", "SubCategoriaProductos", FormMethod.Get))
+        {
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <label class="form-label"><b>Código</b></label>
+                            <input type="text" name="codigo" value="@Request["Tipo"]" class="form-control" placeholder="Buscar por código" />
+
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label"><b>Nombre</b></label>
+                            <input type="text" name="nombre" value="@Request["nombre"]" class="form-control" placeholder="Buscar por nombre" />
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label"><b>Estado</b></label>
+                            <select name="estado" class="form-select">
+                                <option value="">Todos</option>
+                                <option value="Activo" @(Request["estado"] == "Activo" ? "selected" : "")>Activo</option>
+                                <option value="Inactivo" @(Request["estado"] == "Inactivo" ? "selected" : "")>Inactivo</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="fas fa-search"></i> Buscar
+                            </button>
+                        </div>
+                        <div class="col-md-1 d-flex align-items-end">
+                            <a class="btn btn-secondary w-100">
+                                <i class="fas fa-print"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+
+        <div class="table-responsive">
+            @if (!Model.Any())
+            {
+                <div class="alert alert-warning text-center">
+                    <i class="fas fa-exclamation-circle fa-2x d-block mb-2"></i>
+                    <strong>No se encontraron subcategorías disponibles.</strong>
+                </div>
+
+                <div class="text-center">
+                    <img src="~/Content/Images/Busqueda/no-results.png" alt="Sin resultados" style="max-width: 220px;" />
+                </div>
+            }
+            else
+            {
+                <table class="table table-bordered table-hover table-striped shadow-sm table-fixed-header">
+                    <thead class="table-primary">
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.First().SUBCATEGORIAPRODUCTO_ID)</th>
+                            <th>@Html.DisplayNameFor(model => model.First().SUBCATEGORIAPRODUCTO_NOMBRE)</th>
+                            <th>@Html.DisplayNameFor(model => model.First().SUBCATEGORIAPRODUCTO_DESCRIPCION)</th>
+                            <th>Categoría</th>
+                            <th>@Html.DisplayNameFor(model => model.First().SUBCATEGORIAPRODUCTO_ESTADO)</th>
+
+                            <th class="text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => item.SUBCATEGORIAPRODUCTO_ID)</td>
+                                <td>@Html.DisplayFor(modelItem => item.SUBCATEGORIAPRODUCTO_NOMBRE)</td>
+                                <td>@Html.DisplayFor(modelItem => item.SUBCATEGORIAPRODUCTO_DESCRIPCION)</td>
+                                <td>@Html.DisplayFor(modelItem => item.CATEGORIAPRODUCTO.CATEGORIAPRODUCTO_NOMBRE)</td>
+                                <td>@Html.DisplayFor(modelItem => item.SUBCATEGORIAPRODUCTO_ESTADO)</td>
+                                <td class="text-center">
+                                    <div class="d-flex justify-content-center gap-2">
+                                        <a href="@Url.Action("Edit", new { id = item.SUBCATEGORIAPRODUCTO_ID })" class="btn btn-sm btn-warning">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a href="@Url.Action("Details", new { id = item.SUBCATEGORIAPRODUCTO_ID })" class="btn btn-sm btn-info text-white">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="@Url.Action("Delete", new { id = item.SUBCATEGORIAPRODUCTO_ID })" class="btn btn-sm btn-danger">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+
+    <!-- Bootstrap y FontAwesome JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

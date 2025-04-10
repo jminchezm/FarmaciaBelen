@@ -23,6 +23,7 @@ namespace FarmaciaBelen.Models
         public string FORMAFARMACEUTICA_ID { get; set; }
         public string FARMAFARMACEUTICA_NOMBRE { get; set; }
         public string FORMAFARMACEUTICA_DESCRIPCION { get; set; }
+        public string FORMAFARMACEUTICA_ESTADO { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PRODUCTO> PRODUCTO { get; set; }

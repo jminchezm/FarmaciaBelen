@@ -129,12 +129,18 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AccessController.cs" />
     <Compile Include="Controllers\AreasController.cs" />
+    <Compile Include="Controllers\CategoriaProductosController.cs" />
     <Compile Include="Controllers\EmpleadosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\ModulosController.cs" />
+    <Compile Include="Controllers\PermisosController.cs" />
+    <Compile Include="Controllers\ProveedoresController.cs" />
     <Compile Include="Controllers\PuestosController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
+    <Compile Include="Controllers\SubCategoriaProductosController.cs" />
     <Compile Include="Controllers\UsuariosController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -222,6 +228,8 @@
     <Compile Include="Models\VIAADMINISTRACION.cs">
       <DependentUpon>MiModelo.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ViewModel\RecoveryPasswordViewModel.cs" />
+    <Compile Include="Models\ViewModel\RecoveryViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -242,10 +250,14 @@
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="Content\css\Area\style.css" />
+    <Content Include="Content\css\Categoria\style.css" />
     <Content Include="Content\css\Empleado\style.css" />
+    <Content Include="Content\css\Modulo\style.css" />
+    <Content Include="Content\css\Proveedor\style.css" />
     <Content Include="Content\css\Puesto\style.css" />
     <Content Include="Content\css\Rol\style.css" />
     <Content Include="Content\css\stylesHome.css" />
+    <Content Include="Content\css\SubCategoria\style.css" />
     <Content Include="Content\css\Usuario\style.css" />
     <Content Include="Content\Images\Busqueda\no-results.png" />
     <Content Include="Content\Images\Home\logoBarraInicio.png" />
@@ -332,6 +344,33 @@
     <Content Include="Views\Usuarios\Details.cshtml" />
     <Content Include="Views\Usuarios\Edit.cshtml" />
     <Content Include="Views\Usuarios\Index.cshtml" />
+    <Content Include="Views\Modulos\Create.cshtml" />
+    <Content Include="Views\Modulos\Delete.cshtml" />
+    <Content Include="Views\Modulos\Details.cshtml" />
+    <Content Include="Views\Modulos\Edit.cshtml" />
+    <Content Include="Views\Modulos\Index.cshtml" />
+    <Content Include="Views\Permisos\Create.cshtml" />
+    <Content Include="Views\Permisos\Delete.cshtml" />
+    <Content Include="Views\Permisos\Details.cshtml" />
+    <Content Include="Views\Permisos\Edit.cshtml" />
+    <Content Include="Views\Permisos\Index.cshtml" />
+    <Content Include="Views\Access\Recovery.cshtml" />
+    <Content Include="Views\Access\StartRecovery.cshtml" />
+    <Content Include="Views\CategoriaProductos\Create.cshtml" />
+    <Content Include="Views\CategoriaProductos\Delete.cshtml" />
+    <Content Include="Views\CategoriaProductos\Details.cshtml" />
+    <Content Include="Views\CategoriaProductos\Edit.cshtml" />
+    <Content Include="Views\CategoriaProductos\Index.cshtml" />
+    <Content Include="Views\SubCategoriaProductos\Create.cshtml" />
+    <Content Include="Views\SubCategoriaProductos\Delete.cshtml" />
+    <Content Include="Views\SubCategoriaProductos\Details.cshtml" />
+    <Content Include="Views\SubCategoriaProductos\Edit.cshtml" />
+    <Content Include="Views\SubCategoriaProductos\Index.cshtml" />
+    <Content Include="Views\Proveedores\Create.cshtml" />
+    <Content Include="Views\Proveedores\Delete.cshtml" />
+    <Content Include="Views\Proveedores\Details.cshtml" />
+    <Content Include="Views\Proveedores\Edit.cshtml" />
+    <Content Include="Views\Proveedores\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

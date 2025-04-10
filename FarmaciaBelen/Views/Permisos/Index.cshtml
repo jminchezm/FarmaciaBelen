@@ -1,0 +1,113 @@
+﻿@model IEnumerable<FarmaciaBelen.Models.PERMISOS>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Listado de Permisos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body class="bg-light">
+
+    <div class="container mt-5">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="text-primary">Listado de Permisos</h2>
+            <a href="@Url.Action("Create")" class="btn btn-success">
+                <i class="fas fa-plus-circle"></i> Nuevo Permiso
+            </a>
+        </div>
+
+        <!-- Filtros de búsqueda -->
+        @using (Html.BeginForm("Index", "Permisos", FormMethod.Get))
+        {
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label class="form-label">Rol</label>
+                            <input type="text" name="rol" value="@Request["rol"]" class="form-control" placeholder="Buscar por nombre del rol" />
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Módulo</label>
+                            <input type="text" name="modulo" value="@Request["modulo"]" class="form-control" placeholder="Buscar por nombre del módulo" />
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">¿Puede acceder?</label>
+                            <select name="puedeAcceder" class="form-select">
+                                <option value="">Todos</option>
+                                <option value="True" @(Request["puedeAcceder"] == "True" ? "selected" : "")>Sí</option>
+                                <option value="False" @(Request["puedeAcceder"] == "False" ? "selected" : "")>No</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="fas fa-search"></i> Buscar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <!-- Tabla de resultados -->
+        <div class="table-responsive">
+            @if (!Model.Any())
+            {
+                <div class="alert alert-warning text-center">
+                    <i class="fas fa-exclamation-circle fa-2x d-block mb-2"></i>
+                    <strong>No se encontraron permisos que coincidan con la búsqueda.</strong>
+                </div>
+
+                <div class="text-center">
+                    <img src="~/Content/Images/Busqueda/no-results.png" alt="Sin resultados" style="max-width: 220px;" />
+                </div>
+            }
+            else
+            {
+                <table class="table table-bordered table-hover table-striped shadow-sm table-fixed-header">
+                    <thead class="table-primary">
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.First().PERMISOS_PUEDEACCEDER)</th>
+                            <th>@Html.DisplayNameFor(model => model.First().MODULO.MODULO_NOMBRE)</th>
+                            <th>@Html.DisplayNameFor(model => model.First().ROL.ROL_NOMBRE)</th>
+                            <th class="text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@(item.PERMISOS_PUEDEACCEDER ? "Sí" : "No")</td>
+                                <td>@Html.DisplayFor(modelItem => item.MODULO.MODULO_NOMBRE)</td>
+                                <td>@Html.DisplayFor(modelItem => item.ROL.ROL_NOMBRE)</td>
+                                <td class="text-center">
+                                    <div class="d-flex justify-content-center gap-2">
+                                        <a href="@Url.Action("Edit", new { id = item.PERMISOS_ID })" class="btn btn-sm btn-warning">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a href="@Url.Action("Details", new { id = item.PERMISOS_ID })" class="btn btn-sm btn-info text-white">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="@Url.Action("Delete", new { id = item.PERMISOS_ID })" class="btn btn-sm btn-danger">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+
+    <!-- Bootstrap y FontAwesome JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</body>
+</html>

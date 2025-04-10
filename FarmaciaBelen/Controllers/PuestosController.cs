@@ -76,11 +76,11 @@ namespace FarmaciaBelen.Controllers
             var nuevoPuesto = new PUESTO
             {
                 PUESTO_ID = nuevoCodigo,
-                PUESTO_ESTADO = "Activo" // Estado por defecto
+                /*PUESTO_ESTADO = "Activo"*/ // Estado por defecto
             };
 
             //IMPORTANTE: Asignar la lista de áreas
-            ViewBag.AREA_ID = new SelectList(db.AREA, "AREA_ID", "AREA_NOMBRE");
+            ViewBag.AREA_ID = new SelectList(db.AREA.Where(a=>a.AREA_ESTADO == "Activo"), "AREA_ID", "AREA_NOMBRE");
 
             ViewBag.Creado = TempData["Creado"]; //esto permite mostrar el modal
             return View(nuevoPuesto);
@@ -105,7 +105,7 @@ namespace FarmaciaBelen.Controllers
             }
 
             //IMPORTANTE: Asignar la lista de áreas
-            ViewBag.AREA_ID = new SelectList(db.AREA, "AREA_ID", "AREA_NOMBRE");
+            ViewBag.AREA_ID = new SelectList(db.AREA.Where(a => a.AREA_ESTADO == "Activo"), "AREA_ID", "AREA_NOMBRE");
 
             return View(puesto);
         }
@@ -123,7 +123,7 @@ namespace FarmaciaBelen.Controllers
                 return HttpNotFound();
             }
 
-            ViewBag.AREA_ID = new SelectList(db.AREA, "AREA_ID", "AREA_NOMBRE", pUESTO.AREA_ID);
+            ViewBag.AREA_ID = new SelectList(db.AREA.Where(a => a.AREA_ESTADO == "Activo"), "AREA_ID", "AREA_NOMBRE", pUESTO.AREA_ID);
 
             ViewBag.Editado = TempData["Editado"];
             return View(pUESTO);
@@ -146,7 +146,7 @@ namespace FarmaciaBelen.Controllers
                 //return RedirectToAction("Index");
             }
 
-            ViewBag.AREA_ID = new SelectList(db.AREA, "AREA_ID", "AREA_NOMBRE", pUESTO.AREA_ID);
+            ViewBag.AREA_ID = new SelectList(db.AREA.Where(a => a.AREA_ESTADO == "Activo"), "AREA_ID", "AREA_NOMBRE", pUESTO.AREA_ID);
             return View(pUESTO);
         }
 

@@ -29,17 +29,17 @@
                 <div class="card-body">
                     <div class="row g-3">
                         <div class="col-md-3">
-                            <label class="form-label">Código o usuario</label>
+                            <label class="form-label"><b>Código o usuario</b></label>
                             <input type="text" name="codigo" value="@Request["codigo"]" class="form-control" placeholder="Buscar por código o usuario" />
                         </div>
 
-                        <div class="col-md-3">
-                            <label class="form-label">Nombre</label>
+                        <div class="col-md-4">
+                            <label class="form-label"><b>Nombre</b></label>
                             <input type="text" name="nombre" value="@Request["nombre"]" class="form-control" placeholder="Buscar por nombre" />
                         </div>
 
                         <div class="col-md-2">
-                            <label class="form-label">Rol</label>
+                            <label class="form-label"><b>Rol</b></label>
                             <select name="rol" class="form-select">
                                 <option value="">Todos</option>
                                 @foreach (var rol in ViewBag.Roles as List<SelectListItem>)
@@ -50,7 +50,7 @@
                         </div>
 
                         <div class="col-md-2">
-                            <label class="form-label">Estado</label>
+                            <label class="form-label"><b>Estado</b></label>
                             <select name="estado" class="form-select">
                                 <option value="">Todos</option>
                                 <option value="Activo" @(Request["estado"] == "Activo" ? "selected" : "")>Activo</option>
@@ -69,18 +69,24 @@
         </div>*@
 
                         <div class="col-md-4">
-                            <label class="form-label">Fecha ingreso (inicio)</label>
+                            <label class="form-label"><b>Fecha ingreso (inicio)</b></label>
                             <input type="date" name="fechaInicio" value="@Request["fechaInicio"]" class="form-control" />
                         </div>
 
                         <div class="col-md-4">
-                            <label class="form-label">Fecha ingreso (fin)</label>
+                            <label class="form-label"><b>Fecha ingreso (fin)</b></label>
                             <input type="date" name="fechaFin" value="@Request["fechaFin"]" class="form-control" />
                         </div>
                         <div class="col-md-2 d-flex align-items-end">
                             <button type="submit" class="btn btn-primary w-100">
                                 <i class="fas fa-search"></i> Buscar
                             </button>
+                        </div>
+
+                        <div class="col-md-1 d-flex align-items-end">
+                            <a class="btn btn-secondary w-100">
+                                <i class="fas fa-print"></i>
+                            </a>
                         </div>
                     </div>
 

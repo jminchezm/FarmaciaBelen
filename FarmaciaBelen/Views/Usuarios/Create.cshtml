@@ -11,6 +11,7 @@
     <title>Crear Usuario</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="~/Content/css/Usuario/style.css" />
 </head>
 <body class="bg-light">
 
@@ -28,42 +29,69 @@
 
                             <!-- Código de Usuario -->
                             <div class="mb-3">
-                                @Html.LabelFor(model => model.USUARIO_ID, "Código", new { @class = "form-label" })*
+                                <b>@Html.LabelFor(model => model.USUARIO_ID, "Código", new { @class = "form-label" })*</b>
                                 @Html.TextBoxFor(model => model.USUARIO_ID, new { @class = "form-control" })
                                 @Html.ValidationMessageFor(model => model.USUARIO_ID, "", new { @class = "text-danger" })
                             </div>
 
                             <!-- Usuario -->
                             <div class="mb-3">
-                                @Html.LabelFor(model => model.USUARIO_NOMBRE, new { @class = "form-label" })*
-                                @Html.TextBoxFor(model => model.USUARIO_NOMBRE, new { @class = "form-control" })
+                                <b>@Html.LabelFor(model => model.USUARIO_NOMBRE, new { @class = "form-label" })*</b>
+                                @Html.TextBoxFor(model => model.USUARIO_NOMBRE, new
+                           {
+                               @class = "form-control",
+                               maxlength = "50",
+                               placeholder = "Ingrese nombre de usuario (máximo 50 caracteres)"
+                           })
                                 @Html.ValidationMessageFor(model => model.USUARIO_NOMBRE, "", new { @class = "text-danger" })
                             </div>
 
                             <!-- Contraseña -->
-                            <div class="mb-3">
-                                @Html.LabelFor(model => model.NuevaContrasena, new { @class = "form-label" })*
-                                @Html.PasswordFor(model => model.NuevaContrasena, new { @class = "form-control", id = "NuevaContrasena" })
-                                @Html.ValidationMessageFor(model => model.NuevaContrasena, "", new { @class = "text-danger" })
-                            </div>
+                    <div class="mb-3">
+                        <b>@Html.LabelFor(model => model.NuevaContrasena, new { @class = "form-label" })*</b>
+                        
+                        <p>
+                            <b>Nota:</b> La contraseña debe de tener los siguientes requisitos.
+                            <br />
+                            ✅ Tener al menos una letra minúscula. <br />
+                            ✅ Tener al menos una letra mayúscula. <br />
+                            ✅ Tener al menos un número. <br />
+                            ✅ Tener una longitud entre 8 y 15 caracteres. <br />
+                        </p>
+                       
+                        @Html.PasswordFor(model => model.NuevaContrasena, new
+                       {
+                            @class = "form-control",
+                           id = "NuevaContrasena",
+                           //maxlength = "50",
+                           placeholder = "Ingrese contraseña"
+                       })
+                        @Html.ValidationMessageFor(model => model.NuevaContrasena, "", new { @class = "text-danger" })
+                    </div>
 
                             <!-- Confirmar contraseña -->
                             <div class="mb-3">
-                                @Html.LabelFor(model => model.ConfirmarContrasena, new { @class = "form-label" })*
-                                @Html.PasswordFor(model => model.ConfirmarContrasena, new { @class = "form-control", id = "ConfirmarContrasena" })
+                                <b>@Html.LabelFor(model => model.ConfirmarContrasena, new { @class = "form-label" })*</b>
+                                @Html.PasswordFor(model => model.ConfirmarContrasena, new
+                           {
+                               @class = "form-control",
+                               id = "ConfirmarContrasena",
+                               //maxlength = "50",
+                               placeholder = "Repita la contraseña"
+                           })
                                 <span id="mensajeCoincidencia" class="text-danger small"></span>
                                 @Html.ValidationMessageFor(model => model.ConfirmarContrasena, "", new { @class = "text-danger" })
                             </div>
 
                             <!-- Rol -->
                             <div class="mb-3">
-                                @Html.LabelFor(model => model.ROL_ID, "Rol", new { @class = "form-label" })*
+                                <b>@Html.LabelFor(model => model.ROL_ID, "Rol", new { @class = "form-label" })*</b>
                                 @Html.DropDownListFor(model => model.ROL_ID, (SelectList)ViewBag.ROL_ID, "Seleccione un rol", new { @class = "form-select" })
                                 @Html.ValidationMessageFor(model => model.ROL_ID, "", new { @class = "text-danger" })
                             </div>
 
                             <div class="mb-3">
-                                @Html.LabelFor(model => model.USUARIO_ESTADO, new { @class = "form-label" })
+                                <b>@Html.LabelFor(model => model.USUARIO_ESTADO, new { @class = "form-label" })</b>
 
                                 @Html.DropDownListFor(model => model.USUARIO_ESTADO,
                                     new SelectList(
@@ -85,7 +113,7 @@
 
                             <!-- Empleado -->
                             <div class="mb-3">
-                                @Html.LabelFor(model => model.EMPLEADO_ID, "Empleado", new { @class = "form-label" })*
+                                <b>@Html.LabelFor(model => model.EMPLEADO_ID, "Empleado", new { @class = "form-label" })*</b>
                                 @Html.DropDownListFor(model => model.EMPLEADO_ID, (SelectList)ViewBag.EMPLEADO_ID, "Seleccione un empleado", new { @class = "form-select" })
                                 @Html.ValidationMessageFor(model => model.EMPLEADO_ID, "", new { @class = "text-danger" })
                             </div>

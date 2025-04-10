@@ -18,7 +18,7 @@
             <div class="col-md-8">
                 <div class="card shadow">
                     <div class="card-header bg-warning text-dark">
-                        <h4 class="mb-0">Editar Área</h4>
+                        <h4 class="mb-0"><b>Editar Área:</b> @Html.DisplayFor(model => model.AREA_ID)</h4>
                     </div>
                     <div class="card-body">
                         @using (Html.BeginForm())
@@ -28,31 +28,62 @@
                             @Html.HiddenFor(model => model.AREA_ID)
 
                             <div class="mb-3">
-                                @Html.LabelFor(model => model.AREA_NOMBRE, new { @class = "form-label" })
-                                @Html.EditorFor(model => model.AREA_NOMBRE, new { htmlAttributes = new { @class = "form-control" } })
+                                <b>@Html.LabelFor(model => model.AREA_NOMBRE, new { @class = "form-label" })*</b>
+                                @Html.EditorFor(model => model.AREA_NOMBRE, new
+                                {
+                                    htmlAttributes = new
+                               {
+                                   @class = "form-control",
+                                   maxlength = "100",
+                                   placeholder = "Ingrese el nombre del área (máximo 100 carcteres)"
+                               }
+                                })
                                 @Html.ValidationMessageFor(model => model.AREA_NOMBRE, "", new { @class = "text-danger" })
                             </div>
 
                             <div class="mb-3">
-                                @Html.LabelFor(model => model.AREA_DESCRIPCION, new { @class = "form-label" })
-                                @Html.EditorFor(model => model.AREA_DESCRIPCION, new { htmlAttributes = new { @class = "form-control" } })
+                                <b>@Html.LabelFor(model => model.AREA_DESCRIPCION, new { @class = "form-label" })*</b>
+
+                                @Html.TextAreaFor(model => model.AREA_DESCRIPCION, new
+                                {
+                                    @class = "form-control",
+                                    maxlength = "250",
+                                    rows = "4", // opcional: define cuántas filas visibles tiene el textarea
+                                    placeholder = "Ingrese la descripción del área (máximo 250 caracteres)"
+                                })
+
                                 @Html.ValidationMessageFor(model => model.AREA_DESCRIPCION, "", new { @class = "text-danger" })
                             </div>
 
+                            @*<div class="mb-3">
+                @Html.LabelFor(model => model.AREA_DESCRIPCION, new { @class = "form-label" })
+                @Html.EditorFor(model => model.AREA_DESCRIPCION, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.AREA_DESCRIPCION, "", new { @class = "text-danger" })
+            </div>*@
+
                             <div class="mb-3">
-                                @Html.LabelFor(model => model.AREA_EXTENSION, new { @class = "form-label" })
-                                @Html.EditorFor(model => model.AREA_EXTENSION, new { htmlAttributes = new { @class = "form-control" } })
+                                <b>@Html.LabelFor(model => model.AREA_EXTENSION, new { @class = "form-label" })*</b>
+                                @Html.EditorFor(model => model.AREA_EXTENSION, new { htmlAttributes = new
+                               {
+                                   @class = "form-control",
+                                   maxlength = "8",
+                                   placeholder = "Ingrese la extensión o telefono del área (máximo 8 digitos)"
+                               } })
                                 @Html.ValidationMessageFor(model => model.AREA_EXTENSION, "", new { @class = "text-danger" })
                             </div>
 
                             <div class="mb-3">
-                                @Html.LabelFor(model => model.AREA_CORREO, new { @class = "form-label" })
-                                @Html.EditorFor(model => model.AREA_CORREO, new { htmlAttributes = new { @class = "form-control" } })
+                                <b>@Html.LabelFor(model => model.AREA_CORREO, new { @class = "form-label" })</b>
+                                @Html.EditorFor(model => model.AREA_CORREO, new { htmlAttributes = new
+                                {
+                                    @class = "form-control",
+                                    placeholder = "Ingrese el correo electrónico del área"
+                                } })
                                 @Html.ValidationMessageFor(model => model.AREA_CORREO, "", new { @class = "text-danger" })
                             </div>
 
                             <div class="mb-3">
-                                @Html.LabelFor(model => model.AREA_ESTADO, new { @class = "form-label" })
+                                <b>@Html.LabelFor(model => model.AREA_ESTADO, new { @class = "form-label" })*</b>
 
                                 @Html.DropDownListFor(model => model.AREA_ESTADO,
                                     new SelectList(

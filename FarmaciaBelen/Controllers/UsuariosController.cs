@@ -54,7 +54,7 @@ namespace FarmaciaBelen.Controllers
 
             // Rango de fechas basado en la fecha de ingreso del empleado
             if (fechaInicio.HasValue)
-                usuarios = usuarios.Where(u => u.USUARIO_FECHAREGISTRO>= fechaInicio.Value);
+                usuarios = usuarios.Where(u => u.USUARIO_FECHAREGISTRO >= fechaInicio.Value);
 
             if (fechaFin.HasValue)
                 usuarios = usuarios.Where(u => u.USUARIO_FECHAREGISTRO <= fechaFin.Value);
@@ -122,7 +122,7 @@ namespace FarmaciaBelen.Controllers
                 "EMPLEADO_ID", "NombreCompleto", viewModel.EMPLEADO_ID
             );
 
-            ViewBag.ROL_ID = new SelectList(db.ROL.ToList(), "ROL_ID", "ROL_NOMBRE", viewModel.ROL_ID);
+            ViewBag.ROL_ID = new SelectList(db.ROL.Where(r => r.ROL_ESTADO == "Activo").ToList(), "ROL_ID", "ROL_NOMBRE", viewModel.ROL_ID);
         }
 
 
@@ -216,24 +216,47 @@ namespace FarmaciaBelen.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(UsuarioViewModel viewModel)
         {
+            //Validación extra por seguridad
+            if (string.IsNullOrWhiteSpace(viewModel.NuevaContrasena) || string.IsNullOrWhiteSpace(viewModel.ConfirmarContrasena))
+            {
+                ModelState.AddModelError("NuevaContrasena", "Debe ingresar y confirmar la contraseña.");
+                //CargarListas(viewModel);
+                //return View(viewModel);
+            }
+
+            //Validación para la selección del empleado
+            if (string.IsNullOrWhiteSpace(viewModel.EMPLEADO_ID))
+            {
+                ModelState.AddModelError("EMPLEADO_ID", "Debe seleccionar un empleado");
+                //CargarListas(viewModel);
+                //return View(viewModel);
+            }
+
+            //if (viewModel.NuevaContrasena != viewModel.ConfirmarContrasena)
+            //{
+            //    ModelState.AddModelError("", "Las contraseñas no coinciden.");
+            //    //CargarListas(viewModel);
+            //    //return View(viewModel);
+            //}
+
             if (ModelState.IsValid)
             {
                 try
                 {
-                    // Validación extra por seguridad
-                    if (string.IsNullOrWhiteSpace(viewModel.NuevaContrasena) || string.IsNullOrWhiteSpace(viewModel.ConfirmarContrasena))
-                    {
-                        ModelState.AddModelError("", "Debe ingresar y confirmar la contraseña.");
-                        CargarListas(viewModel);
-                        return View(viewModel);
-                    }
+                    //// Validación extra por seguridad
+                    //if (string.IsNullOrWhiteSpace(viewModel.NuevaContrasena) || string.IsNullOrWhiteSpace(viewModel.ConfirmarContrasena))
+                    //{
+                    //    ModelState.AddModelError("viewModel.USUARIO_CONTRASENA", "Debe ingresar y confirmar la contraseña.");
+                    //    CargarListas(viewModel);
+                    //    return View(viewModel);
+                    //}
 
-                    if (viewModel.NuevaContrasena != viewModel.ConfirmarContrasena)
-                    {
-                        ModelState.AddModelError("", "Las contraseñas no coinciden.");
-                        CargarListas(viewModel);
-                        return View(viewModel);
-                    }
+                    //if (viewModel.NuevaContrasena != viewModel.ConfirmarContrasena)
+                    //{
+                    //    ModelState.AddModelError("", "Las contraseñas no coinciden.");
+                    //    CargarListas(viewModel);
+                    //    return View(viewModel);
+                    //}
 
                     // Encriptar la contraseña usando SHA256
                     byte[] passwordHash = EncriptarSHA256(viewModel.NuevaContrasena);
@@ -312,10 +335,11 @@ namespace FarmaciaBelen.Controllers
                     usuario.EMPLEADO.PERSONA.PERSONA_SEGUNDOAPELLIDO,
                     usuario.EMPLEADO.PERSONA.PERSONA_APELLIDOCASADA
                 }.Where(s => !string.IsNullOrWhiteSpace(s))),
-                USUARIO_FECHAREGISTRO = (DateTime)usuario.USUARIO_FECHAREGISTRO
+                USUARIO_FECHAREGISTRO = (DateTime)usuario.USUARIO_FECHAREGISTRO,
+                USUARIO_ESTADO = usuario.USUARIO_ESTADO
             };
 
-            ViewBag.ROL_ID = new SelectList(db.ROL, "ROL_ID", "ROL_NOMBRE", usuario.ROL_ID);
+            ViewBag.ROL_ID = new SelectList(db.ROL.Where(r => r.ROL_ESTADO == "Activo"), "ROL_ID", "ROL_NOMBRE", usuario.ROL_ID);
             //ViewBag.EMPLEADO_ID = new SelectList(db.EMPLEADO, "EMPLEADO_ID", "EMPLEADO_ID", usuario.EMPLEADO_ID);
             ViewBag.Editado = TempData["Editado"];
 
@@ -326,39 +350,238 @@ namespace FarmaciaBelen.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(UsuarioViewModel viewModel)
         {
-            if (ModelState.IsValid)
+            // Verificación manual: si se desea cambiar la contraseña, ambos campos deben estar llenos
+            bool quiereCambiarContrasena = !string.IsNullOrWhiteSpace(viewModel.NuevaContrasena) ||
+                                            !string.IsNullOrWhiteSpace(viewModel.ConfirmarContrasena);
+
+            if (quiereCambiarContrasena)
             {
-                var usuario = db.USUARIO.Find(viewModel.USUARIO_ID);
-                if (usuario == null)
-                    return HttpNotFound();
-
-                usuario.USUARIO_NOMBRE = viewModel.USUARIO_NOMBRE;
-                usuario.ROL_ID = viewModel.ROL_ID;
-                //usuario.EMPLEADO_ID = viewModel.EMPLEADO_ID;
-                usuario.USUARIO_ESTADO = viewModel.USUARIO_ESTADO;
-
-                // Si hay nueva contraseña
-                if (!string.IsNullOrEmpty(viewModel.NuevaContrasena))
+                if (string.IsNullOrWhiteSpace(viewModel.NuevaContrasena) ||
+                    string.IsNullOrWhiteSpace(viewModel.ConfirmarContrasena))
                 {
-                    using (var sha256 = SHA256.Create())
-                    {
-                        var bytes = Encoding.UTF8.GetBytes(viewModel.NuevaContrasena);
-                        var hash = sha256.ComputeHash(bytes);
-                        usuario.USUARIO_CONTRASENA = hash;
-                    }
+                    ModelState.AddModelError("NuevaContrasena", "Si desea cambiar la contraseña, debe completar ambos campos.");
                 }
-
-                db.Entry(usuario).State = EntityState.Modified;
-                db.SaveChanges();
-
-                TempData["Editado"] = true;
-                return RedirectToAction("Edit", new { id = viewModel.USUARIO_ID });
+                else if (viewModel.NuevaContrasena != viewModel.ConfirmarContrasena)
+                {
+                    ModelState.AddModelError("ConfirmarContrasena", "Las contraseñas no coinciden.");
+                }
             }
 
-            ViewBag.ROL_ID = new SelectList(db.ROL, "ROL_ID", "ROL_NOMBRE", viewModel.ROL_ID);
-            ViewBag.EMPLEADO_ID = new SelectList(db.EMPLEADO, "EMPLEADO_ID", "EMPLEADO_ID", viewModel.EMPLEADO_ID);
-            return View(viewModel);
+            if (!ModelState.IsValid)
+            {
+                ViewBag.ROL_ID = new SelectList(db.ROL.Where(r => r.ROL_ESTADO == "Activo"), "ROL_ID", "ROL_NOMBRE", viewModel.ROL_ID);
+                return View(viewModel);
+            }
+
+            var usuario = db.USUARIO.Find(viewModel.USUARIO_ID);
+            if (usuario == null)
+                return HttpNotFound("No se encontró el usuario para editar.");
+
+            usuario.USUARIO_NOMBRE = viewModel.USUARIO_NOMBRE;
+            usuario.ROL_ID = viewModel.ROL_ID;
+            usuario.USUARIO_ESTADO = viewModel.USUARIO_ESTADO;
+
+            if (quiereCambiarContrasena)
+            {
+                using (var sha256 = SHA256.Create())
+                {
+                    usuario.USUARIO_CONTRASENA = sha256.ComputeHash(Encoding.UTF8.GetBytes(viewModel.NuevaContrasena));
+                }
+            }
+
+            db.Entry(usuario).State = EntityState.Modified;
+            db.SaveChanges();
+
+            TempData["Editado"] = true;
+            return RedirectToAction("Edit", new { id = viewModel.USUARIO_ID });
         }
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Edit(UsuarioViewModel viewModel)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var usuario = db.USUARIO.Find(viewModel.USUARIO_ID);
+        //        if (usuario == null)
+        //            return HttpNotFound();
+
+        //        usuario.USUARIO_NOMBRE = viewModel.USUARIO_NOMBRE;
+        //        usuario.ROL_ID = viewModel.ROL_ID;
+        //        usuario.USUARIO_ESTADO = viewModel.USUARIO_ESTADO;
+
+        //        // Si hay nueva contraseña
+        //        if (!string.IsNullOrEmpty(viewModel.NuevaContrasena))
+        //        {
+        //            using (var sha256 = SHA256.Create())
+        //            {
+        //                var bytes = Encoding.UTF8.GetBytes(viewModel.NuevaContrasena);
+        //                var hash = sha256.ComputeHash(bytes);
+        //                usuario.USUARIO_CONTRASENA = hash;
+        //            }
+        //        }
+
+        //        db.Entry(usuario).State = EntityState.Modified;
+        //        db.SaveChanges();
+
+        //        TempData["Editado"] = true;
+        //        return RedirectToAction("Edit", new { id = viewModel.USUARIO_ID });
+        //    }
+
+        //    ViewBag.ROL_ID = new SelectList(db.ROL, "ROL_ID", "ROL_NOMBRE", viewModel.ROL_ID);
+        //    return View(viewModel);
+        //}
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Edit(UsuarioViewModel viewModel)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var usuario = db.USUARIO.Find(viewModel.USUARIO_ID);
+        //        if (usuario == null)
+        //            return HttpNotFound();
+
+        //        usuario.USUARIO_NOMBRE = viewModel.USUARIO_NOMBRE;
+        //        usuario.ROL_ID = viewModel.ROL_ID;
+        //        usuario.USUARIO_ESTADO = viewModel.USUARIO_ESTADO;
+
+        //        // Encriptar siempre con tu método
+        //        usuario.USUARIO_CONTRASENA = HashPassword(viewModel.NuevaContrasena);
+
+        //        db.Entry(usuario).State = EntityState.Modified;
+        //        db.SaveChanges();
+
+        //        TempData["Editado"] = true;
+        //        return RedirectToAction("Edit", new { id = viewModel.USUARIO_ID });
+        //    }
+
+        //    ViewBag.ROL_ID = new SelectList(db.ROL, "ROL_ID", "ROL_NOMBRE", viewModel.ROL_ID);
+        //    return View(viewModel);
+        //}
+
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Edit(UsuarioViewModel viewModel)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var usuario = db.USUARIO.Find(viewModel.USUARIO_ID);
+        //        if (usuario == null)
+        //            return HttpNotFound();
+
+        //        usuario.USUARIO_NOMBRE = viewModel.USUARIO_NOMBRE;
+        //        usuario.ROL_ID = viewModel.ROL_ID;
+        //        usuario.USUARIO_ESTADO = viewModel.USUARIO_ESTADO;
+
+        //        // Siempre se encripta la nueva contraseña
+        //        using (var sha256 = SHA256.Create())
+        //        {
+        //            usuario.USUARIO_CONTRASENA = sha256.ComputeHash(Encoding.UTF8.GetBytes(viewModel.NuevaContrasena));
+        //        }
+
+        //        db.Entry(usuario).State = EntityState.Modified;
+        //        db.SaveChanges();
+
+        //        TempData["Editado"] = true;
+        //        return RedirectToAction("Edit", new { id = viewModel.USUARIO_ID });
+        //    }
+
+        //    ViewBag.ROL_ID = new SelectList(db.ROL, "ROL_ID", "ROL_NOMBRE", viewModel.ROL_ID);
+        //    return View(viewModel);
+        //}
+
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Edit(UsuarioViewModel viewModel)
+        //{
+        //    var usuario = db.USUARIO.Find(viewModel.USUARIO_ID);
+        //    if (usuario == null)
+        //        return HttpNotFound();
+
+        //    // Validación manual de contraseña solo si al menos uno fue ingresado
+        //    bool deseaCambiarContrasena =
+        //        !string.IsNullOrWhiteSpace(viewModel.NuevaContrasena) ||
+        //        !string.IsNullOrWhiteSpace(viewModel.ConfirmarContrasena);
+
+        //    if (deseaCambiarContrasena)
+        //    {
+        //        if (string.IsNullOrWhiteSpace(viewModel.NuevaContrasena) ||
+        //            string.IsNullOrWhiteSpace(viewModel.ConfirmarContrasena))
+        //        {
+        //            ModelState.AddModelError("", "Si deseas cambiar la contraseña, debes completar ambos campos.");
+        //        }
+        //        else if (viewModel.NuevaContrasena != viewModel.ConfirmarContrasena)
+        //        {
+        //            ModelState.AddModelError("ConfirmarContrasena", "Las contraseñas no coinciden.");
+        //        }
+        //    }
+
+        //    if (!ModelState.IsValid)
+        //    {
+        //        ViewBag.ROL_ID = new SelectList(db.ROL, "ROL_ID", "ROL_NOMBRE", viewModel.ROL_ID);
+        //        return View(viewModel);
+        //    }
+
+        //    usuario.USUARIO_NOMBRE = viewModel.USUARIO_NOMBRE;
+        //    usuario.ROL_ID = viewModel.ROL_ID;
+        //    usuario.USUARIO_ESTADO = viewModel.USUARIO_ESTADO;
+
+        //    if (deseaCambiarContrasena)
+        //    {
+        //        using (var sha256 = SHA256.Create())
+        //        {
+        //            usuario.USUARIO_CONTRASENA = sha256.ComputeHash(Encoding.UTF8.GetBytes(viewModel.NuevaContrasena));
+        //        }
+        //    }
+
+        //    db.Entry(usuario).State = EntityState.Modified;
+        //    db.SaveChanges();
+
+        //    TempData["Editado"] = true;
+        //    return RedirectToAction("Edit", new { id = viewModel.USUARIO_ID });
+        //}
+
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Edit(UsuarioViewModel viewModel)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var usuario = db.USUARIO.Find(viewModel.USUARIO_ID);
+        //        if (usuario == null)
+        //            return HttpNotFound();
+
+        //        usuario.USUARIO_NOMBRE = viewModel.USUARIO_NOMBRE;
+        //        usuario.ROL_ID = viewModel.ROL_ID;
+        //        //usuario.EMPLEADO_ID = viewModel.EMPLEADO_ID;
+        //        usuario.USUARIO_ESTADO = viewModel.USUARIO_ESTADO;
+
+        //        // Si hay nueva contraseña
+        //        if (!string.IsNullOrEmpty(viewModel.NuevaContrasena))
+        //        {
+        //            using (var sha256 = SHA256.Create())
+        //            {
+        //                var bytes = Encoding.UTF8.GetBytes(viewModel.NuevaContrasena);
+        //                var hash = sha256.ComputeHash(bytes);
+        //                usuario.USUARIO_CONTRASENA = hash;
+        //            }
+        //        }
+
+        //        db.Entry(usuario).State = EntityState.Modified;
+        //        db.SaveChanges();
+
+        //        TempData["Editado"] = true;
+        //        return RedirectToAction("Edit", new { id = viewModel.USUARIO_ID });
+        //    }
+
+        //    ViewBag.ROL_ID = new SelectList(db.ROL, "ROL_ID", "ROL_NOMBRE", viewModel.ROL_ID);
+        //    //ViewBag.EMPLEADO_ID = new SelectList(db.EMPLEADO, "EMPLEADO_ID", "EMPLEADO_ID", viewModel.EMPLEADO_ID);
+        //    return View(viewModel);
+        //}
 
 
 
@@ -385,24 +608,62 @@ namespace FarmaciaBelen.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            USUARIO uSUARIO = db.USUARIO.Find(id);
-            if (uSUARIO == null)
+            USUARIO usuario = db.USUARIO.Find(id);
+            if (usuario == null)
             {
                 return HttpNotFound();
             }
-            return View(uSUARIO);
+
+            ViewBag.Desactivado = TempData["Desactivado"]; //se pasa a la vista
+            return View(usuario);
         }
+
+        //public ActionResult Delete(string id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    USUARIO uSUARIO = db.USUARIO.Find(id);
+        //    if (uSUARIO == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(uSUARIO);
+        //}
 
         // POST: Usuarios/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
         {
-            USUARIO uSUARIO = db.USUARIO.Find(id);
-            db.USUARIO.Remove(uSUARIO);
+
+            USUARIO usuario = db.USUARIO.Find(id);
+            if (usuario == null)
+            {
+                return HttpNotFound();
+            }
+
+            // Eliminación lógica: cambiar estado a "Inactivo"
+            usuario.USUARIO_ESTADO = "Inactivo";
+            db.Entry(usuario).State = EntityState.Modified;
             db.SaveChanges();
-            return RedirectToAction("Index");
+
+            TempData["Desactivado"] = true; // activa el modal
+            return RedirectToAction("Delete", new { id = usuario.USUARIO_ID }); // redirige a la misma vista
+
+            //ROL rOL = db.ROL.Find(id);
+            //db.ROL.Remove(rOL);
+            //db.SaveChanges();
+            //return RedirectToAction("Index");
         }
+        //public ActionResult DeleteConfirmed(string id)
+        //{
+        //    USUARIO uSUARIO = db.USUARIO.Find(id);
+        //    db.USUARIO.Remove(uSUARIO);
+        //    db.SaveChanges();
+        //    return RedirectToAction("Index");
+        //}
 
         protected override void Dispose(bool disposing)
         {

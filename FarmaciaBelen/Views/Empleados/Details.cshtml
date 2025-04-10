@@ -17,15 +17,15 @@
     <div class="container mt-5">
         <div class="card shadow">
             <div class="card-header bg-info text-white">
-                <h4 class="mb-0">Detalles del Empleado</h4>
+                <h4 class="mb-0"><b>Detalles del Empleado:</b> @Html.DisplayFor(model => model.Empleado.EMPLEADO_ID)</h4>
             </div>
             <div class="card-body">
 
                 <!-- Código -->
-                <div class="row mb-3">
+                @*<div class="row mb-3">
                     <div class="col-sm-4 fw-bold">Código:</div>
                     <div class="col-sm-8">@Model.Persona.PERSONA_ID</div>
-                </div>
+                </div>*@
 
                 <!-- Nombre completo -->
                 <div class="row mb-3">

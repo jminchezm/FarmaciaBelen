@@ -16,7 +16,8 @@ namespace FarmaciaBelen.Models
         public string USUARIO_NOMBRE { get; set; }
 
         //[Required(ErrorMessage = "Debe seleccionar un empleado.")]
-        [Required(ErrorMessage = "Debe seleccionar un empleado.")]
+        //[Required(ErrorMessage = "Debe seleccionar un empleado.")]
+        //[Required(ErrorMessage = "El empleado es obligatorio.")]
         [Display(Name = "Código Empleado")]
         public string EMPLEADO_ID { get; set; }
 
@@ -32,12 +33,14 @@ namespace FarmaciaBelen.Models
         public string USUARIO_ESTADO { get; set; }
 
         // Contraseñas (para crear o editar)
-        [Required(ErrorMessage = "Debe ingresar una contraseña.")]
+        //[Required(ErrorMessage = "Debe ingresar una contraseña.")]
         [DataType(DataType.Password)]
         [Display(Name = "Contraseña")]
+        //[Required(ErrorMessage = "Debe de ingresar y confirmar la contraseña.")]
+        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,15}$", ErrorMessage = "La contraseña debe tener entre 8 y 15 caracteres, al menos una mayúscula, una minúscula y un número.")]
         public string NuevaContrasena { get; set; }
 
-        [Required(ErrorMessage = "Debe confirmar la contraseña.")]
+        //[Required(ErrorMessage = "Debe confirmar la contraseña.")]
         [DataType(DataType.Password)]
         [Display(Name = "Confirmar Contraseña")]
         [Compare("NuevaContrasena", ErrorMessage = "Las contraseñas no coinciden.")]
@@ -45,6 +48,12 @@ namespace FarmaciaBelen.Models
 
         // Para control interno si deseas usarlo en edición
         public DateTime USUARIO_FECHAREGISTRO { get; set; }
+
+        //[DataType(DataType.Password)]
+        //[Display(Name = "Contraseña")]
+        ////[Required(ErrorMessage = "Debe de ingresar y confirmar la contraseña.")]
+        //[RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,15}$", ErrorMessage = "La contraseña debe tener entre 8 y 15 caracteres, al menos una mayúscula, una minúscula y un número.")]
+        //public string NuevaContrasenaEditar { get; set; }
 
         //public virtual ICollection<EMPLEADO> EMPLEADO { get; set; }
     }

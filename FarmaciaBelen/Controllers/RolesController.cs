@@ -75,7 +75,7 @@ namespace FarmaciaBelen.Controllers
             var nuevoPuesto = new ROL
             {
                 ROL_ID = nuevoCodigo,
-                ROL_ESTADO = "Activo" // Estado por defecto
+                /*ROL_ESTADO = "Activo"*/ // Estado por defecto
             };
 
             //IMPORTANTE: Asignar la lista de áreas

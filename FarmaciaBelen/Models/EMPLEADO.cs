@@ -1,5 +1,6 @@
 namespace FarmaciaBelen.Models
 {
+    using Newtonsoft.Json.Serialization;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;

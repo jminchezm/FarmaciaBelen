@@ -17,11 +17,11 @@ namespace FarmaciaBelen.Models
         public string AREA_ID { get; set; }
         [Required]
         [Display(Name = "Nombre")]
-        [StringLength(100)]
+        [StringLength(100, ErrorMessage = "El nombre no debe exceder los 100 caracteres.")]
         public string AREA_NOMBRE { get; set; }
         [Required]
         [Display(Name = "Descripción")]
-        [StringLength(250)]
+        [StringLength(250, ErrorMessage = "La descripción no debe exceder los 250 caracteres.")]
         public string AREA_DESCRIPCION { get; set; }
         [Required]
         [Display(Name = "Número de Extensión")]

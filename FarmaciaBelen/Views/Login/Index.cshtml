@@ -15,7 +15,7 @@
     <div class="card shadow p-4" style="width: 400px;">
         <div class="text-center">
             <h4 class="mb-3">Iniciar Sesión</h4>
-            <img src="~/Content/Images/Login/img_login.png" alt="Img Login" class="img-fluid" style="width: 150px";>
+            <img src="~/Content/Images/Login/img_login.png" alt="Img Login" class="img-fluid" style="width: 150px" ;>
         </div>
 
         @if (ViewBag.Mensaje != null)
@@ -23,6 +23,14 @@
             <div class="alert alert-danger">@ViewBag.Mensaje</div>
         }
 
+
+
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger">
+                @TempData["ErrorMessage"]
+            </div>
+        }
         <form action="@Url.Action("Index", "Login")" method="post">
             <div class="mb-3">
                 <label for="usuario" class="form-label">Usuario</label>
@@ -37,8 +45,10 @@
             <button type="submit" class="btn btn-primary w-100">Ingresar</button>
 
             <div class="text-center mt-3">
-                <a href="#" class="text-decoration-none">¿Olvidaste tu contraseña?</a>
+                @Html.ActionLink("¿Olvidaste tu Contraseña?", "StartRecovery", "Access")
+
             </div>
+
         </form>
     </div>
 

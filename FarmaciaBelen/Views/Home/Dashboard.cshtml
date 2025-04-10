@@ -13,7 +13,6 @@
     <!-- Bootstrap y Font Awesome -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-
     <link href="~/Content/css/stylesHome.css" rel="stylesheet"> <!-- Archivo CSS personalizado -->
 </head>
 <body>
@@ -45,38 +44,110 @@
         <!-- Barra Lateral -->
         <nav class="sidebar" id="sidebar">
             <ul class="menu">
-                <li><a href="@Url.Action("Dashboard", "Home")"><i class="fas fa-home"></i> Inicio</a></li>
+                <li>
+                    <a class="submenu-toggle load-frame" href="@Url.Action("Inicio", "Home")"><i class="fas fa-home"></i> Inicio</a>
+                    @*<ul class="submenu">
+                        <li><a href="@Url.Action("Ventas", "Ventas")"><i class="fa-solid fa-cart-plus"></i> Ventas</a></li>
+                    </ul>*@
+                </li>
 
                 <li>
+                    <a href="#" class="submenu-toggle"><i class="fa-solid fa-cart-shopping"></i> Ventas</a>
+                    <ul class="submenu">
+                        <li><a href="@Url.Action("Ventas", "Ventas")" class="load-frame"><i class="fa-solid fa-cart-plus"></i> Ventas</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="#" class="submenu-toggle"><i class="fa-solid fa-warehouse"></i> Inventario</a>
+                    <ul class="submenu">
+                        <li><a href="@Url.Action("Proveedores", "Inventario")" class="load-frame"><i class="fas fa-clipboard-list"></i> Stock</a></li>
+                        <li><a href="@Url.Action("Pedidos", "Inventario")" class="load-frame"><i class="fas fa-truck"></i> Pedido</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="#" class="submenu-toggle"><i class="fas fa-boxes"></i> Productos</a>
+                    <ul class="submenu">
+                        <li><a href="@Url.Action("Productos", "Inventario")" class="load-frame"><i class="fas fa-box-open"></i> Productos</a></li>
+                        <li><a href="@Url.Action("Index", "CategoriaProductos")" class="load-frame"><i class="fas fa-tags"></i> Categorías</a></li>
+                        <li><a href="@Url.Action("Index", "SubCategoriaProductos")" class="load-frame"><i class="fas fa-clipboard-list"></i> SubCategoría</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="#" class="submenu-toggle"><i class="fa-solid fa-user-tie"></i> Empleados</a>
+                    <ul class="submenu">
+                        <li><a href="@Url.Action("Index", "Empleados")" class="load-frame"><i class="fa-regular fa-id-badge"></i> Empleados</a></li>
+                        <li><a href="@Url.Action("Index", "Puestos")" class="load-frame"><i class="fa-solid fa-network-wired"></i> Puestos</a></li>
+                        <li><a href="@Url.Action("Index", "Areas")" class="load-frame"><i class="fa-regular fa-building"></i> Areas</a></li>
+
+                    </ul>
+                </li>
+                <li>
+                    <a href="#" class="submenu-toggle"><i class="fa-regular fa-user"></i> Usuarios</a>
+                    <ul class="submenu">
+                        <li><a href="@Url.Action("Index", "Usuarios")" class="load-frame"><i class="fas fa-user"></i> Usuarios</a></li>
+                        <li><a href="@Url.Action("Index", "Roles")" class="load-frame"><i class="fa-solid fa-address-card"></i> Roles</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="#" class="submenu-toggle"><i class="fa-solid fa-truck-ramp-box"></i> Proveedores</a>
+                    <ul class="submenu">
+                        <li><a href="@Url.Action("Index", "Proveedores")" class="load-frame"><i class="fa-solid fa-people-carry-box"></i> Proveedores</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="#" class="submenu-toggle"><i class="fa-solid fa-user-group"></i> Clientes</a>
+                    <ul class="submenu">
+                        <li><a href="@Url.Action("Clientes", "Ventas")" class="load-frame"><i class="fas fa-users"></i> Clientes</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="#" class="submenu-toggle"><i class="fas fa-cog"></i> Configuraciones</a>
+                    <ul class="submenu">
+                        <li><a href="@Url.Action("Index", "Modulos")" class="load-frame"><i class="fa-regular fa-map"></i> Modulos</a></li>
+                        <li><a href="@Url.Action("Index", "Permisos")" class="load-frame"><i class="fa-solid fa-certificate"></i> Permisos</a></li>
+                    </ul>
+                </li>
+
+                @*<li>
                     <a href="#" class="submenu-toggle"><i class="fas fa-cash-register"></i> Ventas</a>
                     <ul class="submenu">
                         <li><a href="@Url.Action("Clientes", "Ventas")"><i class="fas fa-users"></i> Clientes</a></li>
                         <li><a href="@Url.Action("Ventas", "Ventas")"><i class="fas fa-cash-register"></i> Ventas</a></li>
                     </ul>
-                </li>
+                </li>*@
 
-                <li>
+                @*<li>
                     <a href="#" class="submenu-toggle"><i class="fas fa-boxes"></i> Inventario</a>
                     <ul class="submenu">
                         <li><a href="@Url.Action("Productos", "Inventario")"><i class="fas fa-box-open"></i> Productos</a></li>
                         <li><a href="@Url.Action("Pedidos", "Inventario")"><i class="fas fa-clipboard-list"></i> Pedido</a></li>
                         <li><a href="@Url.Action("Categorias", "Inventario")"><i class="fas fa-tags"></i> Categorías</a></li>
+                        <li><a href="@Url.Action("Pedidos", "Inventario")"><i class="fas fa-clipboard-list"></i> Sub-Categoría</a></li>
                         <li><a href="@Url.Action("Proveedores", "Inventario")"><i class="fas fa-truck"></i> Proveedores</a></li>
                     </ul>
-                </li>
+                </li>*@
 
-                <li>
+                @*<li>
                     <a href="#" class="submenu-toggle"><i class="fas fa-cog"></i> Mantenimientos</a>
                     <ul class="submenu">
                         <li><a href="@Url.Action("Index", "Areas")" class="load-frame"><i class="fa-regular fa-building"></i> Areas</a></li>
                         <li><a href="@Url.Action("Index", "Puestos")" class="load-frame"><i class="fa-solid fa-network-wired"></i> Puestos</a></li>
                         <li><a href="@Url.Action("Index", "Roles")" class="load-frame"><i class="fa-solid fa-address-card"></i> Roles</a></li>
-                        <li><a href="@Url.Action("Index", "Empleados")" class="load-frame"><i class="fas fa-user-tie"></i> Empleados</a></li>
+                        <li><a href="@Url.Action("Index", "Modulos")" class="load-frame"><i class="fa-regular fa-map"></i> Modulos</a></li>
+                        <li><a href="@Url.Action("Index", "Empleados")" class="load-frame"><i class="fa-regular fa-id-badge"></i> Empleados</a></li>
                         <li><a href="@Url.Action("Index", "Usuarios")" class="load-frame"><i class="fas fa-user"></i> Usuarios</a></li>
                     </ul>
-                </li>
+                </li>*@
             </ul>
         </nav>
+
+        @*text-align: center; padding: 2rem;*@
 
         <!-- Botón para ocultar/mostrar sidebar -->
         <div class="toggle-sidebar">
@@ -85,6 +156,13 @@
 
         <!-- Contenido principal -->
         <div class="content">
+            <!-- Loader oculto por defecto -->
+            <div id="loader" style="display: none;">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Cargando...</span>
+                </div>
+                <p style="margin-top: 10px; font-weight: 500;">Cargando vista...</p>
+            </div>
             <iframe id="content-frame" scrolling="auto" src="@Url.Action("Inicio", "Home")" frameborder="0"></iframe>
         </div>
     </div>
@@ -101,16 +179,134 @@
         document.querySelectorAll('.submenu-toggle').forEach(function (toggle) {
             toggle.addEventListener('click', function (event) {
                 event.preventDefault();
-                var submenu = this.nextElementSibling;
-                submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
+
+                var submenuActual = this.nextElementSibling;
+
+                // Si el submenú actual ya está visible, lo ocultamos
+                if (submenuActual.style.display === 'block') {
+                    submenuActual.style.display = 'none';
+                } else {
+                    // Ocultamos todos los submenús
+                    document.querySelectorAll('.submenu').forEach(function (submenu) {
+                        submenu.style.display = 'none';
+                    });
+
+                    // Mostramos el submenú relacionado a este toggle
+                    submenuActual.style.display = 'block';
+                }
             });
         });
+
+
+        //document.querySelectorAll('.submenu-toggle').forEach(function (toggle) {
+        //    toggle.addEventListener('click', function (event) {
+        //        event.preventDefault();
+        //        var submenu = this.nextElementSibling;
+        //        submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
+        //    });
+        //});
 
         // Sidebar toggle
         document.getElementById('toggle-icon').addEventListener('click', function () {
             var sidebar = document.getElementById('sidebar');
+            var icon = document.getElementById('toggle-icon');
+
             sidebar.classList.toggle('collapsed');
+
+            // Cambiar dirección de la flecha
+            if (sidebar.classList.contains('collapsed')) {
+                icon.classList.remove('fa-arrow-left');
+                icon.classList.add('fa-arrow-right');
+            } else {
+                icon.classList.remove('fa-arrow-right');
+                icon.classList.add('fa-arrow-left');
+            }
         });
+
+        // Obtener todos los elementos que tengan la clase submenu-toggle
+        //var toggles = document.querySelectorAll('.submenu-toggle');
+
+        //toggles.forEach(function (toggle) {
+        //    toggle.addEventListener('click', function () {
+        //        // Quitar la clase 'active' de todos los botones
+        //        toggles.forEach(function (t) {
+        //            t.classList.remove('active');
+        //        });
+
+        //        // Agregar clase 'active' al botón clickeado
+        //        this.classList.add('active');
+
+        //        // Contraer todos los submenús (si aplica)
+        //        var submenus = document.querySelectorAll('.submenu-toggle');
+        //        submenus.forEach(function (submenu) {
+        //            submenu.classList.add('collapsed'); // o como lo manejes
+        //        });
+
+        //        // Expandir el submenu relacionado (si aplica)
+        //        var submenu = this.nextElementSibling; // si el submenu está justo después
+        //        if (submenu && submenu.classList.contains('submenu-toggle')) {
+        //            submenu.classList.remove('collapsed');
+        //        }
+        //    });
+        //});
+
+        //Permite identificar que botón se submenu-toggle se encuentra clickeado por un color
+        var toggles = document.querySelectorAll('.submenu-toggle');
+
+        toggles.forEach(function (toggle) {
+            toggle.addEventListener('click', function () {
+                // Si este botón ya está activo, desactivarlo todo
+                if (this.classList.contains('active')) {
+                    toggles.forEach(function (t) {
+                        t.classList.remove('active');
+                    });
+                } else {
+                    // Quitar la clase 'active' de todos los botones
+                    toggles.forEach(function (t) {
+                        t.classList.remove('active');
+                    });
+
+                    // Agregar clase 'active' al botón clickeado
+                    this.classList.add('active');
+                }
+            });
+        });
+
+        var togglesSubmenu = document.querySelectorAll('.load-frame');
+
+        togglesSubmenu.forEach(function (toggle) {
+
+            toggle.addEventListener('click', function () {
+                // Quitar la clase 'active' de todos los botones
+                togglesSubmenu.forEach(function (t) {
+                    t.classList.remove('active');
+                });
+
+                // Agregar clase 'active' al botón clickeado
+                this.classList.add('active');
+            });
+            //toggle.addEventListener('click', function () {
+            //    // Si este botón ya está activo, desactivarlo todo
+            //    if (this.classList.contains('active')) {
+            //        togglesSubmenu.forEach(function (t) {
+            //            t.classList.remove('active');
+            //        });
+            //    } else {
+            //        // Quitar la clase 'active' de todos los botones
+            //        togglesSubmenu.forEach(function (t) {
+            //            t.classList.remove('active');
+            //        });
+
+            //        // Agregar clase 'active' al botón clickeado
+            //        this.classList.add('active');
+            //    }
+            //});
+        });
+
+        //document.getElementById('toggle-icon').addEventListener('click', function () {
+        //    var sidebar = document.getElementById('sidebar');
+        //    sidebar.classList.toggle('collapsed');
+        //});
 
         // Mostrar información de usuario al hacer clic en el ícono
         document.getElementById('user-icon').addEventListener('click', function () {
@@ -120,18 +316,44 @@
 
         //-----------------------------------------------------------------------
         //Intercptar clics del menú de mantenimiento par cargar en el mismo frame
-
         document.addEventListener('DOMContentLoaded', function () {
-            // Escuchamos clics en todos los enlaces con clase "load-frame"
+            var frame = document.getElementById('content-frame');
+            var loader = document.getElementById('loader');
+
+            // Escuchar clics en todos los enlaces con clase "load-frame"
             document.querySelectorAll('.load-frame').forEach(function (link) {
                 link.addEventListener('click', function (e) {
-                    e.preventDefault(); // Evita que el enlace navegue normalmente
-                    var frame = document.getElementById('content-frame');
+                    e.preventDefault();
+
                     var url = this.getAttribute('href');
+
+                    // Mostrar loader
+                    loader.style.display = 'block';
+                    frame.style.display = 'none';
+
+                    // Cambiar la vista del iframe
                     frame.setAttribute('src', url);
                 });
             });
+
+            // Cuando el contenido del iframe haya terminado de cargar
+            frame.addEventListener('load', function () {
+                // Ocultar loader
+                loader.style.display = 'none';
+                frame.style.display = 'block';
+            });
         });
+        //document.addEventListener('DOMContentLoaded', function () {
+        //    // Escuchamos clics en todos los enlaces con clase "load-frame"
+        //    document.querySelectorAll('.load-frame').forEach(function (link) {
+        //        link.addEventListener('click', function (e) {
+        //            e.preventDefault(); // Evita que el enlace navegue normalmente
+        //            var frame = document.getElementById('content-frame');
+        //            var url = this.getAttribute('href');
+        //            frame.setAttribute('src', url);
+        //        });
+        //    });
+        //});
     </script>
 
 </body>

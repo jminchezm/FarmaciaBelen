@@ -28,7 +28,7 @@ namespace FarmaciaBelen.Models
         [RegularExpression(@"^\d+$", ErrorMessage = "Solo se permiten números.")]
         public string PERSONA_NIT { get; set; }
         [Display(Name = "CUI")]
-        [MaxLength(8, ErrorMessage = "El CUI no debe exceder los 13 dígitos.")]
+        [MaxLength(13, ErrorMessage = "El CUI no debe exceder los 13 dígitos.")]
         [RegularExpression(@"^\d+$", ErrorMessage = "Solo se permiten números.")]
         public string PERSONA_CUI { get; set; }
         [Required]

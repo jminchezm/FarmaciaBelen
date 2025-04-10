@@ -19,7 +19,7 @@
             <div class="col-md-8">
                 <div class="card shadow">
                     <div class="card-header bg-warning text-dark">
-                        <h4 class="mb-0">Editar Empleado</h4>
+                        <h4 class="mb-0"><b>Editar Empleado:</b> @Html.DisplayFor(model => model.Empleado.EMPLEADO_ID)</h4>
                     </div>
                     <div class="card-body">
                         @using (Html.BeginForm())
@@ -30,84 +30,145 @@
 
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    @Html.LabelFor(m => m.Persona.PERSONA_PRIMERNOMBRE, new { @class = "form-label" })*
-                                    @Html.EditorFor(m => m.Persona.PERSONA_PRIMERNOMBRE, new { htmlAttributes = new { @class = "form-control" } })
+                                    <b>@Html.LabelFor(m => m.Persona.PERSONA_PRIMERNOMBRE, new { @class = "form-label" })*</b>
+                                    @Html.EditorFor(m => m.Persona.PERSONA_PRIMERNOMBRE, new { htmlAttributes = new
+                               {
+                                   @class = "form-control",
+                                   maxlength = "50",
+                                   placeholder = "Ingrese primer nombre (máximo 50 caracteres)"
+                               } })
                                     @Html.ValidationMessageFor(m => m.Persona.PERSONA_PRIMERNOMBRE, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    @Html.LabelFor(m => m.Persona.PERSONA_SEGUNDONOMBRE, new { @class = "form-label" })
-                                    @Html.EditorFor(m => m.Persona.PERSONA_SEGUNDONOMBRE, new { htmlAttributes = new { @class = "form-control" } })
+                                    <b>@Html.LabelFor(m => m.Persona.PERSONA_SEGUNDONOMBRE, new { @class = "form-label" })</b>
+                                    @Html.EditorFor(m => m.Persona.PERSONA_SEGUNDONOMBRE, new { htmlAttributes = new
+                               {
+                                   @class = "form-control",
+                                   maxlength = "50",
+                                   placeholder = "Ingrese segundo nombre (máximo 50 caracteres)"
+                               } })
                                     @Html.ValidationMessageFor(m => m.Persona.PERSONA_SEGUNDONOMBRE, "", new { @class = "text-danger" })
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    @Html.LabelFor(m => m.Persona.PERSONA_TERCERNOMBRE, new { @class = "form-label" })
-                                    @Html.EditorFor(m => m.Persona.PERSONA_TERCERNOMBRE, new { htmlAttributes = new { @class = "form-control" } })
+                                    <b>@Html.LabelFor(m => m.Persona.PERSONA_TERCERNOMBRE, new { @class = "form-label" })</b>
+                                    @Html.EditorFor(m => m.Persona.PERSONA_TERCERNOMBRE, new { htmlAttributes = new
+                               {
+                                   @class = "form-control",
+                                   maxlength = "50",
+                                   placeholder = "Ingrese tercer nombre (máximo 50 caracteres)"
+                               } })
                                     @Html.ValidationMessageFor(m => m.Persona.PERSONA_TERCERNOMBRE, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    @Html.LabelFor(m => m.Persona.PERSONA_PRIMERAPELLIDO, new { @class = "form-label" })*
-                                    @Html.EditorFor(m => m.Persona.PERSONA_PRIMERAPELLIDO, new { htmlAttributes = new { @class = "form-control" } })
+                                    <b>@Html.LabelFor(m => m.Persona.PERSONA_PRIMERAPELLIDO, new { @class = "form-label" })*</b>
+                                    @Html.EditorFor(m => m.Persona.PERSONA_PRIMERAPELLIDO, new { htmlAttributes = new
+                               {
+                                   @class = "form-control",
+                                   maxlength = "50",
+                                   placeholder = "Ingrese primer apellido (máximo 50 caracteres)"
+                               } })
                                     @Html.ValidationMessageFor(m => m.Persona.PERSONA_PRIMERAPELLIDO, "", new { @class = "text-danger" })
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    @Html.LabelFor(m => m.Persona.PERSONA_SEGUNDOAPELLIDO, new { @class = "form-label" })
-                                    @Html.EditorFor(m => m.Persona.PERSONA_SEGUNDOAPELLIDO, new { htmlAttributes = new { @class = "form-control" } })
+                                    <b>@Html.LabelFor(m => m.Persona.PERSONA_SEGUNDOAPELLIDO, new { @class = "form-label" })</b>
+                                    @Html.EditorFor(m => m.Persona.PERSONA_SEGUNDOAPELLIDO, new { htmlAttributes = new
+                               {
+                                   @class = "form-control",
+                                   maxlength = "50",
+                                   placeholder = "Ingrese segundo apellido (máximo 50 caracteres)"
+                               } })
                                     @Html.ValidationMessageFor(m => m.Persona.PERSONA_SEGUNDOAPELLIDO, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    @Html.LabelFor(m => m.Persona.PERSONA_APELLIDOCASADA, new { @class = "form-label" })
-                                    @Html.EditorFor(m => m.Persona.PERSONA_APELLIDOCASADA, new { htmlAttributes = new { @class = "form-control" } })
+                                    <b>@Html.LabelFor(m => m.Persona.PERSONA_APELLIDOCASADA, new { @class = "form-label" })</b>
+                                    @Html.EditorFor(m => m.Persona.PERSONA_APELLIDOCASADA, new { htmlAttributes = new
+                               {
+                                   @class = "form-control",
+                                   maxlength = "50",
+                                   placeholder = "Ingrese apellido casada (máximo 50 caracteres)"
+                               } })
                                     @Html.ValidationMessageFor(m => m.Persona.PERSONA_APELLIDOCASADA, "", new { @class = "text-danger" })
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    @Html.LabelFor(m => m.Persona.PERSONA_NIT, new { @class = "form-label" })
-                                    @Html.EditorFor(m => m.Persona.PERSONA_NIT, new { htmlAttributes = new { @class = "form-control" } })
+                                    <b>@Html.LabelFor(m => m.Persona.PERSONA_NIT, new { @class = "form-label" })</b>
+                                    @Html.EditorFor(m => m.Persona.PERSONA_NIT, new { htmlAttributes = new
+                               {
+                                   @class = "form-control",
+                                   maxlength = "10",
+                                   placeholder = "Ingrese el nit (máximo 10 digitos)"
+                               } })
                                     @Html.ValidationMessageFor(m => m.Persona.PERSONA_NIT, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    @Html.LabelFor(m => m.Persona.PERSONA_CUI, new { @class = "form-label" })
-                                    @Html.EditorFor(m => m.Persona.PERSONA_CUI, new { htmlAttributes = new { @class = "form-control", @type = "email" } })
+                                    <b>@Html.LabelFor(m => m.Persona.PERSONA_CUI, new { @class = "form-label" })</b>
+                                    @Html.EditorFor(m => m.Persona.PERSONA_CUI, new { htmlAttributes = new
+                               {
+                                   @class = "form-control",
+                                   maxlength = "13",
+                                   placeholder = "Ingrese el CUI (máximo 13 digitos)"
+                               } })
                                     @Html.ValidationMessageFor(m => m.Persona.PERSONA_CUI, "", new { @class = "text-danger" })
                                 </div>
                             </div>
 
                             <div class="mb-3">
-                                @Html.LabelFor(m => m.Persona.PERSONA_DIRECCION, new { @class = "form-label" })*
-                                @Html.EditorFor(m => m.Persona.PERSONA_DIRECCION, new { htmlAttributes = new { @class = "form-control" } })
+                                <b>@Html.LabelFor(m => m.Persona.PERSONA_DIRECCION, new { @class = "form-label" })*</b>
+                                @Html.EditorFor(m => m.Persona.PERSONA_DIRECCION, new { htmlAttributes = new
+                           {
+                               @class = "form-control",
+                               maxlength = "150",
+                               placeholder = "Ingrese la dirección (máximo 150 caracteres)"
+                           } })
                                 @Html.ValidationMessageFor(m => m.Persona.PERSONA_DIRECCION, "", new { @class = "text-danger" })
                             </div>
 
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    @Html.LabelFor(m => m.Persona.PERSONA_TELEFONOMOVIL, new { @class = "form-label" })
-                                    @Html.EditorFor(m => m.Persona.PERSONA_TELEFONOMOVIL, new { htmlAttributes = new { @class = "form-control" } })
+                                    <b>@Html.LabelFor(m => m.Persona.PERSONA_TELEFONOMOVIL, new { @class = "form-label" })</b>
+                                    @Html.EditorFor(m => m.Persona.PERSONA_TELEFONOMOVIL, new { htmlAttributes = new
+                               {
+                                   @class = "form-control",
+                                   maxlength = "8",
+                                   placeholder = "Ingrese telefono movil (máximo 8 digitos)"
+                               } })
                                     @Html.ValidationMessageFor(m => m.Persona.PERSONA_TELEFONOMOVIL, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    @Html.LabelFor(m => m.Persona.PERSONA_TELEFONOCASA, new { @class = "form-label" })
-                                    @Html.EditorFor(m => m.Persona.PERSONA_TELEFONOCASA, new { htmlAttributes = new { @class = "form-control"} })
+                                    <b>@Html.LabelFor(m => m.Persona.PERSONA_TELEFONOCASA, new { @class = "form-label" })</b>
+                                    @Html.EditorFor(m => m.Persona.PERSONA_TELEFONOCASA, new { htmlAttributes = new
+                               {
+                                   @class = "form-control",
+                                   maxlength = "8",
+                                   placeholder = "Ingrese telefono de casa (máximo 8 digitos)"
+                               }})
                                     @Html.ValidationMessageFor(m => m.Persona.PERSONA_TELEFONOCASA, "", new { @class = "text-danger" })
                                 </div>
                             </div>
 
                             <div class="mb-3">
-                                @Html.LabelFor(m => m.Persona.PERSONA_CORREO, new { @class = "form-label" })
-                                @Html.EditorFor(m => m.Persona.PERSONA_CORREO, new { htmlAttributes = new { @class = "form-control", @type = "email" } })
+                                <b>@Html.LabelFor(m => m.Persona.PERSONA_CORREO, new { @class = "form-label" })</b>
+                                @Html.EditorFor(m => m.Persona.PERSONA_CORREO, new { htmlAttributes = new
+                           {
+                               @class = "form-control",
+                               @type = "email",
+                               //maxlength = "50",
+                               placeholder = "Ingrese el correo electronico"
+                           } })
                                 @Html.ValidationMessageFor(m => m.Persona.PERSONA_CORREO, "", new { @class = "text-danger" })
                             </div>
 
                             <!-- Datos del empleado -->
                             <div class="mb-3">
-                                @Html.LabelFor(m => m.Empleado.EMPLEADO_FECHANACIMIENTO, new { @class = "form-label" })*
+                                <b>@Html.LabelFor(m => m.Empleado.EMPLEADO_FECHANACIMIENTO, new { @class = "form-label" })*</b>
                                 @Html.TextBoxFor(m => m.Empleado.EMPLEADO_FECHANACIMIENTO,
                                     "{0:yyyy-MM-dd}",
                                     new { @class = "form-control", type = "date" })
@@ -116,7 +177,7 @@
                             </div>
 
                             <div class="mb-3">
-                                @Html.LabelFor(m => m.Empleado.EMPLEADO_FECHAINGRESO, new { @class = "form-label" })*
+                                <b>@Html.LabelFor(m => m.Empleado.EMPLEADO_FECHAINGRESO, new { @class = "form-label" })*</b>
                                 @Html.TextBoxFor(m => m.Empleado.EMPLEADO_FECHAINGRESO,
                                     "{0:yyyy-MM-dd}",
                                     new { @class = "form-control", type = "date" })
@@ -125,7 +186,7 @@
                             </div>
 
                             <div class="mb-3">
-                                @Html.LabelFor(m => m.Empleado.EMPLEADO_GENERO, new { @class = "form-label" })*
+                                <b>@Html.LabelFor(m => m.Empleado.EMPLEADO_GENERO, new { @class = "form-label" })*</b>
                                 @Html.DropDownListFor(m => m.Empleado.EMPLEADO_GENERO,
                                     new SelectList(new[] {
                                         new { Text = "Masculino", Value = "Masculino" },
@@ -136,7 +197,7 @@
                             </div>
 
                             <div class="mb-3">
-                                @Html.LabelFor(m => m.Empleado.EMPLEADO_ESTADO, new { @class = "form-label" })*
+                                <b>@Html.LabelFor(m => m.Empleado.EMPLEADO_ESTADO, new { @class = "form-label" })*</b>
                                 @Html.DropDownListFor(m => m.Empleado.EMPLEADO_ESTADO,
                                     new SelectList(new[] {
                                         new { Text = "Activo", Value = "Activo" },
@@ -147,7 +208,7 @@
                             </div>
 
                             <div class="mb-3">
-                                @Html.LabelFor(m => m.Empleado.PUESTO_ID, "Puesto", new { @class = "form-label" })*
+                                <b>@Html.LabelFor(m => m.Empleado.PUESTO_ID, "Puesto", new { @class = "form-label" })*</b>
                                 @Html.DropDownListFor(m => m.Empleado.PUESTO_ID, (SelectList)ViewBag.Puestos, "Seleccione un puesto", new { @class = "form-select" })
                                 @Html.ValidationMessageFor(m => m.Empleado.PUESTO_ID, "", new { @class = "text-danger" })
                             </div>

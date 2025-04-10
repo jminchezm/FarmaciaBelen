@@ -23,6 +23,7 @@
           <Property Name="CATEGORIAPRODUCTO_ID" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="CATEGORIAPRODUCTO_NOMBRE" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="CATEGORIAPRODUCTO_DESCRIPCION" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="CATEGORIAPRODUCTO_ESTADO" Type="varchar" MaxLength="10" Nullable="false" />
         </EntityType>
         <EntityType Name="CLIENTE">
           <Key>
@@ -87,6 +88,7 @@ advertencia 6002: La tabla o vista 'DBFARMACIABELEN.dbo.DETALLEVENTA' no tiene d
           <Property Name="FORMAFARMACEUTICA_ID" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="FARMAFARMACEUTICA_NOMBRE" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="FORMAFARMACEUTICA_DESCRIPCION" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="FORMAFARMACEUTICA_ESTADO" Type="varchar" MaxLength="10" Nullable="false" />
         </EntityType>
         <EntityType Name="INVENTARIO_PRODUCTO">
           <Key>
@@ -113,6 +115,7 @@ advertencia 6002: La tabla o vista 'DBFARMACIABELEN.dbo.DETALLEVENTA' no tiene d
           <Property Name="MODULO_ID" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="MODULO_NOMBRE" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="MODULO_DESCRIPCION" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="MODULO_ESTADO" Type="varchar" MaxLength="10" Nullable="false" />
         </EntityType>
         <EntityType Name="PEDIDO">
           <Key>
@@ -178,6 +181,7 @@ advertencia 6002: La tabla o vista 'DBFARMACIABELEN.dbo.DETALLEVENTA' no tiene d
           <Property Name="PROVEEDOR_CELULAR" Type="varchar" MaxLength="8" />
           <Property Name="PROVEEDOR_CORREO" Type="varchar" MaxLength="50" />
           <Property Name="PROVEEDOR_DIRECCION" Type="varchar" MaxLength="255" />
+          <Property Name="PROVEEDOR_ESTADO" Type="varchar" MaxLength="10" Nullable="false" />
         </EntityType>
         <EntityType Name="PUESTO">
           <Key>
@@ -214,6 +218,7 @@ advertencia 6002: La tabla o vista 'DBFARMACIABELEN.dbo.DETALLEVENTA' no tiene d
           <Property Name="SUBCATEGORIAPRODUCTO_NOMBRE" Type="varchar" MaxLength="100" />
           <Property Name="SUBCATEGORIAPRODUCTO_DESCRIPCION" Type="varchar" MaxLength="255" />
           <Property Name="CATEGORIAPRODUCTO_ID" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="SUBCATEGORIAPRODUCTO_ESTADO" Type="varchar" MaxLength="10" Nullable="false" />
         </EntityType>
         <EntityType Name="USUARIO">
           <Key>
@@ -246,6 +251,7 @@ advertencia 6002: La tabla o vista 'DBFARMACIABELEN.dbo.DETALLEVENTA' no tiene d
           <Property Name="VIAADMINISTRACION_ID" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="VIAADMINISTRATIVA_NOMBRE" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="VIAADMINISTRACION_DESCRIPCION" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="VIAADMINISTRACION_ESTADO" Type="varchar" MaxLength="10" Nullable="false" />
         </EntityType>
         <Association Name="FK_CLIENTE_ID">
           <End Role="PERSONA" Type="Self.PERSONA" Multiplicity="1" />
@@ -915,6 +921,7 @@ advertencia 6002: La tabla o vista 'DBFARMACIABELEN.dbo.DETALLEVENTA' no tiene d
           <Property Name="CATEGORIAPRODUCTO_NOMBRE" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="CATEGORIAPRODUCTO_DESCRIPCION" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="SUBCATEGORIAPRODUCTO" Relationship="DBFARMACIABELENModel.FK_SUBCATEGORIAPRODUCTO_CATEGORIAPRODUCTO_ID" FromRole="CATEGORIAPRODUCTO" ToRole="SUBCATEGORIAPRODUCTO" />
+          <Property Name="CATEGORIAPRODUCTO_ESTADO" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="CLIENTE">
           <Key>
@@ -933,6 +940,7 @@ advertencia 6002: La tabla o vista 'DBFARMACIABELEN.dbo.DETALLEVENTA' no tiene d
           <Property Name="FARMAFARMACEUTICA_NOMBRE" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="FORMAFARMACEUTICA_DESCRIPCION" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="PRODUCTO" Relationship="DBFARMACIABELENModel.FK_PRODUCTO_FORMAFARMACEUTICA_ID" FromRole="FORMAFARMACEUTICA" ToRole="PRODUCTO" />
+          <Property Name="FORMAFARMACEUTICA_ESTADO" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="INVENTARIO_PRODUCTO">
           <Key>
@@ -963,6 +971,7 @@ advertencia 6002: La tabla o vista 'DBFARMACIABELEN.dbo.DETALLEVENTA' no tiene d
           <Property Name="MODULO_NOMBRE" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="MODULO_DESCRIPCION" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="PERMISOS" Relationship="DBFARMACIABELENModel.FK_PERMISOS_MODULO_ID" FromRole="MODULO" ToRole="PERMISOS" />
+          <Property Name="MODULO_ESTADO" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="PEDIDO">
           <Key>
@@ -1019,6 +1028,7 @@ advertencia 6002: La tabla o vista 'DBFARMACIABELEN.dbo.DETALLEVENTA' no tiene d
           <Property Name="PROVEEDOR_CORREO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="PROVEEDOR_DIRECCION" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="PEDIDO" Relationship="DBFARMACIABELENModel.FK_PEDIDO_PROVEEDOR" FromRole="PROVEEDOR" ToRole="PEDIDO" />
+          <Property Name="PROVEEDOR_ESTADO" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="RECIBO">
           <Key>
@@ -1040,6 +1050,7 @@ advertencia 6002: La tabla o vista 'DBFARMACIABELEN.dbo.DETALLEVENTA' no tiene d
           <Property Name="CATEGORIAPRODUCTO_ID" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="CATEGORIAPRODUCTO" Relationship="DBFARMACIABELENModel.FK_SUBCATEGORIAPRODUCTO_CATEGORIAPRODUCTO_ID" FromRole="SUBCATEGORIAPRODUCTO" ToRole="CATEGORIAPRODUCTO" />
           <NavigationProperty Name="PRODUCTO" Relationship="DBFARMACIABELENModel.FK_PRODUCTO_SUBCATEGORIAPRODUCTO_ID" FromRole="SUBCATEGORIAPRODUCTO" ToRole="PRODUCTO" />
+          <Property Name="SUBCATEGORIAPRODUCTO_ESTADO" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="VENTA">
           <Key>
@@ -1063,6 +1074,7 @@ advertencia 6002: La tabla o vista 'DBFARMACIABELEN.dbo.DETALLEVENTA' no tiene d
           <Property Name="VIAADMINISTRATIVA_NOMBRE" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="VIAADMINISTRACION_DESCRIPCION" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="PRODUCTO" Relationship="DBFARMACIABELENModel.FK_PRODUCTO_VIAADMINISTRACION_ID" FromRole="VIAADMINISTRACION" ToRole="PRODUCTO" />
+          <Property Name="VIAADMINISTRACION_ESTADO" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="DETALLE_PEDIDO">
           <Key>
@@ -1397,6 +1409,7 @@ advertencia 6002: La tabla o vista 'DBFARMACIABELEN.dbo.DETALLEVENTA' no tiene d
           <EntitySetMapping Name="CATEGORIAPRODUCTO">
             <EntityTypeMapping TypeName="DBFARMACIABELENModel.CATEGORIAPRODUCTO">
               <MappingFragment StoreEntitySet="CATEGORIAPRODUCTO">
+                <ScalarProperty Name="CATEGORIAPRODUCTO_ESTADO" ColumnName="CATEGORIAPRODUCTO_ESTADO" />
                 <ScalarProperty Name="CATEGORIAPRODUCTO_DESCRIPCION" ColumnName="CATEGORIAPRODUCTO_DESCRIPCION" />
                 <ScalarProperty Name="CATEGORIAPRODUCTO_NOMBRE" ColumnName="CATEGORIAPRODUCTO_NOMBRE" />
                 <ScalarProperty Name="CATEGORIAPRODUCTO_ID" ColumnName="CATEGORIAPRODUCTO_ID" />
@@ -1414,6 +1427,7 @@ advertencia 6002: La tabla o vista 'DBFARMACIABELEN.dbo.DETALLEVENTA' no tiene d
           <EntitySetMapping Name="FORMAFARMACEUTICA">
             <EntityTypeMapping TypeName="DBFARMACIABELENModel.FORMAFARMACEUTICA">
               <MappingFragment StoreEntitySet="FORMAFARMACEUTICA">
+                <ScalarProperty Name="FORMAFARMACEUTICA_ESTADO" ColumnName="FORMAFARMACEUTICA_ESTADO" />
                 <ScalarProperty Name="FORMAFARMACEUTICA_DESCRIPCION" ColumnName="FORMAFARMACEUTICA_DESCRIPCION" />
                 <ScalarProperty Name="FARMAFARMACEUTICA_NOMBRE" ColumnName="FARMAFARMACEUTICA_NOMBRE" />
                 <ScalarProperty Name="FORMAFARMACEUTICA_ID" ColumnName="FORMAFARMACEUTICA_ID" />
@@ -1442,6 +1456,7 @@ advertencia 6002: La tabla o vista 'DBFARMACIABELEN.dbo.DETALLEVENTA' no tiene d
           <EntitySetMapping Name="MODULO">
             <EntityTypeMapping TypeName="DBFARMACIABELENModel.MODULO">
               <MappingFragment StoreEntitySet="MODULO">
+                <ScalarProperty Name="MODULO_ESTADO" ColumnName="MODULO_ESTADO" />
                 <ScalarProperty Name="MODULO_DESCRIPCION" ColumnName="MODULO_DESCRIPCION" />
                 <ScalarProperty Name="MODULO_NOMBRE" ColumnName="MODULO_NOMBRE" />
                 <ScalarProperty Name="MODULO_ID" ColumnName="MODULO_ID" />
@@ -1489,6 +1504,7 @@ advertencia 6002: La tabla o vista 'DBFARMACIABELEN.dbo.DETALLEVENTA' no tiene d
           <EntitySetMapping Name="PROVEEDOR">
             <EntityTypeMapping TypeName="DBFARMACIABELENModel.PROVEEDOR">
               <MappingFragment StoreEntitySet="PROVEEDOR">
+                <ScalarProperty Name="PROVEEDOR_ESTADO" ColumnName="PROVEEDOR_ESTADO" />
                 <ScalarProperty Name="PROVEEDOR_DIRECCION" ColumnName="PROVEEDOR_DIRECCION" />
                 <ScalarProperty Name="PROVEEDOR_CORREO" ColumnName="PROVEEDOR_CORREO" />
                 <ScalarProperty Name="PROVEEDOR_CELULAR" ColumnName="PROVEEDOR_CELULAR" />
@@ -1510,6 +1526,7 @@ advertencia 6002: La tabla o vista 'DBFARMACIABELEN.dbo.DETALLEVENTA' no tiene d
           <EntitySetMapping Name="SUBCATEGORIAPRODUCTO">
             <EntityTypeMapping TypeName="DBFARMACIABELENModel.SUBCATEGORIAPRODUCTO">
               <MappingFragment StoreEntitySet="SUBCATEGORIAPRODUCTO">
+                <ScalarProperty Name="SUBCATEGORIAPRODUCTO_ESTADO" ColumnName="SUBCATEGORIAPRODUCTO_ESTADO" />
                 <ScalarProperty Name="CATEGORIAPRODUCTO_ID" ColumnName="CATEGORIAPRODUCTO_ID" />
                 <ScalarProperty Name="SUBCATEGORIAPRODUCTO_DESCRIPCION" ColumnName="SUBCATEGORIAPRODUCTO_DESCRIPCION" />
                 <ScalarProperty Name="SUBCATEGORIAPRODUCTO_NOMBRE" ColumnName="SUBCATEGORIAPRODUCTO_NOMBRE" />
@@ -1531,6 +1548,7 @@ advertencia 6002: La tabla o vista 'DBFARMACIABELEN.dbo.DETALLEVENTA' no tiene d
           <EntitySetMapping Name="VIAADMINISTRACION">
             <EntityTypeMapping TypeName="DBFARMACIABELENModel.VIAADMINISTRACION">
               <MappingFragment StoreEntitySet="VIAADMINISTRACION">
+                <ScalarProperty Name="VIAADMINISTRACION_ESTADO" ColumnName="VIAADMINISTRACION_ESTADO" />
                 <ScalarProperty Name="VIAADMINISTRACION_DESCRIPCION" ColumnName="VIAADMINISTRACION_DESCRIPCION" />
                 <ScalarProperty Name="VIAADMINISTRATIVA_NOMBRE" ColumnName="VIAADMINISTRATIVA_NOMBRE" />
                 <ScalarProperty Name="VIAADMINISTRACION_ID" ColumnName="VIAADMINISTRACION_ID" />

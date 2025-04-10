@@ -23,6 +23,7 @@ namespace FarmaciaBelen.Models
         public string VIAADMINISTRACION_ID { get; set; }
         public string VIAADMINISTRATIVA_NOMBRE { get; set; }
         public string VIAADMINISTRACION_DESCRIPCION { get; set; }
+        public string VIAADMINISTRACION_ESTADO { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PRODUCTO> PRODUCTO { get; set; }
