@@ -30,15 +30,15 @@
                 <div class="card-body">
                     <div class="row g-3">
                         <div class="col-md-3">
-                            <label class="form-label">Código</label>
+                            <label class="form-label"><b>Código</b></label>
                             <input type="text" name="codigo" value="@Request["codigo"]" class="form-control" placeholder="Buscar por código" />
                         </div>
-                        <div class="col-md-5">
-                            <label class="form-label">Nombre</label>
+                        <div class="col-md-4">
+                            <label class="form-label"><b>Nombre</b></label>
                             <input type="text" name="nombre" value="@Request["nombre"]" class="form-control" placeholder="Buscar por nombre" />
                         </div>
                         <div class="col-md-2">
-                            <label class="form-label">Estado</label>
+                            <label class="form-label"><b>Estado</b></label>
                             <select name="estado" class="form-select">
                                 <option value="">Todos</option>
                                 <option value="Activo" @(Request["estado"] == "Activo" ? "selected" : "")>Activo</option>
@@ -49,6 +49,11 @@
                             <button type="submit" class="btn btn-primary w-100">
                                 <i class="fas fa-search"></i> Buscar
                             </button>
+                        </div>
+                        <div class="col-md-1 d-flex align-items-end">
+                            <a class="btn btn-secondary w-100">
+                                <i class="fas fa-print"></i>
+                            </a>
                         </div>
                     </div>
                 </div>

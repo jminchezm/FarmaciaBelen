@@ -1,12 +1,15 @@
 ﻿.table-fixed-header thead th {
     position: sticky;
     top: 0;
-    background-color: #A0B9D9;
+    /*background-color: #A0B9D9;*/
     z-index: 2;
+    text-align: center;
+    align-items: center;
 }
 
 .table-responsive {
     height: 65vh;
+    background-color: #EEEEEE;
 }
 
 .row {
