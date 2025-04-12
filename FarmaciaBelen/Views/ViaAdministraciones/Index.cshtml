@@ -1,6 +1,7 @@
-﻿@model IEnumerable<FarmaciaBelen.Models.PERMISOS>
+﻿@model IEnumerable<FarmaciaBelen.Models.VIAADMINISTRACION>
 
 @{
+    ViewBag.Title = "Listado de Vías de Administración";
     Layout = null;
 }
 
@@ -8,40 +9,43 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Listado de Permisos</title>
+    <title>@ViewBag.Title</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="~/Content/css/ViaAdministracion/style.css" />
 </head>
 <body class="bg-light">
 
     <div class="container mt-5">
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h2 class="text-primary">Listado de Permisos</h2>
+            <h2 class="text-primary">@ViewBag.Title</h2>
             <a href="@Url.Action("Create")" class="btn btn-success">
-                <i class="fas fa-plus-circle"></i> Nuevo Permiso
+                <i class="fas fa-plus-circle"></i> Nueva Vía de Administración
             </a>
         </div>
 
         <!-- Filtros de búsqueda -->
-        @using (Html.BeginForm("Index", "Permisos", FormMethod.Get))
+
+        @using (Html.BeginForm("Index", "ViaAdministraciones", FormMethod.Get))
         {
             <div class="card mb-4 shadow-sm">
                 <div class="card-body">
                     <div class="row g-3">
-                        <div class="col-md-4">
-                            <label class="form-label">Rol</label>
-                            <input type="text" name="rol" value="@Request["rol"]" class="form-control" placeholder="Buscar por nombre del rol" />
+                        <div class="col-md-3">
+                            <label class="form-label"><b>Código</b></label>
+                            <input type="text" name="codigo" value="@Request["Tipo"]" class="form-control" placeholder="Buscar por código" />
+
                         </div>
                         <div class="col-md-4">
-                            <label class="form-label">Módulo</label>
-                            <input type="text" name="modulo" value="@Request["modulo"]" class="form-control" placeholder="Buscar por nombre del módulo" />
+                            <label class="form-label"><b>Nombre</b></label>
+                            <input type="text" name="nombre" value="@Request["nombre"]" class="form-control" placeholder="Buscar por nombre" />
                         </div>
                         <div class="col-md-2">
-                            <label class="form-label">¿Puede acceder?</label>
-                            <select name="puedeAcceder" class="form-select">
+                            <label class="form-label"><b>Estado</b></label>
+                            <select name="estado" class="form-select">
                                 <option value="">Todos</option>
-                                <option value="True" @(Request["puedeAcceder"] == "True" ? "selected" : "")>Sí</option>
-                                <option value="False" @(Request["puedeAcceder"] == "False" ? "selected" : "")>No</option>
+                                <option value="Activo" @(Request["estado"] == "Activo" ? "selected" : "")>Activo</option>
+                                <option value="Inactivo" @(Request["estado"] == "Inactivo" ? "selected" : "")>Inactivo</option>
                             </select>
                         </div>
                         <div class="col-md-2 d-flex align-items-end">
@@ -49,20 +53,23 @@
                                 <i class="fas fa-search"></i> Buscar
                             </button>
                         </div>
+                        <div class="col-md-1 d-flex align-items-end">
+                            <a class="btn btn-secondary w-100">
+                                <i class="fas fa-print"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
         }
 
-        <!-- Tabla de resultados -->
         <div class="table-responsive">
             @if (!Model.Any())
             {
                 <div class="alert alert-warning text-center">
                     <i class="fas fa-exclamation-circle fa-2x d-block mb-2"></i>
-                    <strong>No se encontraron permisos que coincidan con la búsqueda.</strong>
+                    <strong>No se encontraron vias administrativas que coincidan con la búsqueda.</strong>
                 </div>
-
                 <div class="text-center">
                     <img src="~/Content/Images/Busqueda/no-results.png" alt="Sin resultados" style="max-width: 220px;" />
                 </div>
@@ -72,9 +79,10 @@
                 <table class="table table-bordered table-hover table-striped shadow-sm table-fixed-header">
                     <thead class="table-primary">
                         <tr>
-                            <th>@Html.DisplayNameFor(model => model.First().PERMISOS_PUEDEACCEDER)</th>
-                            <th>@Html.DisplayNameFor(model => model.First().MODULO.MODULO_NOMBRE)</th>
-                            <th>@Html.DisplayNameFor(model => model.First().ROL.ROL_NOMBRE)</th>
+                            <th>@Html.DisplayNameFor(model => model.First().VIAADMINISTRACION_ID)</th>
+                            <th>@Html.DisplayNameFor(model => model.First().VIAADMINISTRATIVA_NOMBRE)</th>
+                            <th>@Html.DisplayNameFor(model => model.First().VIAADMINISTRACION_DESCRIPCION)</th>
+                            <th>@Html.DisplayNameFor(model => model.First().VIAADMINISTRACION_ESTADO)</th>
                             <th class="text-center">Acciones</th>
                         </tr>
                     </thead>
@@ -82,18 +90,19 @@
                         @foreach (var item in Model)
                         {
                             <tr>
-                                <td>@(item.PERMISOS_PUEDEACCEDER ? "Sí" : "No")</td>
-                                <td>@Html.DisplayFor(modelItem => item.MODULO.MODULO_NOMBRE)</td>
-                                <td>@Html.DisplayFor(modelItem => item.ROL.ROL_NOMBRE)</td>
+                                <td>@Html.DisplayFor(modelItem => item.VIAADMINISTRACION_ID)</td>
+                                <td>@Html.DisplayFor(modelItem => item.VIAADMINISTRATIVA_NOMBRE)</td>
+                                <td>@Html.DisplayFor(modelItem => item.VIAADMINISTRACION_DESCRIPCION)</td>
+                                <td>@Html.DisplayFor(modelItem => item.VIAADMINISTRACION_ESTADO)</td>
                                 <td class="text-center">
                                     <div class="d-flex justify-content-center gap-2">
-                                        <a href="@Url.Action("Edit", new { id = item.PERMISOS_ID })" class="btn btn-sm btn-warning">
+                                        <a href="@Url.Action("Edit", new { id = item.VIAADMINISTRACION_ID })" class="btn btn-sm btn-warning">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <a href="@Url.Action("Details", new { id = item.PERMISOS_ID })" class="btn btn-sm btn-info text-white">
+                                        <a href="@Url.Action("Details", new { id = item.VIAADMINISTRACION_ID })" class="btn btn-sm btn-info text-white">
                                             <i class="fas fa-eye"></i>
                                         </a>
-                                        <a href="@Url.Action("Delete", new { id = item.PERMISOS_ID })" class="btn btn-sm btn-danger">
+                                        <a href="@Url.Action("Delete", new { id = item.VIAADMINISTRACION_ID })" class="btn btn-sm btn-danger">
                                             <i class="fas fa-trash-alt"></i>
                                         </a>
                                     </div>
@@ -106,8 +115,6 @@
         </div>
     </div>
 
-    <!-- Bootstrap y FontAwesome JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </body>
 </html>

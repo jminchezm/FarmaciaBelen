@@ -1,16 +1,15 @@
-﻿@model FarmaciaBelen.Models.SUBCATEGORIAPRODUCTO
+﻿@model FarmaciaBelen.Models.FORMAFARMACEUTICA
 
 @{
     Layout = null;
 }
 
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Editar Subcategoría de Producto</title>
+    <title>Editar Forma Farmacéutica</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 <body class="bg-light">
 
@@ -18,48 +17,41 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card shadow">
-                    <div class="card-header bg-warning text-black">
-                        <h4 class="mb-0"><b>Editar Subcategoría de Producto: </b> @Html.DisplayFor(modelo => modelo.SUBCATEGORIAPRODUCTO_ID)</h4>
+                    <div class="card-header bg-warning text-dark">
+                        <h4 class="mb-0"><b>Editar Forma Farmacéutica:</b> @Html.DisplayFor(model => model.FORMAFARMACEUTICA_ID)</h4>
                     </div>
                     <div class="card-body">
                         @using (Html.BeginForm())
                         {
                             @Html.AntiForgeryToken()
-                            @Html.HiddenFor(model => model.SUBCATEGORIAPRODUCTO_ID)
+                            @Html.HiddenFor(model => model.FORMAFARMACEUTICA_ID)
 
                             <div class="mb-3">
-                                <b>@Html.LabelFor(model => model.SUBCATEGORIAPRODUCTO_NOMBRE, new { @class = "form-label" })*</b>
-                                @Html.EditorFor(model => model.SUBCATEGORIAPRODUCTO_NOMBRE, new { htmlAttributes = new
+                                <b>@Html.LabelFor(model => model.FARMAFARMACEUTICA_NOMBRE, new { @class = "form-label" })*</b>
+                                @Html.EditorFor(model => model.FARMAFARMACEUTICA_NOMBRE, new { htmlAttributes = new
                            {
                                @class = "form-control",
                                maxlength = "100",
-                               placeholder = "Ingrese el nombre de la subcategoría (máximo 100 caracteres)"
+                               placeholder = "Ingrese el nombre de la forma farmaceutica (máximo 100 carcteres)"
                            } })
-                                @Html.ValidationMessageFor(model => model.SUBCATEGORIAPRODUCTO_NOMBRE, "", new { @class = "text-danger" })
+                                @Html.ValidationMessageFor(model => model.FARMAFARMACEUTICA_NOMBRE, "", new { @class = "text-danger" })
                             </div>
 
                             <div class="mb-3">
-                                <b>@Html.LabelFor(model => model.SUBCATEGORIAPRODUCTO_DESCRIPCION, new { @class = "form-label" })*</b>
-                                @Html.TextAreaFor(model => model.SUBCATEGORIAPRODUCTO_DESCRIPCION, new
+                                <b>@Html.LabelFor(model => model.FORMAFARMACEUTICA_DESCRIPCION, new { @class = "form-label" })*</b>
+                                @Html.TextAreaFor(model => model.FORMAFARMACEUTICA_DESCRIPCION, new
                                 {
                                     @class = "form-control",
-                                    maxlength = "255",
+                                    maxlength = "250",
                                     rows = "4", // opcional: define cuántas filas visibles tiene el textarea
-                                    placeholder = "Ingrese la descripción de la subcategoría (máximo 255 caracteres)"
+                                    placeholder = "Ingrese la descripción de la forma farmaceutica (máximo 250 caracteres)"
                                 })
-                                @*@Html.EditorFor(model => model.SUBCATEGORIAPRODUCTO_DESCRIPCION, new { htmlAttributes = new { @class = "form-control" } })*@
-                                @Html.ValidationMessageFor(model => model.SUBCATEGORIAPRODUCTO_DESCRIPCION, "", new { @class = "text-danger" })
+                                @Html.ValidationMessageFor(model => model.FORMAFARMACEUTICA_DESCRIPCION, "", new { @class = "text-danger" })
                             </div>
 
                             <div class="mb-3">
-                                <b>@Html.LabelFor(model => model.CATEGORIAPRODUCTO_ID, "Categoría", new { @class = "form-label" })*</b>
-                                @Html.DropDownList("CATEGORIAPRODUCTO_ID", null, htmlAttributes: new { @class = "form-select" })
-                                @Html.ValidationMessageFor(model => model.CATEGORIAPRODUCTO_ID, "", new { @class = "text-danger" })
-                            </div>
-
-                            <div class="mb-3">
-                                <b>@Html.LabelFor(model => model.SUBCATEGORIAPRODUCTO_ESTADO, new { @class = "form-label" })*</b>
-                                @Html.DropDownListFor(model => model.SUBCATEGORIAPRODUCTO_ESTADO,
+                                <b>@Html.LabelFor(model => model.FORMAFARMACEUTICA_ESTADO, new { @class = "form-label" })*</b>
+                                @Html.DropDownListFor(model => model.FORMAFARMACEUTICA_ESTADO,
                                     new SelectList(
                                         new List<SelectListItem>
                                         {
@@ -68,10 +60,10 @@
                                         },
                                         "Value",
                                         "Text",
-                                        Model?.SUBCATEGORIAPRODUCTO_ESTADO ?? "Activo"
+                                        Model?.FORMAFARMACEUTICA_ESTADO ?? "Activo"
                                     ),
                                     htmlAttributes: new { @class = "form-select" })
-                                @Html.ValidationMessageFor(model => model.SUBCATEGORIAPRODUCTO_ESTADO, "", new { @class = "text-danger" })
+                                @Html.ValidationMessageFor(model => model.FORMAFARMACEUTICA_ESTADO, "", new { @class = "text-danger" })
                             </div>
 
                             <div class="d-flex justify-content-between">
@@ -89,12 +81,16 @@
         </div>
     </div>
 
+    <!-- Bootstrap JS + FontAwesome -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
     <!-- Modal de edición exitosa -->
     <div class="modal fade" id="modalEditado" tabindex="-1" aria-labelledby="modalEditadoLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header bg-success text-white">
-                    <h5 class="modal-title" id="modalEditadoLabel">Subcategoría actualizada</h5>
+                    <h5 class="modal-title" id="modalEditadoLabel">Forma Farmacéutica actualizada</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
                 <div class="modal-body">
@@ -108,7 +104,6 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     @if (ViewBag.Editado != null && (bool)ViewBag.Editado)
     {
         <script>

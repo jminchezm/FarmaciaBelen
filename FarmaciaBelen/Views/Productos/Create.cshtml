@@ -1,0 +1,203 @@
+﻿@model FarmaciaBelen.Models.PRODUCTO
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Registrar Producto</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body class="bg-light">
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="mb-0">Registrar Nuevo Producto</h4>
+                    </div>
+                    <div class="card-body">
+                        @using (Html.BeginForm("Create", "Productos", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @*@Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })*@
+
+                            <div class="mb-3">
+                                <b> @Html.LabelFor(model => model.PRODUCTO_ID, new { @class = "form-label" })*</b>
+                                @Html.EditorFor(model => model.PRODUCTO_ID, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.PRODUCTO_ID, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="mb-3">
+                                <b> @Html.LabelFor(model => model.PRODUCTO_NOMBRE, new { @class = "form-label" })*</b>
+                                @Html.EditorFor(model => model.PRODUCTO_NOMBRE, new
+                                {
+                                    htmlAttributes = new
+
+                           {
+                               @class = "form-control",
+                               maxlength = "100",
+                               placeholder = "Ingrese el nombre (máximo 100 caracteres)"
+
+                           }
+                           })
+
+                                @Html.ValidationMessageFor(model => model.PRODUCTO_NOMBRE, "", new { @class = "text-danger" })
+                            </div>
+
+
+
+
+                            <div class="mb-3">
+                                <b>@Html.LabelFor(model => model.PRODUCTO_DESCRIPCION, new { @class = "form-label" })*</b>
+                                @Html.TextAreaFor(model => model.PRODUCTO_DESCRIPCION, new
+                                {
+                                    @class = "form-control",
+                                    maxlength = "250",
+                                    rows = "4", // opcional: define cuántas filas visibles tiene el textarea
+                                    placeholder = "Ingrese la descripción (máximo 250 caracteres)"
+                                })
+                                @Html.ValidationMessageFor(model => model.PRODUCTO_DESCRIPCION, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="mb-3">
+                                <b>@Html.LabelFor(model => model.PRODUCTO_CASAMEDICA, new { @class = "form-label" }) </b>
+                                @Html.EditorFor(model => model.PRODUCTO_CASAMEDICA, new
+                                {
+                                    htmlAttributes = new
+
+                           {
+                               @class = "form-control",
+                               maxlength = "100",
+                               placeholder = "Ingrese la casa medica (máximo 100 caracteres)"
+
+                           }
+                           })
+
+                                @Html.ValidationMessageFor(model => model.PRODUCTO_CASAMEDICA, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-md-6 mb-3">
+
+                                    <b> @Html.LabelFor(model => model.FORMAFARMACEUTICA_ID, new { @class = "form-label" })*</b>
+                                    @Html.DropDownListFor(model => model.FORMAFARMACEUTICA_ID, (SelectList)ViewBag.FORMAFARMACEUTICA_ID, "Seleccione Forma farmaceutica", new { @class = "form-select" })
+                                    @Html.ValidationMessageFor(model => model.FORMAFARMACEUTICA_ID, "", new { @class = "text-danger" })
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+
+                                    <b> @Html.LabelFor(model => model.VIAADMINISTRACION_ID, new { @class = "form-label" })*</b>
+                                    @Html.DropDownListFor(model => model.VIAADMINISTRACION_ID, (SelectList)ViewBag.VIAADMINISTRACION_ID, "Seleccione Vía de administración", new { @class = "form-select" })
+                                    @Html.ValidationMessageFor(model => model.VIAADMINISTRACION_ID, "", new { @class = "text-danger" })
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-md-6 mb-3">
+
+                                    <b> @Html.LabelFor(model => model.SUBCATEGORIAPRODUCTO_ID, new { @class = "form-label" })*</b>
+                                    @Html.DropDownListFor(model => model.SUBCATEGORIAPRODUCTO_ID, (SelectList)ViewBag.SUBCATEGORIAPRODUCTO_ID, "Seleccione Categoria", new { @class = "form-select" })
+                                    @Html.ValidationMessageFor(model => model.SUBCATEGORIAPRODUCTO_ID, "", new { @class = "text-danger" })
+                                </div>
+
+
+
+                                <div class="col-md-6 mb-3">
+                                    <div class="custom-file">
+                                        <b> @Html.LabelFor(model => model.PRODUCTO_IMG, new { @class = "form-label" })</b>
+                                        <input type="file" class="form-control d-none" id="imagen" name="imagen" accept=".jpg,.jpeg,.png,.gif" onchange="updateFileName()" />
+                                        <label for="imagen" class="btn btn-outline-secondary w-100" id="customFileLabel">Cargue una imagen</label>
+                                    </div>
+                                </div>
+
+
+
+
+                            </div>
+                            <div class="mb-3">
+                                <b>@Html.LabelFor(model => model.PRODUCTO_ESTADO, new { @class = "form-label" })*</b>
+
+                                @Html.DropDownListFor(model => model.PRODUCTO_ESTADO,
+                                    new SelectList(
+                                        new List<SelectListItem>
+                                        {
+                                            new SelectListItem { Text = "Activo", Value = "Activo" },
+                                            new SelectListItem { Text = "Inactivo", Value = "Inactivo" }
+                                        },
+                                        "Value",
+                                        "Text",
+                                        Model?.PRODUCTO_ESTADO
+                                    ),
+                                    "Seleccione estado", // <- Esta es la opción por defecto
+                                    new { @class = "form-select" })
+
+                                @Html.ValidationMessageFor(model => model.PRODUCTO_ESTADO, "", new { @class = "text-danger" })
+                            </div>
+
+
+                            <div class="d-flex justify-content-between">
+                                <a href="@Url.Action("Index")" class="btn btn-secondary">← Volver a la lista</a>
+                                <button type="submit" class="btn btn-primary">Guardar Producto</button>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal de confirmación -->
+    <div class="modal fade" id="modalCreado" tabindex="-1" aria-labelledby="modalCreadoLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="modalCreadoLabel">Producto creado</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    ¡El producto fue registrado exitosamente!
+                </div>
+                <div class="modal-footer">
+                    <a href="@Url.Action("Index")" class="btn btn-secondary">Ir al listado</a>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    @if (ViewBag.Creado != null && (bool)ViewBag.Creado)
+    {
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var modal = new bootstrap.Modal(document.getElementById('modalCreado'));
+                modal.show();
+            });
+        </script>
+    }
+
+    <script>
+        function updateFileName() {
+            const input = document.getElementById('imagen');
+            const label = document.getElementById('customFileLabel');
+            if (input.files.length > 0) {
+                label.textContent = input.files[0].name;
+            } else {
+                label.textContent = "Cargue una imagen";
+            }
+        }
+
+
+    </script>
+</body>
+</html>

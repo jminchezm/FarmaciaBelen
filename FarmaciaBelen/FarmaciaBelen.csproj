@@ -133,15 +133,17 @@
     <Compile Include="Controllers\AreasController.cs" />
     <Compile Include="Controllers\CategoriaProductosController.cs" />
     <Compile Include="Controllers\EmpleadosController.cs" />
+    <Compile Include="Controllers\FormaFarmaceuticaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ModulosController.cs" />
-    <Compile Include="Controllers\PermisosController.cs" />
+    <Compile Include="Controllers\ProductosController.cs" />
     <Compile Include="Controllers\ProveedoresController.cs" />
     <Compile Include="Controllers\PuestosController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\SubCategoriaProductosController.cs" />
     <Compile Include="Controllers\UsuariosController.cs" />
+    <Compile Include="Controllers\ViaAdministracionesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -197,6 +199,7 @@
     <Compile Include="Models\PERMISOS.cs">
       <DependentUpon>MiModelo.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PermisosViewModel.cs" />
     <Compile Include="Models\PERSONA.cs">
       <DependentUpon>MiModelo.tt</DependentUpon>
     </Compile>
@@ -252,13 +255,19 @@
     <Content Include="Content\css\Area\style.css" />
     <Content Include="Content\css\Categoria\style.css" />
     <Content Include="Content\css\Empleado\style.css" />
+    <Content Include="Content\css\FormaFarmaceutica\style.css" />
     <Content Include="Content\css\Modulo\style.css" />
+    <Content Include="Content\css\Producto\style.css" />
     <Content Include="Content\css\Proveedor\style.css" />
     <Content Include="Content\css\Puesto\style.css" />
     <Content Include="Content\css\Rol\style.css" />
     <Content Include="Content\css\stylesHome.css" />
     <Content Include="Content\css\SubCategoria\style.css" />
     <Content Include="Content\css\Usuario\style.css" />
+    <Content Include="Content\css\ViaAdministracion\style.css" />
+    <Content Include="Content\ImagenesProductos\2cf8935e-216d-4aa8-a456-834ad597f40f.jpg" />
+    <Content Include="Content\ImagenesProductos\default.png" />
+    <Content Include="Content\ImagenesProductos\Tbcin.jpg" />
     <Content Include="Content\Images\Busqueda\no-results.png" />
     <Content Include="Content\Images\Home\logoBarraInicio.png" />
     <Content Include="Content\Images\Home\logout.png" />
@@ -349,11 +358,6 @@
     <Content Include="Views\Modulos\Details.cshtml" />
     <Content Include="Views\Modulos\Edit.cshtml" />
     <Content Include="Views\Modulos\Index.cshtml" />
-    <Content Include="Views\Permisos\Create.cshtml" />
-    <Content Include="Views\Permisos\Delete.cshtml" />
-    <Content Include="Views\Permisos\Details.cshtml" />
-    <Content Include="Views\Permisos\Edit.cshtml" />
-    <Content Include="Views\Permisos\Index.cshtml" />
     <Content Include="Views\Access\Recovery.cshtml" />
     <Content Include="Views\Access\StartRecovery.cshtml" />
     <Content Include="Views\CategoriaProductos\Create.cshtml" />
@@ -371,6 +375,21 @@
     <Content Include="Views\Proveedores\Details.cshtml" />
     <Content Include="Views\Proveedores\Edit.cshtml" />
     <Content Include="Views\Proveedores\Index.cshtml" />
+    <Content Include="Views\FormaFarmaceutica\Create.cshtml" />
+    <Content Include="Views\FormaFarmaceutica\Delete.cshtml" />
+    <Content Include="Views\FormaFarmaceutica\Details.cshtml" />
+    <Content Include="Views\FormaFarmaceutica\Edit.cshtml" />
+    <Content Include="Views\FormaFarmaceutica\Index.cshtml" />
+    <Content Include="Views\ViaAdministraciones\Create.cshtml" />
+    <Content Include="Views\ViaAdministraciones\Delete.cshtml" />
+    <Content Include="Views\ViaAdministraciones\Details.cshtml" />
+    <Content Include="Views\ViaAdministraciones\Edit.cshtml" />
+    <Content Include="Views\ViaAdministraciones\Index.cshtml" />
+    <Content Include="Views\Productos\Create.cshtml" />
+    <Content Include="Views\Productos\Delete.cshtml" />
+    <Content Include="Views\Productos\Details.cshtml" />
+    <Content Include="Views\Productos\Edit.cshtml" />
+    <Content Include="Views\Productos\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

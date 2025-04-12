@@ -1,0 +1,118 @@
+﻿@model FarmaciaBelen.Models.VIAADMINISTRACION
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Registrar Vía de Administración</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body class="bg-light">
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="mb-0">Registrar Nueva Vía de Administración</h4>
+                    </div>
+                    <div class="card-body">
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                            <div class="mb-3">
+                                <b>@Html.LabelFor(model => model.VIAADMINISTRACION_ID, new { @class = "form-label" })</b>
+                                @Html.TextBoxFor(model => model.VIAADMINISTRACION_ID, new { @class = "form-control", @readonly = "readonly" })
+                            </div>
+
+                            <div class="mb-3">
+                                <b>@Html.LabelFor(model => model.VIAADMINISTRATIVA_NOMBRE, new { @class = "form-label" })*</b>
+                                @Html.EditorFor(model => model.VIAADMINISTRATIVA_NOMBRE, new
+                                {
+                                    htmlAttributes = new
+                                    {
+                                        @class = "form-control",
+                                        maxlength = "100",
+                                        placeholder = "Ingrese el nombre (máximo 100 caracteres)"
+                                    }
+                                })
+                                @Html.ValidationMessageFor(model => model.VIAADMINISTRATIVA_NOMBRE, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="mb-3">
+                                <b>@Html.LabelFor(model => model.VIAADMINISTRACION_DESCRIPCION, new { @class = "form-label" })*</b>
+                                @Html.TextAreaFor(model => model.VIAADMINISTRACION_DESCRIPCION, new
+                                {
+                                    @class = "form-control",
+                                    maxlength = "250",
+                                    rows = "4",
+                                    placeholder = "Ingrese una descripción (máximo 250 caracteres)"
+                                })
+                                @Html.ValidationMessageFor(model => model.VIAADMINISTRACION_DESCRIPCION, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="mb-3">
+                                <b>@Html.LabelFor(model => model.VIAADMINISTRACION_ESTADO, new { @class = "form-label" })*</b>
+                                @Html.DropDownListFor(model => model.VIAADMINISTRACION_ESTADO,
+                                    new SelectList(
+                                        new List<SelectListItem>
+                                        {
+                                            new SelectListItem { Text = "Activo", Value = "Activo" },
+                                            new SelectListItem { Text = "Inactivo", Value = "Inactivo" }
+                                        },
+                                        "Value", "Text"
+                                    ),
+                                    "Seleccione estado",
+                                    new { @class = "form-select" })
+                                @Html.ValidationMessageFor(model => model.VIAADMINISTRACION_ESTADO, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="d-flex justify-content-between">
+                                <a href="@Url.Action("Index")" class="btn btn-secondary">← Volver al listado</a>
+                                <button type="submit" class="btn btn-primary">Guardar Vía de Administración</button>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de confirmación -->
+    <div class="modal fade" id="modalCreado" tabindex="-1" aria-labelledby="modalCreadoLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="modalCreadoLabel">Registro exitoso</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    ¡La nueva vía de administración fue registrada exitosamente!
+                </div>
+                <div class="modal-footer">
+                    <a href="@Url.Action("Index")" class="btn btn-secondary">Ir al listado</a>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    @if (ViewBag.Creado != null && (bool)ViewBag.Creado)
+    {
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var modal = new bootstrap.Modal(document.getElementById('modalCreado'));
+                modal.show();
+            });
+        </script>
+    }
+</body>
+</html>

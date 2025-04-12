@@ -1,0 +1,156 @@
+﻿@model IEnumerable<FarmaciaBelen.Models.PRODUCTO>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Listado de Productos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="~/Content/css/Producto/style.css" />
+</head>
+<body class="bg-light">
+
+    <div class="container mt-5">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="text-primary">Listado de Productos</h2>
+            <a href="@Url.Action("Create")" class="btn btn-success">
+                <i class="fas fa-plus-circle"></i> Nuevo Producto
+            </a>
+        </div>
+
+
+
+        @using (Html.BeginForm("Index", "Productos", FormMethod.Get))
+        {
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <label class="form-label"><b>Código</b></label>
+                            <input type="text" name="codigo" value="@Request["codigo"]" class="form-control" placeholder="Buscar por código" />
+                        </div>
+
+                        <div class="col-md-5">
+                            <label class="form-label"><b>Nombre</b></label>
+                            <input type="text" name="nombre" value="@Request["nombre"]" class="form-control" placeholder="Buscar por nombre" />
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label"><b>Estado</b></label>
+                            <select name="estado" class="form-select">
+                                <option value="">Todos</option>
+                                <option value="Activo" @(Request["estado"] == "Activo" ? "selected" : "")>Activo</option>
+                                <option value="Inactivo" @(Request["estado"] == "Inactivo" ? "selected" : "")>Inactivo</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label"><b>Fecha ingreso (inicio)</b></label>
+                            <input type="date" name="fechaInicio" value="@Request["fechaInicio"]" class="form-control" />
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label"><b>Fecha ingreso (fin)</b></label>
+                            <input type="date" name="fechaFin" value="@Request["fechaFin"]" class="form-control" />
+                        </div>
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="fas fa-search"></i> Buscar
+                            </button>
+                        </div>
+
+                        <div class="col-md-1 d-flex align-items-end">
+                            <a class="btn btn-secondary w-100">
+                                <i class="fas fa-print"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        }
+
+
+        <div class="table-responsive">
+            @if (!Model.Any())
+            {
+                <div class="alert alert-warning text-center">
+                    <i class="fas fa-exclamation-circle fa-2x d-block mb-2"></i>
+                    <strong>No se encontraron productos que coincidan con la búsqueda.</strong>
+                </div>
+                <div class="text-center mt-3">
+                    <img src="~/Content/Images/Busqueda/no-results.png" alt="Sin resultados" style="max-width: 220px;" />
+                </div>
+            }
+            else
+            {
+                <table class="table table-bordered table-hover table-striped shadow-sm table-fixed-header">
+                    <thead class="table-primary">
+                        <tr>
+                            <th class="text-center">@Html.DisplayNameFor(model => model.First().PRODUCTO_ID)</th>
+                            <th class="text-center">@Html.DisplayNameFor(model => model.First().PRODUCTO_NOMBRE)</th>
+                            <th class="text-center">@Html.DisplayNameFor(model => model.First().PRODUCTO_DESCRIPCION)</th>
+                            @*<th class="text-center">@Html.DisplayNameFor(model => model.First().PRODUCTO_FECHACREACION)</th>*@
+                            <th class="text-center">@Html.DisplayNameFor(model => model.First().PRODUCTO_CASAMEDICA)</th>
+                            <th class="text-center">Forma Farmaceutica</th>
+                            @*<th class="text-center">SubCategoría</th>*@
+                            @*<th class="text-center">Vía Administración</th>*@
+                            <th class="text-center">@Html.DisplayNameFor(model => model.First().PRODUCTO_IMG)</th>
+                            <th>@Html.DisplayNameFor(model => model.First().PRODUCTO_ESTADO)</th>
+
+                            <th class="text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => item.PRODUCTO_ID)</td>
+                                <td>@Html.DisplayFor(modelItem => item.PRODUCTO_NOMBRE)</td>
+                                <td>@Html.DisplayFor(modelItem => item.PRODUCTO_DESCRIPCION)</td>
+                                @*<td>@Html.DisplayFor(modelItem => item.PRODUCTO_FECHACREACION)</td>*@
+                                <td>@Html.DisplayFor(modelItem => item.PRODUCTO_CASAMEDICA)</td>
+                                <td>@Html.DisplayFor(modelItem => item.FORMAFARMACEUTICA.FARMAFARMACEUTICA_NOMBRE)</td>
+                                @*<td>@Html.DisplayFor(modelItem => item.SUBCATEGORIAPRODUCTO.SUBCATEGORIAPRODUCTO_NOMBRE)</td>*@
+                                @*<td>@Html.DisplayFor(modelItem => item.VIAADMINISTRACION.VIAADMINISTRATIVA_NOMBRE)</td>*@
+                                <td class="text-center">
+
+                                    @if (!string.IsNullOrEmpty(item.PRODUCTO_IMG))
+                                    {
+                                        <img src="@Url.Content(item.PRODUCTO_IMG)" alt="Producto" width="100" height="100" class="rounded" />
+                                    }
+                                    else
+                                    {
+                                        <img src="@Url.Content("~/Content/ImagenesProductos/default.png")" alt="Imagen por defecto" width="100" height="100" class="img-thumbnail img-producto" />
+                                    }
+                                </td>
+                                <td>@Html.DisplayFor(modelItem => item.PRODUCTO_ESTADO)</td>
+
+                                <td class="text-center">
+                                    <div class="d-flex justify-content-center gap-2">
+                                        <a href="@Url.Action("Edit", new { id = item.PRODUCTO_ID })" class="btn btn-sm btn-warning">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a href="@Url.Action("Details", new { id = item.PRODUCTO_ID })" class="btn btn-sm btn-info text-white">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="@Url.Action("Delete", new { id = item.PRODUCTO_ID })" class="btn btn-sm btn-danger">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
