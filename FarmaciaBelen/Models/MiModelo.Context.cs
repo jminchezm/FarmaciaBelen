@@ -45,7 +45,7 @@ namespace FarmaciaBelen.Models
         public virtual DbSet<SUBCATEGORIAPRODUCTO> SUBCATEGORIAPRODUCTO { get; set; }
         public virtual DbSet<VENTA> VENTA { get; set; }
         public virtual DbSet<VIAADMINISTRACION> VIAADMINISTRACION { get; set; }
-        public virtual DbSet<DETALLE_PEDIDO> DETALLE_PEDIDO { get; set; }
         public virtual DbSet<DETALLEVENTA> DETALLEVENTA { get; set; }
+        public virtual DbSet<DETALLE_PEDIDO> DETALLE_PEDIDO { get; set; }
     }
 }

@@ -22,6 +22,7 @@ namespace FarmaciaBelen.Models
     
         public string CLIENTE_ID { get; set; }
         public string CLIENTE_NOTA { get; set; }
+        public string CLIENTE_ESTADO { get; set; }
     
         public virtual PERSONA PERSONA { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

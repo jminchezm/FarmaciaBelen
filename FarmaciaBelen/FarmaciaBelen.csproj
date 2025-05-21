@@ -137,6 +137,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ModulosController.cs" />
+    <Compile Include="Controllers\PedidosController.cs" />
     <Compile Include="Controllers\ProductosController.cs" />
     <Compile Include="Controllers\ProveedoresController.cs" />
     <Compile Include="Controllers\PuestosController.cs" />
@@ -231,6 +232,7 @@
     <Compile Include="Models\VIAADMINISTRACION.cs">
       <DependentUpon>MiModelo.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ViewModel\PedidoViewModel.cs" />
     <Compile Include="Models\ViewModel\RecoveryPasswordViewModel.cs" />
     <Compile Include="Models\ViewModel\RecoveryViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -257,6 +259,7 @@
     <Content Include="Content\css\Empleado\style.css" />
     <Content Include="Content\css\FormaFarmaceutica\style.css" />
     <Content Include="Content\css\Modulo\style.css" />
+    <Content Include="Content\css\Pedido\style.css" />
     <Content Include="Content\css\Producto\style.css" />
     <Content Include="Content\css\Proveedor\style.css" />
     <Content Include="Content\css\Puesto\style.css" />
@@ -390,6 +393,11 @@
     <Content Include="Views\Productos\Details.cshtml" />
     <Content Include="Views\Productos\Edit.cshtml" />
     <Content Include="Views\Productos\Index.cshtml" />
+    <Content Include="Views\Pedidos\Create.cshtml" />
+    <Content Include="Views\Pedidos\Index.cshtml" />
+    <Content Include="Views\Pedidos\Edit.cshtml" />
+    <Content Include="Views\Pedidos\Details.cshtml" />
+    <Content Include="Views\Pedidos\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

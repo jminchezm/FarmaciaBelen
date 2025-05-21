@@ -1,0 +1,138 @@
+﻿@model FarmaciaBelen.Models.ViewModel.PedidoViewModel
+
+@{
+    ViewBag.Title = "Detalles del Pedido";
+    Layout = null;
+    bool puedeConfirmar = Model.ESTADO_PEDIDO == "Pendiente"
+        && !string.IsNullOrEmpty(Model.PROVEEDOR_ID)
+        && Model.Detalles.All(d => d.PRECIO_UNITARIO > 0);
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Detalles del Pedido</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/css/Pedido/style.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="card shadow">
+            <div class="card-header bg-info text-white">
+                <h4 class="mb-0">Detalles del Pedido</h4>
+            </div>
+            <div class="card-body">
+
+                <!-- Alertas -->
+                @if (ViewBag.Confirmado != null && (bool)ViewBag.Confirmado)
+                {
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function () {
+                            var modal = new bootstrap.Modal(document.getElementById('modalConfirmado'));
+                            modal.show();
+                        });
+                    </script>
+                }
+                @if (ViewBag.ErrorConfirmacion != null)
+                {
+                    <div class="alert alert-danger">
+                        @ViewBag.ErrorConfirmacion
+                    </div>
+                }
+
+                <!-- Info general -->
+                <div class="row mb-2">
+                    <div class="col-md-6">
+                        <label class="form-label"><b>ID del Pedido</b></label>
+                        <input type="text" class="form-control" value="@Model.PEDIDO_ID" readonly />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label"><b>Estado</b></label>
+                        <input type="text" class="form-control" value="@Model.ESTADO_PEDIDO" readonly />
+                    </div>
+                </div>
+
+                <div class="row mb-2">
+                    <div class="col-md-6">
+                        <label class="form-label"><b>Proveedor</b></label>
+                        <input type="text" class="form-control" value="@Model.PROVEEDOR_NOMBRE" readonly />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label"><b>Fecha estimada de entrega</b></label>
+                        <input type="text" class="form-control" value="@Model.FECHA_ENTREGA_ESTIMADA.ToString("dd-MM-yyyy")" readonly />
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label"><b>Observaciones</b></label>
+                    <textarea class="form-control" rows="2" readonly>@Model.OBSERVACIONES</textarea>
+                </div>
+
+                <!-- Detalle del pedido -->
+                <h5 class="mt-4"><b>Detalle del Pedido</b></h5>
+                <div class="scroll-table-wrapper">
+                    <table class="table table-bordered">
+                        <thead class="table-secondary">
+                            <tr>
+                                <th>Producto</th>
+                                <th>Referencia</th>
+                                <th>Cantidad</th>
+                                <th>Precio Unitario</th>
+                                <th>Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Detalles)
+                            {
+                                <tr>
+                                    <td>@item.PRODUCTO_NOMBRE</td>
+                                    <td><img src="@item.PRODUCTO_IMG" alt="Referencia" style="max-width:100px;" class="img-thumbnail" /></td>
+                                    <td>@item.DETALLEPEDIDO_CANTIDAD</td>
+                                    <td>Q @String.Format("{0:N2}", item.PRECIO_UNITARIO)</td>
+                                    <td>Q @String.Format("{0:N2}", item.PRECIO_UNITARIO * item.DETALLEPEDIDO_CANTIDAD)</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Acciones -->
+                <div class="d-flex justify-content-between mt-4">
+                    <a href="@Url.Action("Index")" class="btn btn-secondary">← Volver</a>
+
+                    @if (Model.ESTADO_PEDIDO == "Pendiente")
+                    {
+                        <form method="post" action="@Url.Action("Confirmar", new { id = Model.PEDIDO_ID })">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-success">Confirmar Pedido</button>
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal de Confirmación Exitosa -->
+    <div class="modal fade" id="modalConfirmado" tabindex="-1" aria-labelledby="modalConfirmadoLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="modalConfirmadoLabel">Confirmación Exitosa</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    El pedido ha sido confirmado correctamente y el inventario ha sido actualizado.
+                </div>
+                <div class="modal-footer">
+                    <a href="@Url.Action("Index")" class="btn btn-secondary">Ir al listado</a>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

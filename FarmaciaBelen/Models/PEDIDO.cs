@@ -27,8 +27,8 @@ namespace FarmaciaBelen.Models
         public string OBSERVACIONES { get; set; }
         public string PROVEEDOR_ID { get; set; }
     
+        public virtual PROVEEDOR PROVEEDOR { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DETALLE_PEDIDO> DETALLE_PEDIDO { get; set; }
-        public virtual PROVEEDOR PROVEEDOR { get; set; }
     }
 }

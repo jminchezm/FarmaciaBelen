@@ -1,0 +1,27 @@
+﻿/*CREATE*/
+.scroll-table-wrapper {
+    height: 250px;
+    /*height: 100%;*/
+    overflow-y: auto;
+    background-color: #EEEEEE;
+    border: 1px solid #ccc;
+}
+
+/* Opcional: asegúrate de que el thead permanezca fijo */
+#detallesTable thead th {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
+tr {
+    /*    background-color: red;*/
+    text-align: center;
+    align-content: center;
+}
+
+td {
+    /*background-color: red;*/
+    text-align: center;
+    align-content: center;
+}
