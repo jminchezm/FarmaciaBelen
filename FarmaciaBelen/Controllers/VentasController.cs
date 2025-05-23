@@ -50,9 +50,9 @@ namespace FarmaciaBelen.Controllers
             var ultimaVenta = db.VENTA.OrderByDescending(v => v.VENTA_ID).FirstOrDefault();
             if (ultimaVenta != null && ultimaVenta.VENTA_ID.Length == 10)
             {
-                string numero = ultimaVenta.VENTA_ID.Substring(4);
+                string numero = ultimaVenta.VENTA_ID.Substring(3);
                 int siguiente = int.Parse(numero) + 1;
-                nuevoCodigo = "VEN" + siguiente.ToString("D6");
+                nuevoCodigo = "VEN" + siguiente.ToString("D7");
             }
             else
             {
