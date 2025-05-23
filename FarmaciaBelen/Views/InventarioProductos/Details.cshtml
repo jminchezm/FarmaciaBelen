@@ -1,0 +1,50 @@
+﻿@model FarmaciaBelen.Models.INVENTARIO_PRODUCTO
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+    <div>
+        <h4>INVENTARIO_PRODUCTO</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.STOCK_ACTUAL)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.STOCK_ACTUAL)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.PRECIO_UNITARIO)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.PRECIO_UNITARIO)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.PRODUCTO.PRODUCTO_NOMBRE)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.PRODUCTO.PRODUCTO_NOMBRE)
+            </dd>
+    
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</body>
+</html>
