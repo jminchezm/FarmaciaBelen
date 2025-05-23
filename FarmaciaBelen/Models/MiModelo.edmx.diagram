@@ -30,12 +30,10 @@
         <EntityTypeShape EntityType="DBFARMACIABELENModel.SUBCATEGORIAPRODUCTO" Width="1.5" PointX="9.625" PointY="7.125" />
         <EntityTypeShape EntityType="DBFARMACIABELENModel.VENTA" Width="1.5" PointX="14.125" PointY="17.125" />
         <EntityTypeShape EntityType="DBFARMACIABELENModel.VIAADMINISTRACION" Width="1.5" PointX="9.625" PointY="4.5" />
-        <EntityTypeShape EntityType="DBFARMACIABELENModel.DETALLEVENTA" Width="2.875" PointX="16.375" PointY="10.125" />
         <AssociationConnector Association="DBFARMACIABELENModel.FK_SUBCATEGORIAPRODUCTO_CATEGORIAPRODUCTO_ID" />
         <AssociationConnector Association="DBFARMACIABELENModel.FK_CLIENTE_ID" />
         <AssociationConnector Association="DBFARMACIABELENModel.FK_VENTA_CLIENTE_ID" />
         <AssociationConnector Association="DBFARMACIABELENModel.FK_PRODUCTO_FORMAFARMACEUTICA_ID" />
-        <AssociationConnector Association="DBFARMACIABELENModel.FK_DETALLEVENTA_INVENTARIOPRODUCTO" />
         <AssociationConnector Association="DBFARMACIABELENModel.FK_INVENTARIO_PRODUCTO_ID" />
         <AssociationConnector Association="DBFARMACIABELENModel.FK_RECIBO_METODOPAGO_ID" />
         <AssociationConnector Association="DBFARMACIABELENModel.FK_PERMISOS_MODULO_ID" />
@@ -45,10 +43,12 @@
         <AssociationConnector Association="DBFARMACIABELENModel.FK_PRODUCTO_VIAADMINISTRACION_ID" />
         <AssociationConnector Association="DBFARMACIABELENModel.FK_RECIBO_VENTA_ID" />
         <AssociationConnector Association="DBFARMACIABELENModel.FK_USUARIO_ID" />
-        <AssociationConnector Association="DBFARMACIABELENModel.FK_DETALLEVENTA_VENTA_ID" />
         <EntityTypeShape EntityType="DBFARMACIABELENModel.DETALLE_PEDIDO" Width="2.75" PointX="14.125" PointY="6.5" />
         <AssociationConnector Association="DBFARMACIABELENModel.FK_DETALLEPEDIDO_PEDIDO" />
         <AssociationConnector Association="DBFARMACIABELENModel.FK_DETALLEPEDIDO_PRODUCTO" />
+        <EntityTypeShape EntityType="DBFARMACIABELENModel.DETALLEVENTA" Width="1.5" PointX="16.375" PointY="13.75" />
+        <AssociationConnector Association="DBFARMACIABELENModel.FK_DETALLEVENTA_INVENTARIOPRODUCTO" />
+        <AssociationConnector Association="DBFARMACIABELENModel.FK_DETALLEVENTA_VENTA_ID" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

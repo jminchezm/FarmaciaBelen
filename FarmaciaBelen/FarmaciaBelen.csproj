@@ -132,6 +132,7 @@
     <Compile Include="Controllers\AccessController.cs" />
     <Compile Include="Controllers\AreasController.cs" />
     <Compile Include="Controllers\CategoriaProductosController.cs" />
+    <Compile Include="Controllers\ClientesController.cs" />
     <Compile Include="Controllers\EmpleadosController.cs" />
     <Compile Include="Controllers\FormaFarmaceuticaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -144,6 +145,7 @@
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\SubCategoriaProductosController.cs" />
     <Compile Include="Controllers\UsuariosController.cs" />
+    <Compile Include="Controllers\VentasController.cs" />
     <Compile Include="Controllers\ViaAdministracionesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -157,6 +159,7 @@
     <Compile Include="Models\CLIENTE.cs">
       <DependentUpon>MiModelo.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ClienteViewModel.cs" />
     <Compile Include="Models\DETALLEVENTA.cs">
       <DependentUpon>MiModelo.tt</DependentUpon>
     </Compile>
@@ -233,8 +236,10 @@
       <DependentUpon>MiModelo.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ViewModel\PedidoViewModel.cs" />
+    <Compile Include="Models\ViewModel\ProductoSelectViewModel.cs" />
     <Compile Include="Models\ViewModel\RecoveryPasswordViewModel.cs" />
     <Compile Include="Models\ViewModel\RecoveryViewModel.cs" />
+    <Compile Include="Models\ViewModel\VentaViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -398,6 +403,16 @@
     <Content Include="Views\Pedidos\Edit.cshtml" />
     <Content Include="Views\Pedidos\Details.cshtml" />
     <Content Include="Views\Pedidos\Delete.cshtml" />
+    <Content Include="Views\Clientes\Create.cshtml" />
+    <Content Include="Views\Clientes\Delete.cshtml" />
+    <Content Include="Views\Clientes\Details.cshtml" />
+    <Content Include="Views\Clientes\Edit.cshtml" />
+    <Content Include="Views\Clientes\Index.cshtml" />
+    <Content Include="Views\Ventas\Create.cshtml" />
+    <Content Include="Views\Ventas\Delete.cshtml" />
+    <Content Include="Views\Ventas\Details.cshtml" />
+    <Content Include="Views\Ventas\Edit.cshtml" />
+    <Content Include="Views\Ventas\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

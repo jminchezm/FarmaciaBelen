@@ -1,0 +1,401 @@
+﻿@model FarmaciaBelen.Models.ViewModel.VentaViewModel
+
+@{
+    ViewBag.Title = "Registrar Venta";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registrar Venta</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="container mt-4">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Registrar Venta</h4>
+            </div>
+            <div class="card-body overflow-container">
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label class="form-label"><b>Código de Venta</b></label>
+                            @Html.TextBoxFor(model => model.VENTA_ID, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                        @*<div class="col-md-4">
+                    <label class="form-label"><b>Cliente</b></label>
+                    @Html.DropDownListFor(model => model.CLIENTE_ID, (SelectList)ViewBag.Clientes, "Seleccione", new { @class = "form-select" })
+                    @Html.ValidationMessageFor(model => model.CLIENTE_ID, "", new { @class = "text-danger" })
+                </div>*@
+                        <div class="col-md-4">
+                            <label class="form-label"><b>Cliente</b></label>
+                            @Html.DropDownListFor(model => model.CLIENTE_ID, (SelectList)ViewBag.Clientes, "Seleccione", new { @class = "form-select", id = "CLIENTE_ID" })
+                            @Html.ValidationMessageFor(model => model.CLIENTE_ID, "", new { @class = "text-danger" })
+                            <div id="errorCliente" class="text-danger mt-1" style="display:none;"></div>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label"><b>Vendedor (Usuario)</b></label>
+                            @Html.HiddenFor(model => model.USUARIO_ID)
+                            <input class="form-control" value="@Model.USUARIO_NOMBRE" readonly />
+                        </div>
+                    </div>
+
+                    <h5 class="mt-4 mb-3">Detalle de Productos</h5>
+                    <div class="text-danger mb-2" id="errorProductos" style="display: none;"></div>
+                    <div class="alert alert-danger py-2 px-3 mb-2" id="errorDuplicado" style="display: none;"></div>
+                    @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })*@
+
+                    <table id="detalleVentaTable" class="table table-bordered">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Producto</th>
+                                <th>Imagen</th>
+                                <th>Existencia</th>
+                                <th>Precio Unitario</th>
+                                <th>Cantidad</th>
+                                <th>Subtotal</th>
+                                @*<th>Acciones</th>*@
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+
+                    <div class="d-flex justify-content-end mb-3">
+                        <label class="me-2 mt-2"><strong>Total:</strong></label>
+                        <input type="text" id="totalVenta" class="form-control w-25 text-end" readonly />
+                    </div>
+
+                    <div class="d-flex justify-content-center">
+                        <button type="button" class="btn btn-outline-primary" onclick="agregarFila()">Agregar Producto</button>
+                    </div>
+
+                    <div class="d-flex justify-content-between mt-4">
+                        <a href="@Url.Action("Index")" class="btn btn-secondary">← Volver</a>
+                        <button type="button" id="btnRegistrarVenta" class="btn btn-success" onclick="verificarYConfirmar()">Registrar Venta</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const clienteSelect = document.getElementById("CLIENTE_ID");
+            clienteSelect.addEventListener("change", function () {
+                if (clienteSelect.value !== "" && clienteSelect.value !== "Seleccione") {
+                    clienteSelect.classList.remove("is-invalid");
+                    document.getElementById("errorCliente").style.display = "none";
+                }
+            });
+        });
+
+        const productos = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.Productos));
+        let index = 0;
+
+        function agregarFila() {
+            let opciones = productos.map(p =>
+                `<option value="${p.PRODUCTO_ID}" data-img="${p.PRODUCTO_IMG}" data-precio="${p.PRECIO_UNITARIO}" data-stock="${p.STOCK_ACTUAL}">
+                    ${p.PRODUCTO_NOMBRE}
+                </option>`).join('');
+
+            const fila = `
+                <tr>
+                    <td>
+                        <select name="Detalles[${index}].PRODUCTO_ID" class="form-select" onchange="actualizarImagenYPrecio(this, ${index})">
+                            <option value="">Seleccione</option>${opciones}
+                        </select>
+                    </td>
+                    <td><img id="img-${index}" src="" class="img-thumbnail" style="width: 70px;" /></td>
+                    <td><input name="Detalles[${index}].DETALLEVENTA_PRECIOUNITARIO" class="form-control" readonly /></td>
+                    <td>
+                        <input name="Detalles[${index}].DETALLEVENTA_CANTIDADVENDIDA"
+                               id="cantidad-${index}" class="form-control mb-1 is-invalid" type="number" min="1" value="1"
+                               onchange="validarCantidad(${index})" />
+                        <small id="stock-label-${index}" class="text-muted">Stock disponible: 0</small>
+                        <input type="hidden" id="stock-${index}" value="0" />
+                    </td>
+                    <td><input name="Detalles[${index}].DETALLEVENTA_SUBTOTAL" class="form-control" readonly /></td>
+                    <td><button type="button" class="btn btn-danger" onclick="eliminarFila(this)">Eliminar</button></td>
+                </tr>`;
+
+            document.querySelector("#detalleVentaTable tbody").insertAdjacentHTML("beforeend", fila);
+            index++;
+            validarCantidadesGlobal();
+            document.getElementById("errorProductos").style.display = "none";
+        }
+
+        function actualizarImagenYPrecio(select, i) {
+
+            if (select.value !== "") {
+                // Validar si el producto ya fue seleccionado en otra fila
+                const productoSeleccionado = select.value;
+                let duplicado = false;
+
+                document.querySelectorAll(`#detalleVentaTable select[name^='Detalles']`).forEach((otroSelect, idx) => {
+                    if (idx !== i && otroSelect.value === productoSeleccionado) {
+                        duplicado = true;
+                    }
+                });
+
+                const duplicadoDiv = document.getElementById("errorDuplicado");
+
+                if (duplicado) {
+                    select.classList.add("is-invalid");
+                    duplicadoDiv.textContent = "Este producto ya ha sido seleccionado en otra fila. Por favor elige otro.";
+                    duplicadoDiv.style.display = "block";
+                    select.value = ""; // Reinicia el campo
+                    return;
+                } else {
+                    select.classList.remove("is-invalid");
+                    duplicadoDiv.style.display = "none";
+                }
+
+                select.classList.remove("is-invalid");
+                document.getElementById("errorProductos").style.display = "none";
+            }
+
+            const selected = select.options[select.selectedIndex];
+            const img = selected.getAttribute("data-img");
+            const precio = parseFloat(selected.getAttribute("data-precio"));
+            const stock = parseInt(selected.getAttribute("data-stock")) || 0;
+
+            document.getElementById(`img-${i}`).src = img;
+            document.querySelector(`input[name='Detalles[${i}].DETALLEVENTA_PRECIOUNITARIO']`).value = precio.toFixed(2);
+
+            const cantidadInput = document.getElementById(`cantidad-${i}`);
+            cantidadInput.setAttribute("max", stock);
+            document.getElementById(`stock-${i}`).value = stock;
+
+            // ✅ Mostrar visualmente el stock disponible
+            document.getElementById(`stock-label-${i}`).innerText = `Stock disponible: ${stock}`;
+
+            actualizarSubtotal(i);
+            validarCantidad(i);
+        }
+
+
+
+        function actualizarSubtotal(i) {
+            const precio = parseFloat(document.querySelector(`input[name='Detalles[${i}].DETALLEVENTA_PRECIOUNITARIO']`).value) || 0;
+            const cantidad = parseInt(document.querySelector(`input[name='Detalles[${i}].DETALLEVENTA_CANTIDADVENDIDA']`).value) || 0;
+            const subtotal = precio * cantidad;
+            document.querySelector(`input[name='Detalles[${i}].DETALLEVENTA_SUBTOTAL']`).value = subtotal.toFixed(2);
+            actualizarTotal();
+        }
+
+        function actualizarTotal() {
+            let total = 0;
+            document.querySelectorAll("input[name$='DETALLEVENTA_SUBTOTAL']").forEach(input => {
+                total += parseFloat(input.value) || 0;
+            });
+            document.getElementById("totalVenta").value = total.toFixed(2);
+        }
+
+        function eliminarFila(btn) {
+            btn.closest("tr").remove();
+            reindexarFilas();
+            actualizarTotal();
+            validarCantidadesGlobal();
+        }
+
+        function reindexarFilas() {
+            const filas = document.querySelectorAll("#detalleVentaTable tbody tr");
+            index = 0;
+
+            filas.forEach((fila, i) => {
+                fila.querySelectorAll("select, input, img").forEach(elemento => {
+                    if (elemento.name)
+                        elemento.name = elemento.name.replace(/\[\d+\]/, `[${i}]`);
+                    if (elemento.id)
+                        elemento.id = elemento.id.replace(/-\d+/, `-${i}`);
+                });
+
+                const select = fila.querySelector("select");
+                const cantidad = fila.querySelector(`input[name^="Detalles[${i}].DETALLEVENTA_CANTIDADVENDIDA"]`);
+                if (select) select.setAttribute("onchange", `actualizarImagenYPrecio(this, ${i})`);
+                if (cantidad) cantidad.setAttribute("onchange", `validarCantidad(${i})`);
+
+                index++;
+            });
+        }
+
+        function validarEnvio() {
+            const clienteSelect = document.getElementById("CLIENTE_ID");
+            const clienteSeleccionado = clienteSelect.value.trim() !== "" && clienteSelect.value !== "Seleccione";
+
+            const filas = document.querySelectorAll("#detalleVentaTable tbody tr");
+
+            const errorCliente = document.getElementById("errorCliente");
+            const errorProductos = document.getElementById("errorProductos");
+
+            let esValido = true;
+
+            // Validar cliente
+            if (!clienteSeleccionado) {
+                errorCliente.textContent = "Debe seleccionar un cliente.";
+                errorCliente.style.display = "block";
+                clienteSelect.classList.add("is-invalid");
+                esValido = false;
+            } else {
+                errorCliente.textContent = "";
+                errorCliente.style.display = "none";
+                clienteSelect.classList.remove("is-invalid");
+            }
+
+            // Validar que haya al menos un producto y que todos estén seleccionados
+            if (filas.length === 0) {
+                errorProductos.textContent = "Debe agregar al menos un producto.";
+                errorProductos.style.display = "block";
+                esValido = false;
+            } else {
+                let algunaFilaSinProducto = false;
+                filas.forEach((fila, i) => {
+                    const selectProducto = fila.querySelector(`select[name='Detalles[${i}].PRODUCTO_ID']`);
+                    if (!selectProducto || selectProducto.value.trim() === "") {
+                        algunaFilaSinProducto = true;
+                        selectProducto.classList.add("is-invalid");
+                    } else {
+                        selectProducto.classList.remove("is-invalid");
+                    }
+                });
+
+                if (algunaFilaSinProducto) {
+                    errorProductos.textContent = "Debe seleccionar un producto para cada fila agregada.";
+                    errorProductos.style.display = "block";
+                    esValido = false;
+                } else {
+                    errorProductos.textContent = "";
+                    errorProductos.style.display = "none";
+                }
+            }
+
+            return esValido;
+        }
+
+        function verificarYConfirmar() {
+            if (validarEnvio()) {
+                const modal = new bootstrap.Modal(document.getElementById('modalConfirmar'));
+                modal.show();
+            }
+        }
+
+        function validarCantidad(i) {
+            const stock = parseInt(document.getElementById(`stock-${i}`).value) || 0;
+            const cantidadInput = document.getElementById(`cantidad-${i}`);
+            let cantidad = parseInt(cantidadInput.value) || 0;
+
+            if (cantidad > stock) {
+                alert(`La cantidad ingresada excede el stock disponible (${stock}).`);
+                cantidad = stock;
+                cantidadInput.value = stock;
+            }
+
+            actualizarSubtotal(i);
+            validarCantidadesGlobal(); // ✅ Verifica todas las cantidades
+        }
+
+        function validarCantidadesGlobal() {
+            const filas = document.querySelectorAll("#detalleVentaTable tbody tr");
+            let esValido = true;
+
+            filas.forEach((fila, i) => {
+                const stock = parseInt(document.getElementById(`stock-${i}`).value) || 0;
+                const cantidad = parseInt(document.getElementById(`cantidad-${i}`).value) || 0;
+                if (cantidad > stock || cantidad <= 0) {
+                    esValido = false;
+                }
+            });
+
+            document.getElementById("btnRegistrar").disabled = !esValido;
+        }
+
+        function validarCantidad(i) {
+            const inputCantidad = document.getElementById(`cantidad-${i}`);
+            const stock = parseInt(document.getElementById(`stock-${i}`).value) || 0;
+            const cantidad = parseInt(inputCantidad.value) || 0;
+
+            if (cantidad > stock) {
+                inputCantidad.classList.add("is-invalid");
+                inputCantidad.setCustomValidity("Excede el stock disponible");
+            } else {
+                inputCantidad.classList.remove("is-invalid");
+                inputCantidad.setCustomValidity("");
+            }
+
+            actualizarSubtotal(i);
+            validarTodo();
+        }
+
+        function validarTodo() {
+            const cantidades = document.querySelectorAll("input[id^='cantidad-']");
+            let valido = true;
+
+            cantidades.forEach(input => {
+                if (input.classList.contains("is-invalid") || parseInt(input.value || 0) < 1) {
+                    valido = false;
+                }
+            });
+
+            document.getElementById("btnRegistrarVenta").disabled = !valido;
+        }
+
+
+    </script>
+
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Modal de confirmación -->
+    <div class="modal fade" id="modalConfirmar" tabindex="-1" aria-labelledby="modalConfirmarLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="modalConfirmarLabel">Confirmar Registro</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    ¿Está seguro que desea registrar esta venta?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-success" onclick="mostrarExito()">Sí, registrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de éxito -->
+    <div class="modal fade" id="modalExito" tabindex="-1" aria-labelledby="modalExitoLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-info text-white">
+                    <h5 class="modal-title" id="modalExitoLabel">Venta Registrada</h5>
+                </div>
+                <div class="modal-body">
+                    ¡La venta se ha registrado exitosamente!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="document.forms[0].submit();">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function mostrarExito() {
+            const modalExito = new bootstrap.Modal(document.getElementById('modalExito'));
+            modalExito.show();
+        }
+    </script>
+
+</body>
+</html>

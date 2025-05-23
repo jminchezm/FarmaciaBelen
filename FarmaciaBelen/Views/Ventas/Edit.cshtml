@@ -1,0 +1,273 @@
+﻿@model FarmaciaBelen.Models.ViewModel.VentaViewModel
+
+@{
+    ViewBag.Title = "Editar Venta";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Editar Venta</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="card shadow">
+            <div class="card-header bg-warning text-white">
+                <h4 class="mb-0">Editar Venta</h4>
+            </div>
+            <div class="card-body">
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label class="form-label"><b>Código de Venta</b></label>
+                            @Html.TextBoxFor(model => model.VENTA_ID, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label"><b>Fecha de Venta</b></label>
+                            @Html.TextBoxFor(model => model.VENTA_FECHA, "{0:yyyy-MM-dd HH:mm}", new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label"><b>Cliente</b></label>
+                            @Html.HiddenFor(model => model.CLIENTE_ID)
+                            <input class="form-control" value="@Model.CLIENTE_NOMBRE" readonly />
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label"><b>Vendedor (Usuario)</b></label>
+                            @Html.HiddenFor(model => model.USUARIO_ID)
+                            <input class="form-control" value="@Model.USUARIO_NOMBRE" readonly />
+                        </div>
+                    </div>
+
+                    <h5 class="mt-4 mb-3">Detalle de Productos</h5>
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <table id="detalleVentaTable" class="table table-bordered">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Producto</th>
+                                <th>Imagen</th>
+                                <th>Precio Unitario</th>
+                                <th>Cantidad</th>
+                                <th>Subtotal</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.Detalles != null)
+                            {
+                                for (int i = 0; i < Model.Detalles.Count; i++)
+                                {
+                                    <tr>
+                                        <td>
+                                            <select name="Detalles[@i].PRODUCTO_ID" class="form-select" onchange="actualizarImagenYPrecio(this, @i)">
+                                                <option value="">Seleccione</option>
+                                                @foreach (var prod in ViewBag.Productos as IEnumerable<FarmaciaBelen.Models.ViewModel.ProductoSelectViewModel>)
+                                                {
+                                                    <option value="@prod.PRODUCTO_ID"
+                                                            data-img="@prod.PRODUCTO_IMG"
+                                                            data-precio="@prod.PRECIO_UNITARIO"
+                                                            @(prod.PRODUCTO_ID == Model.Detalles[i].PRODUCTO_ID ? "selected" : "")>
+                                                        @prod.PRODUCTO_NOMBRE
+                                                    </option>
+                                                }
+                                            </select>
+                                        </td>
+                                        <td><img id="img-@i" src="@Model.Detalles[i].PRODUCTO_IMG" class="img-thumbnail" style="width: 70px;" /></td>
+                                        <td>
+                                            <input name="Detalles[@i].DETALLEVENTA_PRECIOUNITARIO" class="form-control" value="@Model.Detalles[i].DETALLEVENTA_PRECIOUNITARIO" readonly />
+                                        </td>
+                                        <td>
+                                            <input name="Detalles[@i].DETALLEVENTA_CANTIDADVENDIDA" class="form-control" type="number" min="1"
+                                                   value="@Model.Detalles[i].DETALLEVENTA_CANTIDADVENDIDA" onchange="actualizarSubtotal(@i)" />
+                                        </td>
+                                        <td>
+                                            <input name="Detalles[@i].DETALLEVENTA_SUBTOTAL" class="form-control"
+                                                   value="@Model.Detalles[i].DETALLEVENTA_SUBTOTAL.ToString("F2")" readonly />
+                                        </td>
+                                        <td><button type="button" class="btn btn-danger" onclick="eliminarFila(this)">Eliminar</button></td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+
+                    <div class="row mb-3">
+                        <div class="col-md-4 offset-md-8">
+                            <label class="form-label"><b>Total de Venta</b></label>
+                            <input type="text" class="form-control" id="totalVenta" name="VENTA_TOTAL" value="@Model.VENTA_TOTAL" readonly />
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-center">
+                        <button type="button" class="btn btn-outline-primary" onclick="agregarFila()">Agregar Producto</button>
+                    </div>
+
+                    <div class="d-flex justify-content-between mt-4">
+                        <a href="@Url.Action("Index")" class="btn btn-secondary">← Volver</a>
+                        <button type="button" class="btn btn-success" onclick="verificarYConfirmar()">Guardar Cambios</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    @if (TempData["Editado"] != null && (bool)TempData["Editado"])
+    {
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                new bootstrap.Modal(document.getElementById('modalGuardado')).show();
+            });
+        </script>
+    }
+
+    <script>
+        let index = @(Model.Detalles != null ? Model.Detalles.Count : 0);
+        const productos = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.Productos));
+
+        function agregarFila() {
+            let opciones = productos.map(p =>
+                `<option value="${p.PRODUCTO_ID}" data-img="${p.PRODUCTO_IMG}" data-precio="${p.PRECIO_UNITARIO}">
+                    ${p.PRODUCTO_NOMBRE}
+                </option>`).join('');
+
+            const fila = `
+                <tr>
+                    <td>
+                        <select name="Detalles[${index}].PRODUCTO_ID" class="form-select" onchange="actualizarImagenYPrecio(this, ${index})">
+                            <option value="">Seleccione</option>${opciones}
+                        </select>
+                    </td>
+                    <td><img id="img-${index}" src="" class="img-thumbnail" style="width: 70px;" /></td>
+                    <td><input name="Detalles[${index}].DETALLEVENTA_PRECIOUNITARIO" class="form-control" readonly /></td>
+                    <td><input name="Detalles[${index}].DETALLEVENTA_CANTIDADVENDIDA" class="form-control" type="number" min="1" value="1" onchange="actualizarSubtotal(${index})" /></td>
+                    <td><input name="Detalles[${index}].DETALLEVENTA_SUBTOTAL" class="form-control" readonly /></td>
+                    <td><button type="button" class="btn btn-danger" onclick="eliminarFila(this)">Eliminar</button></td>
+                </tr>`;
+            document.querySelector("#detalleVentaTable tbody").insertAdjacentHTML("beforeend", fila);
+            index++;
+            actualizarTotalVenta();
+        }
+
+        function actualizarImagenYPrecio(select, i) {
+            const selected = select.options[select.selectedIndex];
+            const img = selected.getAttribute("data-img");
+            const precio = parseFloat(selected.getAttribute("data-precio"));
+
+            document.getElementById(`img-${i}`).src = img;
+            document.querySelector(`input[name='Detalles[${i}].DETALLEVENTA_PRECIOUNITARIO']`).value = precio.toFixed(2);
+            actualizarSubtotal(i);
+        }
+
+        function actualizarSubtotal(i) {
+            const precio = parseFloat(document.querySelector(`input[name='Detalles[${i}].DETALLEVENTA_PRECIOUNITARIO']`).value) || 0;
+            const cantidad = parseInt(document.querySelector(`input[name='Detalles[${i}].DETALLEVENTA_CANTIDADVENDIDA']`).value) || 0;
+            const subtotal = precio * cantidad;
+            document.querySelector(`input[name='Detalles[${i}].DETALLEVENTA_SUBTOTAL']`).value = subtotal.toFixed(2);
+            actualizarTotalVenta();
+        }
+
+        function actualizarTotalVenta() {
+            const subtotales = document.querySelectorAll("input[name*='DETALLEVENTA_SUBTOTAL']");
+            let total = 0;
+            subtotales.forEach(input => {
+                total += parseFloat(input.value) || 0;
+            });
+            document.getElementById("totalVenta").value = total.toFixed(2);
+        }
+
+        function eliminarFila(btn) {
+            const fila = btn.closest("tr");
+            fila.remove();
+            reindexarFilas();
+            actualizarTotalVenta();
+        }
+
+        function reindexarFilas() {
+            const filas = document.querySelectorAll("#detalleVentaTable tbody tr");
+            index = 0;
+            filas.forEach((fila, i) => {
+                fila.querySelectorAll("select, input, img").forEach(elemento => {
+                    if (elemento.name) {
+                        elemento.name = elemento.name.replace(/\[\d+\]/, `[${i}]`);
+                    }
+                    if (elemento.id) {
+                        elemento.id = elemento.id.replace(/-\d+/, `-${i}`);
+                    }
+                });
+                const select = fila.querySelector("select");
+                const cantidad = fila.querySelector(`input[name^="Detalles[${i}].DETALLEVENTA_CANTIDADVENDIDA"]`);
+                if (select) {
+                    select.setAttribute("onchange", `actualizarImagenYPrecio(this, ${i})`);
+                }
+                if (cantidad) {
+                    cantidad.setAttribute("onchange", `actualizarSubtotal(${i})`);
+                }
+                index++;
+            });
+        }
+
+        function validarEnvio() {
+            const filas = document.querySelectorAll("#detalleVentaTable tbody tr");
+            if (filas.length === 0) {
+                alert("Debe agregar al menos un producto antes de guardar.");
+                return false;
+            }
+            return true;
+        }
+
+        function verificarYConfirmar() {
+            if (typeof validarEnvio === "function" && validarEnvio()) {
+                new bootstrap.Modal(document.getElementById('modalConfirmar')).show();
+            }
+        }
+    </script>
+
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Modal de confirmación -->
+    <div class="modal fade" id="modalConfirmar" tabindex="-1" aria-labelledby="modalConfirmarLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="modalConfirmarLabel">Confirmar Guardado</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    ¿Está seguro que desea guardar los cambios de esta venta?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-success" onclick="document.forms[0].submit();">Sí, guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de éxito -->
+    <div class="modal fade" id="modalGuardado" tabindex="-1" aria-labelledby="modalGuardadoLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="modalGuardadoLabel">Cambios Guardados</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    ¡Los cambios de la venta se guardaron exitosamente!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

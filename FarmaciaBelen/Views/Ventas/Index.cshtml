@@ -1,0 +1,128 @@
+﻿@model IEnumerable<FarmaciaBelen.Models.VENTA>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ventas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Content/css/Producto/style.css" />
+</head>
+<body class="bg-light">
+    <div class="container mt-5">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="text-primary">Listado de Ventas</h2>
+            <a href="@Url.Action("Create")" class="btn btn-success">
+                <i class="fas fa-plus-circle"></i> Nueva Venta
+            </a>
+        </div>
+
+        @using (Html.BeginForm("Index", "Ventas", FormMethod.Get))
+        {
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <label class="form-label"><b>Código de Venta</b></label>
+                            <input type="text" name="codigo" value="@Request["codigo"]" class="form-control" placeholder="Buscar por código" />
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label"><b>Cliente</b></label>
+                            <input type="text" name="cliente" value="@Request["cliente"]" class="form-control" placeholder="Nombre del cliente" />
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label"><b>Usuario</b></label>
+                            <input type="text" name="usuario" value="@Request["usuario"]" class="form-control" placeholder="Nombre del vendedor" />
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label"><b>Fecha (inicio)</b></label>
+                            <input type="date" name="fechaInicio" value="@Request["fechaInicio"]" class="form-control" />
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label"><b>Fecha (fin)</b></label>
+                            <input type="date" name="fechaFin" value="@Request["fechaFin"]" class="form-control" />
+                        </div>
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="fas fa-search"></i> Buscar
+                            </button>
+                        </div>
+                        <div class="col-md-1 d-flex align-items-end">
+                            <a class="btn btn-secondary w-100">
+                                <i class="fas fa-print"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <div class="table-responsive">
+            @if (!Model.Any())
+            {
+                <div class="alert alert-warning text-center">
+                    <i class="fas fa-exclamation-circle fa-2x mb-2"></i>
+                    <strong>No hay ventas registradas.</strong>
+                </div>
+            }
+            else
+            {
+                <table class="table table-bordered table-hover shadow-sm">
+                    <thead class="table-primary">
+                        <tr>
+                            <th class="text-center">ID Venta</th>
+                            <th class="text-center">Fecha</th>
+                            <th class="text-center">Total</th>
+                            <th class="text-center">Cliente</th>
+                            <th class="text-center">Usuario</th>
+                            <th class="text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var venta in Model)
+                        {
+                            <tr>
+                                <td>@venta.VENTA_ID</td>
+                                <td>@venta.VENTA_FECHA.Value.ToString("dd-MM-yyyy HH:mm")</td>
+                                <td>Q @String.Format("{0:N2}", venta.VENTA_TOTAL)</td>
+                                <td>@(venta.CLIENTE?.PERSONA?.PERSONA_PRIMERNOMBRE + " " + venta.CLIENTE?.PERSONA?.PERSONA_PRIMERAPELLIDO)</td>
+                                <td>@venta.USUARIO.USUARIO_NOMBRE</td>
+
+                                <td class="text-center">
+                                    <div class="btn-group gap-1">
+                                        @*<a href="@Url.Action("Edit", new { id = venta.VENTA_ID })" class="btn btn-sm btn-warning text-white">
+                                            <i class="fas fa-edit"></i>
+                                        </a>*@
+                                        <a href="@Url.Action("Details", new { id = venta.VENTA_ID })" class="btn btn-sm btn-info text-white">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        @*<a href="@Url.Action("Delete", new { id = venta.VENTA_ID })" class="btn btn-sm btn-danger">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </a>*@
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    @if (TempData["Eliminado"] != null && (bool)TempData["Eliminado"])
+    {
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                alert("Venta eliminada correctamente.");
+            });
+        </script>
+    }
+</body>
+</html>

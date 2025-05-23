@@ -491,36 +491,6 @@ namespace FarmaciaBelen.Controllers
             return View(viewModel);
         }
 
-
-
-        //public ActionResult Delete(string id)
-        //{
-        //    if (id == null)
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-        //    var pedido = db.PEDIDO.Find(id);
-        //    if (pedido == null)
-        //        return HttpNotFound();
-
-        //    return View(pedido);
-        //}
-
-        //// POST: Pedidos/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult DeleteConfirmed(string id)
-        //{
-        //    var pedido = db.PEDIDO.Find(id);
-        //    if (pedido == null)
-        //        return HttpNotFound();
-
-        //    pedido.ESTADO_PEDIDO = "Desactivado";
-        //    db.Entry(pedido).State = EntityState.Modified;
-        //    db.SaveChanges();
-
-        //    return RedirectToAction("Index");
-        //}
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)

@@ -44,17 +44,9 @@
           <Property Name="PRECIO_UNITARIO" Type="decimal" Precision="10" Scale="2" Nullable="false" />
           <Property Name="SUBTOTAL" Type="decimal" Precision="10" Scale="2" Nullable="false" />
         </EntityType>
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'DBFARMACIABELEN.dbo.DETALLEVENTA' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="DETALLEVENTA">
           <Key>
             <PropertyRef Name="DETALLEVENTA_ID" />
-            <PropertyRef Name="VENTA_ID" />
-            <PropertyRef Name="INVENTARIO_ID" />
-            <PropertyRef Name="PRODUCTO_ID" />
-            <PropertyRef Name="DETALLEVENTA_CANTIDADVENDIDA" />
-            <PropertyRef Name="DETALLEVENTA_PRECIOUNITARIO" />
-            <PropertyRef Name="DETALLEVENTA_SUBTOTAL" />
           </Key>
           <Property Name="DETALLEVENTA_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="VENTA_ID" Type="varchar" MaxLength="10" Nullable="false" />
@@ -518,6 +510,7 @@ advertencia 6002: La tabla o vista 'DBFARMACIABELEN.dbo.DETALLEVENTA' no tiene d
           <EntitySet Name="CATEGORIAPRODUCTO" EntityType="Self.CATEGORIAPRODUCTO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CLIENTE" EntityType="Self.CLIENTE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DETALLE_PEDIDO" EntityType="Self.DETALLE_PEDIDO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DETALLEVENTA" EntityType="Self.DETALLEVENTA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EMPLEADO" EntityType="Self.EMPLEADO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FORMAFARMACEUTICA" EntityType="Self.FORMAFARMACEUTICA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="INVENTARIO_PRODUCTO" EntityType="Self.INVENTARIO_PRODUCTO" Schema="dbo" store:Type="Tables" />
@@ -535,17 +528,6 @@ advertencia 6002: La tabla o vista 'DBFARMACIABELEN.dbo.DETALLEVENTA' no tiene d
           <EntitySet Name="USUARIO" EntityType="Self.USUARIO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="VENTA" EntityType="Self.VENTA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="VIAADMINISTRACION" EntityType="Self.VIAADMINISTRACION" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="DETALLEVENTA" EntityType="Self.DETALLEVENTA" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [DETALLEVENTA].[DETALLEVENTA_ID] AS [DETALLEVENTA_ID], 
-    [DETALLEVENTA].[VENTA_ID] AS [VENTA_ID], 
-    [DETALLEVENTA].[INVENTARIO_ID] AS [INVENTARIO_ID], 
-    [DETALLEVENTA].[PRODUCTO_ID] AS [PRODUCTO_ID], 
-    [DETALLEVENTA].[DETALLEVENTA_CANTIDADVENDIDA] AS [DETALLEVENTA_CANTIDADVENDIDA], 
-    [DETALLEVENTA].[DETALLEVENTA_PRECIOUNITARIO] AS [DETALLEVENTA_PRECIOUNITARIO], 
-    [DETALLEVENTA].[DETALLEVENTA_SUBTOTAL] AS [DETALLEVENTA_SUBTOTAL]
-    FROM [dbo].[DETALLEVENTA] AS [DETALLEVENTA]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK_CLIENTE_ID" Association="Self.FK_CLIENTE_ID">
             <End Role="PERSONA" EntitySet="PERSONA" />
             <End Role="CLIENTE" EntitySet="CLIENTE" />
@@ -827,7 +809,6 @@ advertencia 6002: La tabla o vista 'DBFARMACIABELEN.dbo.DETALLEVENTA' no tiene d
           <EntitySet Name="SUBCATEGORIAPRODUCTO" EntityType="DBFARMACIABELENModel.SUBCATEGORIAPRODUCTO" />
           <EntitySet Name="VENTA" EntityType="DBFARMACIABELENModel.VENTA" />
           <EntitySet Name="VIAADMINISTRACION" EntityType="DBFARMACIABELENModel.VIAADMINISTRACION" />
-          <EntitySet Name="DETALLEVENTA" EntityType="DBFARMACIABELENModel.DETALLEVENTA" />
           <AssociationSet Name="FK_SUBCATEGORIAPRODUCTO_CATEGORIAPRODUCTO_ID" Association="DBFARMACIABELENModel.FK_SUBCATEGORIAPRODUCTO_CATEGORIAPRODUCTO_ID">
             <End Role="CATEGORIAPRODUCTO" EntitySet="CATEGORIAPRODUCTO" />
             <End Role="SUBCATEGORIAPRODUCTO" EntitySet="SUBCATEGORIAPRODUCTO" />
@@ -843,10 +824,6 @@ advertencia 6002: La tabla o vista 'DBFARMACIABELEN.dbo.DETALLEVENTA' no tiene d
           <AssociationSet Name="FK_PRODUCTO_FORMAFARMACEUTICA_ID" Association="DBFARMACIABELENModel.FK_PRODUCTO_FORMAFARMACEUTICA_ID">
             <End Role="FORMAFARMACEUTICA" EntitySet="FORMAFARMACEUTICA" />
             <End Role="PRODUCTO" EntitySet="PRODUCTO" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DETALLEVENTA_INVENTARIOPRODUCTO" Association="DBFARMACIABELENModel.FK_DETALLEVENTA_INVENTARIOPRODUCTO">
-            <End Role="INVENTARIO_PRODUCTO" EntitySet="INVENTARIO_PRODUCTO" />
-            <End Role="DETALLEVENTA" EntitySet="DETALLEVENTA" />
           </AssociationSet>
           <AssociationSet Name="FK_INVENTARIO_PRODUCTO_ID" Association="DBFARMACIABELENModel.FK_INVENTARIO_PRODUCTO_ID">
             <End Role="PRODUCTO" EntitySet="PRODUCTO" />
@@ -884,10 +861,6 @@ advertencia 6002: La tabla o vista 'DBFARMACIABELEN.dbo.DETALLEVENTA' no tiene d
             <End Role="USUARIO" EntitySet="USUARIO" />
             <End Role="VENTA" EntitySet="VENTA" />
           </AssociationSet>
-          <AssociationSet Name="FK_DETALLEVENTA_VENTA_ID" Association="DBFARMACIABELENModel.FK_DETALLEVENTA_VENTA_ID">
-            <End Role="VENTA" EntitySet="VENTA" />
-            <End Role="DETALLEVENTA" EntitySet="DETALLEVENTA" />
-          </AssociationSet>
           <EntitySet Name="DETALLE_PEDIDO" EntityType="DBFARMACIABELENModel.DETALLE_PEDIDO" />
           <AssociationSet Name="FK_DETALLEPEDIDO_PEDIDO" Association="DBFARMACIABELENModel.FK_DETALLEPEDIDO_PEDIDO">
             <End Role="PEDIDO" EntitySet="PEDIDO" />
@@ -896,6 +869,15 @@ advertencia 6002: La tabla o vista 'DBFARMACIABELEN.dbo.DETALLEVENTA' no tiene d
           <AssociationSet Name="FK_DETALLEPEDIDO_PRODUCTO" Association="DBFARMACIABELENModel.FK_DETALLEPEDIDO_PRODUCTO">
             <End Role="PRODUCTO" EntitySet="PRODUCTO" />
             <End Role="DETALLE_PEDIDO" EntitySet="DETALLE_PEDIDO" />
+          </AssociationSet>
+          <EntitySet Name="DETALLEVENTA" EntityType="DBFARMACIABELENModel.DETALLEVENTA" />
+          <AssociationSet Name="FK_DETALLEVENTA_INVENTARIOPRODUCTO" Association="DBFARMACIABELENModel.FK_DETALLEVENTA_INVENTARIOPRODUCTO">
+            <End Role="INVENTARIO_PRODUCTO" EntitySet="INVENTARIO_PRODUCTO" />
+            <End Role="DETALLEVENTA" EntitySet="DETALLEVENTA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DETALLEVENTA_VENTA_ID" Association="DBFARMACIABELENModel.FK_DETALLEVENTA_VENTA_ID">
+            <End Role="VENTA" EntitySet="VENTA" />
+            <End Role="DETALLEVENTA" EntitySet="DETALLEVENTA" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="CATEGORIAPRODUCTO">
@@ -937,8 +919,8 @@ advertencia 6002: La tabla o vista 'DBFARMACIABELEN.dbo.DETALLEVENTA' no tiene d
           <Property Name="PRODUCTO_ID" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="STOCK_ACTUAL" Type="Int32" Nullable="false" />
           <Property Name="PRECIO_UNITARIO" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
-          <NavigationProperty Name="DETALLEVENTA" Relationship="DBFARMACIABELENModel.FK_DETALLEVENTA_INVENTARIOPRODUCTO" FromRole="INVENTARIO_PRODUCTO" ToRole="DETALLEVENTA" />
           <NavigationProperty Name="PRODUCTO" Relationship="DBFARMACIABELENModel.FK_INVENTARIO_PRODUCTO_ID" FromRole="INVENTARIO_PRODUCTO" ToRole="PRODUCTO" />
+          <NavigationProperty Name="DETALLEVENTA" Relationship="DBFARMACIABELENModel.FK_DETALLEVENTA_INVENTARIOPRODUCTO" FromRole="INVENTARIO_PRODUCTO" ToRole="DETALLEVENTA" />
         </EntityType>
         <EntityType Name="METODOPAGO">
           <Key>
@@ -1062,26 +1044,6 @@ advertencia 6002: La tabla o vista 'DBFARMACIABELEN.dbo.DETALLEVENTA' no tiene d
           <NavigationProperty Name="PRODUCTO" Relationship="DBFARMACIABELENModel.FK_PRODUCTO_VIAADMINISTRACION_ID" FromRole="VIAADMINISTRACION" ToRole="PRODUCTO" />
           <Property Name="VIAADMINISTRACION_ESTADO" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="DETALLEVENTA">
-          <Key>
-            <PropertyRef Name="DETALLEVENTA_ID" />
-            <PropertyRef Name="VENTA_ID" />
-            <PropertyRef Name="INVENTARIO_ID" />
-            <PropertyRef Name="PRODUCTO_ID" />
-            <PropertyRef Name="DETALLEVENTA_CANTIDADVENDIDA" />
-            <PropertyRef Name="DETALLEVENTA_PRECIOUNITARIO" />
-            <PropertyRef Name="DETALLEVENTA_SUBTOTAL" />
-          </Key>
-          <Property Name="DETALLEVENTA_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="VENTA_ID" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="INVENTARIO_ID" Type="Int32" Nullable="false" />
-          <Property Name="PRODUCTO_ID" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="DETALLEVENTA_CANTIDADVENDIDA" Type="Int32" Nullable="false" />
-          <Property Name="DETALLEVENTA_PRECIOUNITARIO" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
-          <Property Name="DETALLEVENTA_SUBTOTAL" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
-          <NavigationProperty Name="INVENTARIO_PRODUCTO" Relationship="DBFARMACIABELENModel.FK_DETALLEVENTA_INVENTARIOPRODUCTO" FromRole="DETALLEVENTA" ToRole="INVENTARIO_PRODUCTO" />
-          <NavigationProperty Name="VENTA" Relationship="DBFARMACIABELENModel.FK_DETALLEVENTA_VENTA_ID" FromRole="DETALLEVENTA" ToRole="VENTA" />
-        </EntityType>
         <Association Name="FK_SUBCATEGORIAPRODUCTO_CATEGORIAPRODUCTO_ID">
           <End Type="DBFARMACIABELENModel.CATEGORIAPRODUCTO" Role="CATEGORIAPRODUCTO" Multiplicity="1" />
           <End Type="DBFARMACIABELENModel.SUBCATEGORIAPRODUCTO" Role="SUBCATEGORIAPRODUCTO" Multiplicity="*" />
@@ -1127,20 +1089,6 @@ advertencia 6002: La tabla o vista 'DBFARMACIABELEN.dbo.DETALLEVENTA' no tiene d
             </Principal>
             <Dependent Role="PRODUCTO">
               <PropertyRef Name="FORMAFARMACEUTICA_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_DETALLEVENTA_INVENTARIOPRODUCTO">
-          <End Type="DBFARMACIABELENModel.INVENTARIO_PRODUCTO" Role="INVENTARIO_PRODUCTO" Multiplicity="1" />
-          <End Type="DBFARMACIABELENModel.DETALLEVENTA" Role="DETALLEVENTA" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="INVENTARIO_PRODUCTO">
-              <PropertyRef Name="INVENTARIO_ID" />
-              <PropertyRef Name="PRODUCTO_ID" />
-            </Principal>
-            <Dependent Role="DETALLEVENTA">
-              <PropertyRef Name="INVENTARIO_ID" />
-              <PropertyRef Name="PRODUCTO_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1252,18 +1200,6 @@ advertencia 6002: La tabla o vista 'DBFARMACIABELEN.dbo.DETALLEVENTA' no tiene d
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_DETALLEVENTA_VENTA_ID">
-          <End Type="DBFARMACIABELENModel.VENTA" Role="VENTA" Multiplicity="1" />
-          <End Type="DBFARMACIABELENModel.DETALLEVENTA" Role="DETALLEVENTA" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="VENTA">
-              <PropertyRef Name="VENTA_ID" />
-            </Principal>
-            <Dependent Role="DETALLEVENTA">
-              <PropertyRef Name="VENTA_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="DETALLE_PEDIDO">
           <Key>
             <PropertyRef Name="DETALLEPEDIDO_ID" />
@@ -1298,6 +1234,46 @@ advertencia 6002: La tabla o vista 'DBFARMACIABELEN.dbo.DETALLEVENTA' no tiene d
             </Principal>
             <Dependent Role="DETALLE_PEDIDO">
               <PropertyRef Name="PRODUCTO_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="DETALLEVENTA">
+          <Key>
+            <PropertyRef Name="DETALLEVENTA_ID" />
+          </Key>
+          <Property Name="DETALLEVENTA_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VENTA_ID" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="INVENTARIO_ID" Type="Int32" Nullable="false" />
+          <Property Name="PRODUCTO_ID" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="DETALLEVENTA_CANTIDADVENDIDA" Type="Int32" Nullable="false" />
+          <Property Name="DETALLEVENTA_PRECIOUNITARIO" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="DETALLEVENTA_SUBTOTAL" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <NavigationProperty Name="INVENTARIO_PRODUCTO" Relationship="DBFARMACIABELENModel.FK_DETALLEVENTA_INVENTARIOPRODUCTO" FromRole="DETALLEVENTA" ToRole="INVENTARIO_PRODUCTO" />
+          <NavigationProperty Name="VENTA" Relationship="DBFARMACIABELENModel.FK_DETALLEVENTA_VENTA_ID" FromRole="DETALLEVENTA" ToRole="VENTA" />
+        </EntityType>
+        <Association Name="FK_DETALLEVENTA_INVENTARIOPRODUCTO">
+          <End Type="DBFARMACIABELENModel.INVENTARIO_PRODUCTO" Role="INVENTARIO_PRODUCTO" Multiplicity="1" />
+          <End Type="DBFARMACIABELENModel.DETALLEVENTA" Role="DETALLEVENTA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="INVENTARIO_PRODUCTO">
+              <PropertyRef Name="INVENTARIO_ID" />
+              <PropertyRef Name="PRODUCTO_ID" />
+            </Principal>
+            <Dependent Role="DETALLEVENTA">
+              <PropertyRef Name="INVENTARIO_ID" />
+              <PropertyRef Name="PRODUCTO_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DETALLEVENTA_VENTA_ID">
+          <End Type="DBFARMACIABELENModel.VENTA" Role="VENTA" Multiplicity="1" />
+          <End Type="DBFARMACIABELENModel.DETALLEVENTA" Role="DETALLEVENTA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VENTA">
+              <PropertyRef Name="VENTA_ID" />
+            </Principal>
+            <Dependent Role="DETALLEVENTA">
+              <PropertyRef Name="VENTA_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1537,6 +1513,18 @@ advertencia 6002: La tabla o vista 'DBFARMACIABELEN.dbo.DETALLEVENTA' no tiene d
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="DETALLE_PEDIDO">
+            <EntityTypeMapping TypeName="DBFARMACIABELENModel.DETALLE_PEDIDO">
+              <MappingFragment StoreEntitySet="DETALLE_PEDIDO">
+                <ScalarProperty Name="SUBTOTAL" ColumnName="SUBTOTAL" />
+                <ScalarProperty Name="PRECIO_UNITARIO" ColumnName="PRECIO_UNITARIO" />
+                <ScalarProperty Name="DETALLEPEDIDO_CANTIDAD" ColumnName="DETALLEPEDIDO_CANTIDAD" />
+                <ScalarProperty Name="PRODUCTO_ID" ColumnName="PRODUCTO_ID" />
+                <ScalarProperty Name="PEDIDO_ID" ColumnName="PEDIDO_ID" />
+                <ScalarProperty Name="DETALLEPEDIDO_ID" ColumnName="DETALLEPEDIDO_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="DETALLEVENTA">
             <EntityTypeMapping TypeName="DBFARMACIABELENModel.DETALLEVENTA">
               <MappingFragment StoreEntitySet="DETALLEVENTA">
@@ -1547,18 +1535,6 @@ advertencia 6002: La tabla o vista 'DBFARMACIABELEN.dbo.DETALLEVENTA' no tiene d
                 <ScalarProperty Name="INVENTARIO_ID" ColumnName="INVENTARIO_ID" />
                 <ScalarProperty Name="VENTA_ID" ColumnName="VENTA_ID" />
                 <ScalarProperty Name="DETALLEVENTA_ID" ColumnName="DETALLEVENTA_ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="DETALLE_PEDIDO">
-            <EntityTypeMapping TypeName="DBFARMACIABELENModel.DETALLE_PEDIDO">
-              <MappingFragment StoreEntitySet="DETALLE_PEDIDO">
-                <ScalarProperty Name="SUBTOTAL" ColumnName="SUBTOTAL" />
-                <ScalarProperty Name="PRECIO_UNITARIO" ColumnName="PRECIO_UNITARIO" />
-                <ScalarProperty Name="DETALLEPEDIDO_CANTIDAD" ColumnName="DETALLEPEDIDO_CANTIDAD" />
-                <ScalarProperty Name="PRODUCTO_ID" ColumnName="PRODUCTO_ID" />
-                <ScalarProperty Name="PEDIDO_ID" ColumnName="PEDIDO_ID" />
-                <ScalarProperty Name="DETALLEPEDIDO_ID" ColumnName="DETALLEPEDIDO_ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
