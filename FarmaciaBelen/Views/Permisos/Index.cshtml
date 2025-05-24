@@ -1,0 +1,76 @@
+﻿@model IEnumerable<FarmaciaBelen.Models.PermisosPorRolViewModel>
+
+
+@{
+    Layout = null;
+    ViewBag.Title = "Gestión de Permisos";
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewBag.Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+</head>
+<body class="bg-light">
+
+    <div class="container mt-5">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="text-primary">Permisos por Rol</h2>
+            <a href="@Url.Action("Create", "Permisos")" class="btn btn-success">
+                <i class="fas fa-plus-circle"></i> Asignar Permisos
+            </a>
+        </div>
+
+        <div class="card shadow-sm">
+            <div class="card-body">
+                @if (!Model.Any())
+                {
+                    <div class="alert alert-warning text-center">
+                        <i class="fas fa-exclamation-circle fa-2x mb-2"></i>
+                        <strong>No se han asignado permisos.</strong>
+                    </div>
+                }
+                else
+                {
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Rol</th>
+                                    <th>Módulos Permitidos</th>
+                                    <th>Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@item.ROL_NOMBRE</td>
+                                        <td>
+                                            <ul>
+                                                @foreach (var m in item.Modulos)
+                                                {
+                                                    <li>@m.MODULO_NOMBRE</li>
+                                                }
+                                            </ul>
+                                        </td>
+                                        <td>
+                                            <a href="@Url.Action("Edit", new { id = item.ROL_ID })" class="btn btn-warning btn-sm">Editar</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

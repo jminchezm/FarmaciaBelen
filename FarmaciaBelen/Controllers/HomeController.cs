@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using FarmaciaBelen.Models;
 
 namespace FarmaciaBelen.Controllers
 {
     public class HomeController : Controller
     {
+        private DBFARMACIABELENEntities db = new DBFARMACIABELENEntities();
         public ActionResult Index()
         {
             return View();
@@ -30,14 +32,30 @@ namespace FarmaciaBelen.Controllers
 
         public ActionResult Dashboard()
         {
-            if (Session["Usuario"] == null)
-            {
-                return RedirectToAction("Index", "Login"); // Redirige al login si no está autenticado
-            }
+            if (Session["UsuarioID"] == null)
+                return RedirectToAction("Index", "Login");
 
-            ViewBag.Usuario = Session["Usuario"];
+            string usuarioID = Session["UsuarioID"].ToString();
+
+            var usuario = db.USUARIO.Include("ROL").Include("EMPLEADO")
+                                    .FirstOrDefault(u => u.USUARIO_ID == usuarioID);
+
+            if (usuario == null)
+                return RedirectToAction("Index", "Login");
+
+            var modulosPermitidos = db.PERMISOS
+                .Where(p => p.ROL_ID == usuario.ROL_ID && p.PERMISOS_PUEDEACCEDER)
+                .Select(p => p.MODULO_ID)
+                .ToList();
+
+            Session["PermisosModulos"] = modulosPermitidos;
+            Session["Empleado"] = usuario.EMPLEADO?.PERSONA.PERSONA_PRIMERNOMBRE + " " + usuario.EMPLEADO?.PERSONA.PERSONA_PRIMERAPELLIDO;
+            Session["Rol"] = usuario.ROL?.ROL_NOMBRE;
+            Session["RolID"] = usuario.ROL_ID;
+
             return View();
         }
+
 
         public ActionResult Inicio()
         {

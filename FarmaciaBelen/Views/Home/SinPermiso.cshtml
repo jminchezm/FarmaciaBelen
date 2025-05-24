@@ -1,0 +1,12 @@
+﻿@{
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Home/Dashboard.cshtml";
+
+    ViewBag.Title = "Acceso Denegado";
+}
+
+<div class="container text-center mt-5">
+    <h2 class="text-danger">Acceso Denegado</h2>
+    <p>No tiene permisos para acceder a este módulo del sistema.</p>
+    <a href="@Url.Action("Dashboard", "Home")" class="btn btn-primary mt-3">Volver al inicio</a>
+</div>

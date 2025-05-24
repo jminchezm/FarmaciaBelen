@@ -1,0 +1,78 @@
+﻿@model FarmaciaBelen.Models.PermisosViewModel
+
+@{
+    Layout = null;
+    ViewBag.Title = "Asignar Permisos";
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewBag.Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+</head>
+<body class="bg-light">
+
+    <div class="container mt-5">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0"><i class="fas fa-certificate"></i> Asignar Permisos por Rol</h4>
+            </div>
+
+            <div class="card-body">
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Rol</label>
+                            @Html.DropDownListFor(m => m.ROL_ID, Model.Roles, "Seleccione un Rol", new { @class = "form-select" })
+                            @Html.ValidationMessageFor(m => m.ROL_ID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <h5 class="mt-4">Selecciona los módulos a los que tendrá acceso:</h5>
+                    <table class="table table-bordered mt-3">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Módulo</th>
+                                <th class="text-center">¿Puede acceder?</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < Model.Modulos.Count; i++)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.HiddenFor(m => m.Modulos[i].MODULO_ID)
+                                        @Html.DisplayFor(m => m.Modulos[i].MODULO_NOMBRE)
+                                    </td>
+                                    <td class="text-center">
+                                        @Html.Hidden($"Modulos[{i}].MODULO_NOMBRE", Model.Modulos[i].MODULO_NOMBRE)
+                                        @Html.CheckBoxFor(m => m.Modulos[i].PERMISOS_PUEDEACCEDER)
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                    <div class="d-flex justify-content-between mt-4">
+                        <a href="@Url.Action("Index")" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Volver
+                        </a>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-save"></i> Guardar Permisos
+                        </button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

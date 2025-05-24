@@ -6,9 +6,11 @@ using System.Net;
 using System.Web.Mvc;
 using FarmaciaBelen.Models;
 using FarmaciaBelen.Models.ViewModel;
+using FarmaciaBelen.Filters;
 
 namespace FarmaciaBelen.Controllers
 {
+    [PermisoModulo("MODU000001")]
     public class VentasController : Controller
     {
         private DBFARMACIABELENEntities db = new DBFARMACIABELENEntities();

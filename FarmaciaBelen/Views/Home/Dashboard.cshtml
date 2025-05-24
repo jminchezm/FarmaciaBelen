@@ -1,6 +1,7 @@
 ﻿@{
     Layout = null; // Si usas un _Layout.cshtml, elimínalo.
     ViewBag.Title = "Dashboard - Farmacia San Juan";
+    var permisos = Session["PermisosModulos"] as List<string> ?? new List<string>();
 }
 
 <!DOCTYPE html>
@@ -40,116 +41,102 @@
 
     <!-- Contenedor Principal -->
     <div class="main-container">
-
-        <!-- Barra Lateral -->
         <nav class="sidebar" id="sidebar">
             <ul class="menu">
                 <li>
                     <a class="submenu-toggle load-frame" href="@Url.Action("Inicio", "Home")"><i class="fas fa-home"></i> Inicio</a>
-                    @*<ul class="submenu">
-                        <li><a href="@Url.Action("Ventas", "Ventas")"><i class="fa-solid fa-cart-plus"></i> Ventas</a></li>
-                    </ul>*@
                 </li>
 
-                <li>
-                    <a href="#" class="submenu-toggle"><i class="fa-solid fa-cart-shopping"></i> Ventas</a>
-                    <ul class="submenu">
-                        <li><a href="@Url.Action("Index", "Ventas")" class="load-frame"><i class="fa-solid fa-cart-plus"></i> Ventas</a></li>
-                    </ul>
-                </li>
+                @if (permisos.Contains("MODU000001"))
+                {
+                    <li>
+                        <a href="#" class="submenu-toggle"><i class="fa-solid fa-cart-shopping"></i> Ventas</a>
+                        <ul class="submenu">
+                            <li><a href="@Url.Action("Index", "Ventas")" class="load-frame"><i class="fa-solid fa-cart-plus"></i> Ventas</a></li>
+                        </ul>
+                    </li>
+                }
 
-                <li>
-                    <a href="#" class="submenu-toggle"><i class="fa-solid fa-warehouse"></i> Inventario</a>
-                    <ul class="submenu">
-                        <li><a href="@Url.Action("Index", "InventarioProductos")" class="load-frame"><i class="fas fa-clipboard-list"></i> Stock</a></li>
-                        <li><a href="@Url.Action("Index", "Pedidos")" class="load-frame"><i class="fas fa-truck"></i> Pedido</a></li>
-                    </ul>
-                </li>
+                @if (permisos.Contains("MODU000004"))
+                {
+                    <li>
+                        <a href="#" class="submenu-toggle"><i class="fa-solid fa-warehouse"></i> Inventario</a>
+                        <ul class="submenu">
+                            <li><a href="@Url.Action("Index", "InventarioProductos")" class="load-frame"><i class="fas fa-clipboard-list"></i> Stock</a></li>
+                            <li><a href="@Url.Action("Index", "Pedidos")" class="load-frame"><i class="fas fa-truck"></i> Pedido</a></li>
+                        </ul>
+                    </li>
+                }
 
-                <li>
-                    <a href="#" class="submenu-toggle"><i class="fas fa-boxes"></i> Productos</a>
-                    <ul class="submenu">
-                        <li><a href="@Url.Action("Index", "Productos")" class="load-frame"><i class="fas fa-box-open"></i> Productos</a></li>
-                        <li><a href="@Url.Action("Index", "CategoriaProductos")" class="load-frame"><i class="fas fa-tags"></i> Categorías</a></li>
-                        <li><a href="@Url.Action("Index", "SubCategoriaProductos")" class="load-frame"><i class="fas fa-clipboard-list"></i> SubCategoría</a></li>
-                        <li><a href="@Url.Action("Index", "FormaFarmaceutica")" class="load-frame"><i class="fa-solid fa-pills"></i> Forma Farmaceutica</a></li>
-                        <li><a href="@Url.Action("Index", "ViaAdministraciones")" class="load-frame"><i class="fa-solid fa-prescription-bottle-medical"></i> Via de Administración</a></li>
-                    </ul>
-                </li>
+                @if (permisos.Contains("MODU000005"))
+                {
+                    <li>
+                        <a href="#" class="submenu-toggle"><i class="fas fa-boxes"></i> Productos</a>
+                        <ul class="submenu">
+                            <li><a href="@Url.Action("Index", "Productos")" class="load-frame"><i class="fas fa-box-open"></i> Productos</a></li>
+                            <li><a href="@Url.Action("Index", "CategoriaProductos")" class="load-frame"><i class="fas fa-tags"></i> Categorías</a></li>
+                            <li><a href="@Url.Action("Index", "SubCategoriaProductos")" class="load-frame"><i class="fas fa-clipboard-list"></i> SubCategoría</a></li>
+                            <li><a href="@Url.Action("Index", "FormaFarmaceutica")" class="load-frame"><i class="fa-solid fa-pills"></i> Forma Farmaceutica</a></li>
+                            <li><a href="@Url.Action("Index", "ViaAdministraciones")" class="load-frame"><i class="fa-solid fa-prescription-bottle-medical"></i> Via de Administración</a></li>
+                        </ul>
+                    </li>
+                }
 
-                <li>
-                    <a href="#" class="submenu-toggle"><i class="fa-solid fa-user-tie"></i> Empleados</a>
-                    <ul class="submenu">
-                        <li><a href="@Url.Action("Index", "Empleados")" class="load-frame"><i class="fa-regular fa-id-badge"></i> Empleados</a></li>
-                        <li><a href="@Url.Action("Index", "Puestos")" class="load-frame"><i class="fa-solid fa-network-wired"></i> Puestos</a></li>
-                        <li><a href="@Url.Action("Index", "Areas")" class="load-frame"><i class="fa-regular fa-building"></i> Areas</a></li>
+                @if (permisos.Contains("MODU000003"))
+                {
+                    <li>
+                        <a href="#" class="submenu-toggle"><i class="fa-solid fa-user-tie"></i> Empleados</a>
+                        <ul class="submenu">
+                            <li><a href="@Url.Action("Index", "Empleados")" class="load-frame"><i class="fa-regular fa-id-badge"></i> Empleados</a></li>
+                            <li><a href="@Url.Action("Index", "Puestos")" class="load-frame"><i class="fa-solid fa-network-wired"></i> Puestos</a></li>
+                            <li><a href="@Url.Action("Index", "Areas")" class="load-frame"><i class="fa-regular fa-building"></i> Areas</a></li>
+                        </ul>
+                    </li>
+                }
 
-                    </ul>
-                </li>
-                <li>
-                    <a href="#" class="submenu-toggle"><i class="fa-regular fa-user"></i> Usuarios</a>
-                    <ul class="submenu">
-                        <li><a href="@Url.Action("Index", "Usuarios")" class="load-frame"><i class="fas fa-user"></i> Usuarios</a></li>
-                        <li><a href="@Url.Action("Index", "Roles")" class="load-frame"><i class="fa-solid fa-address-card"></i> Roles</a></li>
-                    </ul>
-                </li>
+                @if (permisos.Contains("MODU000007"))
+                {
+                    <li>
+                        <a href="#" class="submenu-toggle"><i class="fa-regular fa-user"></i> Usuarios</a>
+                        <ul class="submenu">
+                            <li><a href="@Url.Action("Index", "Usuarios")" class="load-frame"><i class="fas fa-user"></i> Usuarios</a></li>
+                            <li><a href="@Url.Action("Index", "Roles")" class="load-frame"><i class="fa-solid fa-address-card"></i> Roles</a></li>
+                        </ul>
+                    </li>
+                }
 
-                <li>
-                    <a href="#" class="submenu-toggle"><i class="fa-solid fa-truck-ramp-box"></i> Proveedores</a>
-                    <ul class="submenu">
-                        <li><a href="@Url.Action("Index", "Proveedores")" class="load-frame"><i class="fa-solid fa-people-carry-box"></i> Proveedores</a></li>
-                    </ul>
-                </li>
+                @if (permisos.Contains("MODU000006"))
+                {
+                    <li>
+                        <a href="#" class="submenu-toggle"><i class="fa-solid fa-truck-ramp-box"></i> Proveedores</a>
+                        <ul class="submenu">
+                            <li><a href="@Url.Action("Index", "Proveedores")" class="load-frame"><i class="fa-solid fa-people-carry-box"></i> Proveedores</a></li>
+                        </ul>
+                    </li>
+                }
 
-                <li>
-                    <a href="#" class="submenu-toggle"><i class="fa-solid fa-user-group"></i> Clientes</a>
-                    <ul class="submenu">
-                        <li><a href="@Url.Action("Index", "Clientes")" class="load-frame"><i class="fas fa-users"></i> Clientes</a></li>
-                    </ul>
-                </li>
+                @if (permisos.Contains("MODU000008"))
+                {
+                    <li>
+                        <a href="#" class="submenu-toggle"><i class="fa-solid fa-user-group"></i> Clientes</a>
+                        <ul class="submenu">
+                            <li><a href="@Url.Action("Index", "Clientes")" class="load-frame"><i class="fas fa-users"></i> Clientes</a></li>
+                        </ul>
+                    </li>
+                }
 
-                <li>
-                    <a href="#" class="submenu-toggle"><i class="fas fa-cog"></i> Configuraciones</a>
-                    <ul class="submenu">
-                        <li><a href="@Url.Action("Index", "Modulos")" class="load-frame"><i class="fa-regular fa-map"></i> Modulos</a></li>
-                        <li><a href="@Url.Action("Index", "Permisos")" class="load-frame"><i class="fa-solid fa-certificate"></i> Permisos</a></li>
-                    </ul>
-                </li>
-
-                @*<li>
-                    <a href="#" class="submenu-toggle"><i class="fas fa-cash-register"></i> Ventas</a>
-                    <ul class="submenu">
-                        <li><a href="@Url.Action("Clientes", "Ventas")"><i class="fas fa-users"></i> Clientes</a></li>
-                        <li><a href="@Url.Action("Ventas", "Ventas")"><i class="fas fa-cash-register"></i> Ventas</a></li>
-                    </ul>
-                </li>*@
-
-                @*<li>
-                    <a href="#" class="submenu-toggle"><i class="fas fa-boxes"></i> Inventario</a>
-                    <ul class="submenu">
-                        <li><a href="@Url.Action("Productos", "Inventario")"><i class="fas fa-box-open"></i> Productos</a></li>
-                        <li><a href="@Url.Action("Pedidos", "Inventario")"><i class="fas fa-clipboard-list"></i> Pedido</a></li>
-                        <li><a href="@Url.Action("Categorias", "Inventario")"><i class="fas fa-tags"></i> Categorías</a></li>
-                        <li><a href="@Url.Action("Pedidos", "Inventario")"><i class="fas fa-clipboard-list"></i> Sub-Categoría</a></li>
-                        <li><a href="@Url.Action("Proveedores", "Inventario")"><i class="fas fa-truck"></i> Proveedores</a></li>
-                    </ul>
-                </li>*@
-
-                @*<li>
-                    <a href="#" class="submenu-toggle"><i class="fas fa-cog"></i> Mantenimientos</a>
-                    <ul class="submenu">
-                        <li><a href="@Url.Action("Index", "Areas")" class="load-frame"><i class="fa-regular fa-building"></i> Areas</a></li>
-                        <li><a href="@Url.Action("Index", "Puestos")" class="load-frame"><i class="fa-solid fa-network-wired"></i> Puestos</a></li>
-                        <li><a href="@Url.Action("Index", "Roles")" class="load-frame"><i class="fa-solid fa-address-card"></i> Roles</a></li>
-                        <li><a href="@Url.Action("Index", "Modulos")" class="load-frame"><i class="fa-regular fa-map"></i> Modulos</a></li>
-                        <li><a href="@Url.Action("Index", "Empleados")" class="load-frame"><i class="fa-regular fa-id-badge"></i> Empleados</a></li>
-                        <li><a href="@Url.Action("Index", "Usuarios")" class="load-frame"><i class="fas fa-user"></i> Usuarios</a></li>
-                    </ul>
-                </li>*@
+                @if (permisos.Contains("MODU000002"))
+                {
+                    <li>
+                        <a href="#" class="submenu-toggle"><i class="fas fa-cog"></i> Configuraciones</a>
+                        <ul class="submenu">
+                            <li><a href="@Url.Action("Index", "Modulos")" class="load-frame"><i class="fa-regular fa-map"></i> Modulos</a></li>
+                            <li><a href="@Url.Action("Index", "Permisos")" class="load-frame"><i class="fa-solid fa-certificate"></i> Permisos</a></li>
+                        </ul>
+                    </li>
+                }
             </ul>
         </nav>
-
-        @*text-align: center; padding: 2rem;*@
 
         <!-- Botón para ocultar/mostrar sidebar -->
         <div class="toggle-sidebar">
@@ -158,7 +145,6 @@
 
         <!-- Contenido principal -->
         <div class="content">
-            <!-- Loader oculto por defecto -->
             <div id="loader" style="display: none;">
                 <div class="spinner-border text-primary" role="status">
                     <span class="visually-hidden">Cargando...</span>
@@ -345,17 +331,6 @@
                 frame.style.display = 'block';
             });
         });
-        //document.addEventListener('DOMContentLoaded', function () {
-        //    // Escuchamos clics en todos los enlaces con clase "load-frame"
-        //    document.querySelectorAll('.load-frame').forEach(function (link) {
-        //        link.addEventListener('click', function (e) {
-        //            e.preventDefault(); // Evita que el enlace navegue normalmente
-        //            var frame = document.getElementById('content-frame');
-        //            var url = this.getAttribute('href');
-        //            frame.setAttribute('src', url);
-        //        });
-        //    });
-        //});
     </script>
 
 </body>

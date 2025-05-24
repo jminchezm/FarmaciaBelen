@@ -140,6 +140,7 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ModulosController.cs" />
     <Compile Include="Controllers\PedidosController.cs" />
+    <Compile Include="Controllers\PermisosController.cs" />
     <Compile Include="Controllers\ProductosController.cs" />
     <Compile Include="Controllers\ProveedoresController.cs" />
     <Compile Include="Controllers\PuestosController.cs" />
@@ -171,6 +172,7 @@
       <DependentUpon>MiModelo.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\EmpleadoViewModel.cs" />
+    <Compile Include="Models\Filters\PermisosModuloAttribute.cs" />
     <Compile Include="Models\FORMAFARMACEUTICA.cs">
       <DependentUpon>MiModelo.tt</DependentUpon>
     </Compile>
@@ -204,6 +206,7 @@
     <Compile Include="Models\PERMISOS.cs">
       <DependentUpon>MiModelo.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PermisosPorRolViewModel.cs" />
     <Compile Include="Models\PermisosViewModel.cs" />
     <Compile Include="Models\PERSONA.cs">
       <DependentUpon>MiModelo.tt</DependentUpon>
@@ -419,6 +422,12 @@
     <Content Include="Views\InventarioProductos\Details.cshtml" />
     <Content Include="Views\InventarioProductos\Edit.cshtml" />
     <Content Include="Views\InventarioProductos\Index.cshtml" />
+    <Content Include="Views\Home\SinPermiso.cshtml" />
+    <Content Include="Views\Permisos\Create.cshtml" />
+    <Content Include="Views\Permisos\Delete.cshtml" />
+    <Content Include="Views\Permisos\Details.cshtml" />
+    <Content Include="Views\Permisos\Edit.cshtml" />
+    <Content Include="Views\Permisos\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
